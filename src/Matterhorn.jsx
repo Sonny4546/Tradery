@@ -3,9 +3,8 @@ import './main.css'
 import { GoogleLogin } from '@react-oauth/google';
 
 let login = 0;
-let page = App
 
-function App() {
+function Login() {
   return (
     <>
       <h3 class="user">User Login</h3>
@@ -68,8 +67,4 @@ function Homepage() {
   )
 }
 
-if (login == 1){
-  page = Homepage
-}
-
-export default page
+export default Login

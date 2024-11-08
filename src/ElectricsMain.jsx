@@ -1,14 +1,26 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './main.css'
-import App from './Matterhorn.jsx'
+import Login from './Matterhorn.jsx'
+
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <div>Hello world!</div>,
+  },
+]);
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
+ReactDOM.createRoot(document.getElementById("root")).render(
+  <React.StrictMode>
     <GoogleOAuthProvider clientId="1000212830777-k85n77vef4cbrma455a9ufpafl6sl316.apps.googleusercontent.com">
-    <App />
+    <RouterProvider router={router} />
     </GoogleOAuthProvider>
-  </StrictMode>,
+  </React.StrictMode>,
 )
