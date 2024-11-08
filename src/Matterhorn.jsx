@@ -8,7 +8,6 @@ let page = App
 function App() {
   return (
     <>
-    <body style="background-image: url(images/900px.png);background-size: cover;">
       <h3 class="user">User Login</h3>
       <div class="email_input">
       <label>Enter Email Address</label>
@@ -20,7 +19,6 @@ function App() {
       </div>
       <GoogleLogin onSuccess={credentialResponse => {console.log(credentialResponse); login + 1;}}
       onError={() => {console.log('Login Failed');}}/>
-    </body>
     </>
   )
 }
