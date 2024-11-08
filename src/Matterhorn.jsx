@@ -2,9 +2,7 @@ import './main.css'
 
 import { GoogleLogin } from '@react-oauth/google';
 
-let login = 0;
-
-function Login() {
+export default function Login() {
   return (
     <>
       <h3 class="user">User Login</h3>
@@ -17,14 +15,14 @@ function Login() {
         <input class="pass" type="text" placeholder="User Password"></input>
       </div>
       <div class="google-button">
-        <GoogleLogin onSuccess={credentialResponse => {console.log(credentialResponse); login + 1;}}
+        <GoogleLogin onSuccess={credentialResponse => {console.log(credentialResponse);}}
         onError={() => {console.log('Login Failed');}}/>
       </div>
     </>
   )
 }
 
-function Homepage() {
+export default function Homepage() {
   return (
     <>
     <nav class="menu-container">
@@ -66,5 +64,3 @@ function Homepage() {
     </>
   )
 }
-
-export default Login

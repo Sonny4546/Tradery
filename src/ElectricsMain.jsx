@@ -1,7 +1,7 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import * as React from "react";
+import * as ReactDOM from "react-dom/client";
 import './main.css'
-import Login from './Matterhorn.jsx'
+import Login from "./Matterhorn";
 
 import {
   createBrowserRouter,
@@ -11,7 +11,7 @@ import {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello world!</div>,
+    element: <Root />,
   },
 ]);
 
