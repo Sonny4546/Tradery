@@ -17,7 +17,7 @@ function App() {
         <label>Enter User Password</label>
         <input class="pass" type="text" placeholder="User Password"></input>
       </div>
-      <div style="height: 40px;display: flex;flex-direction: column;align-items: center;">
+      <div class="google-button">
         <GoogleLogin onSuccess={credentialResponse => {console.log(credentialResponse); login + 1;}}
         onError={() => {console.log('Login Failed');}}/>
       </div>

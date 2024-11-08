@@ -205,6 +205,12 @@ body {
 
 
 /*INPUTS*/
+.google-button {
+  height: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 .user {
   font-size: 50px;
   margin: 10px;
