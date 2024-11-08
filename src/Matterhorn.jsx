@@ -1,4 +1,4 @@
-import './App.css'
+import './main.css'
 
 import { GoogleLogin } from '@react-oauth/google';
 
