@@ -10,16 +10,17 @@ function App() {
     <>
       <h3 class="user">User Login</h3>
       <div class="email_input">
-      <label>Enter Email Address</label>
-      <input class="email" type="text" placeholder="Email Address"></input>
+        <label>Enter Email Address</label>
+        <input class="email" type="text" placeholder="Email Address"></input>
       </div>
       <div class="pass_input">
-      <label>Enter User Password</label>
-      <input class="pass" type="text" placeholder="User Password"></input>
+        <label>Enter User Password</label>
+        <input class="pass" type="text" placeholder="User Password"></input>
       </div>
-      <GoogleLogin style="height: 40px;display: flex;flex-direction: column;align-items: center;" 
-      onSuccess={credentialResponse => {console.log(credentialResponse); login + 1;}}
-      onError={() => {console.log('Login Failed');}}/>
+      <div style="height: 40px;display: flex;flex-direction: column;align-items: center;">
+        <GoogleLogin onSuccess={credentialResponse => {console.log(credentialResponse); login + 1;}}
+        onError={() => {console.log('Login Failed');}}/>
+      </div>
     </>
   )
 }
