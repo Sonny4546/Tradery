@@ -19,9 +19,46 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Tradery</title>
         <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
-        <link rel="stylesheet" href="./null.css">
+        <link rel="stylesheet" href="./Hellsweep.css">
     </head>
-    <body>
-        <h1>TEST LAUNCH</h1>
+    <body class="theme">
+        <nav class="menu-container">
+            <!-- burger menu -->
+            <input type="checkbox" aria-label="Toggle menu" />
+            <span></span>
+            <span></span>
+            <span></span>
+            
+            <!-- menu items -->
+            <div class="menu">
+            <ul>
+                <li>
+                <a href="#home">
+                    Tradery
+                </a>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                <a href="#signup">
+                    Messages
+                </a>
+                </li>
+                <li>
+                <a href="#login">
+                    User
+                </a>
+                </li>
+            </ul>
+            </div>
+        </nav>
+        <div class="Main" id="wrapper">
+            <form>
+                <i class="fa fa-search">
+                </i>
+                <input name="keyword" placeholder="Search for Items...">
+                <button type="submit">Search</button>
+            </form>
+        </div>
     </body>
 </html>
