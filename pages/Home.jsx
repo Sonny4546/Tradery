@@ -1,4 +1,4 @@
-import './main.css'
+import '../src/main.css'
 
 export default function HomePage() {
     return (
