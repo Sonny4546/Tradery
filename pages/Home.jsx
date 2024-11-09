@@ -9,7 +9,6 @@ export default function HomePage() {
                 <span></span>
                 <span></span>
                 <span></span>
-                
                 <div class="menu">
                 <ul>
                     <li>
