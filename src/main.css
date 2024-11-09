@@ -1,8 +1,28 @@
 /*GLOBAL STLYES*/
 
-
+html {
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+}
 
 /*Main Page*/
+
+.bgimg {
+  position: fixed;
+  top: -9999px;
+  bottom: -9999px;
+  left: -9999px;
+  right: -9999px;
+  margin: auto;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;  
+}
 
 #wrapper {
   
@@ -16,10 +36,14 @@
 
 /*NavBar*/
 body {
-  overflow-x: hidden;
-  font-family: Sans-Serif;
+  overflow: auto;
+  min-height: 100vh;
   margin: 0;
+  padding: 0;
+  background-color: black;
+  vertical-align: baseline;
 }
+
 .menu-container {
   position: relative;
   display: flex;
