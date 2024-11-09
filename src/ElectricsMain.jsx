@@ -6,13 +6,13 @@ import HomePage from "../pages/Home";
 import ErrorPage from "../pages/Error";
 
 import {
-  createBrowserRouter,
+  createHashRouter,
   RouterProvider,
 } from "react-router-dom";
 
-const router = createBrowserRouter([
+const router = createHashRouter([
   {
-    path: "/", element: <HomePage />,
+    path: "/*", element: <HomePage />,
     errorElement: <ErrorPage />,
   },
   {
