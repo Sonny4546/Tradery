@@ -13,6 +13,8 @@ import {
 const router = createHashRouter([
   {
     path: "/*", element: <HomePage />,
+  },
+  {
     path: "*", element: <ErrorPage />,
   },
   {
