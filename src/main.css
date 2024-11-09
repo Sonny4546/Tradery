@@ -190,94 +190,87 @@ body {
 }
 
 
-/*INPUTS*/
-.LogContain {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-  position: relative;
-  overflow: hidden;
+/*LOGIN PAGE*/
+
+/*New Page*/
+a {
+	color: white;
+	position: relative;
+    left: 250px;
+    top: 30px;
 }
-.Box {
-  position: relative;
-  width: 300px;
-  padding: 30px;
-  background-color: rgba(0, 0, 0, 0.5);
-  border-radius: 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: #fff;
-  text-align: center;
+a:active{
+	color: red;
 }
-.Logo {
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  top: 20%;
-  left: 10%;
+.cAcc {
+	position: relative;
+    left: 70px;
+    top: 130px;
 }
 .google-button {
-  height: 40px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+	height: 50px;
+    width: 250px;
+    background-color: white;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    top: 340px;
 }
-.user {
-  font-size: 24px;
-  margin: 20px;
-}
-label {
-  display: inline-block;
-  text-align: left;
-}
-.email {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 4px;
-  outline: none;
-  font-size: 14px;
-}
+.square {
+  	height: 500px;
+  	width: 450px;
 
-.email:focus {
-	background: #270000;
-	border: 1px solid #5A7EC7;
-	border-radius: 10px;
+	background: rgba(218, 62, 62, 0.38);
+	border-radius: 16px;
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(12.4px);
+	-webkit-backdrop-filter: blur(12.4px);
+	border: 1px solid rgba(218, 62, 62, 0.58);
+  	position: absolute;
+  	z-index: 0;
+  	margin-left: auto;
+  	margin-right: 0;
+  	right: 0px;
+  	left: 0px;
+  	top: 70px;
 }
-
-.email::placeholder {
-	color: #DDDDDD;
+.square p{
+	color:black;
+	text-transform: uppercase;
+	font-size:40px;
+	position: relative;
+    left: 110px;
+    bottom: 100px;
 }
-.pass {
-	width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 4px;
-  outline: none;
-  font-size: 14px;
+.emBox {
+	border-radius: 8px;
+	width: 300px;
+	background-color: white;
+	opacity: 1;
+	position: relative;
+	right: 0px;
+	left: 70px;
+	top: 130px;
+    line-height: 3;
 }
-
-.pass:focus {
-	background: #270000;
-	border: 1px solid #5A7EC7;
-	border-radius: 10px;
+.psBox {
+	border-radius: 8px;
+	width: 300px;
+	background-color: white;
+	opacity: 1;
+	position: relative;
+	right: 0px;
+	left: 70px;
+	top: 140px;
+    line-height: 3; 
 }
-
-.pass::placeholder {
-	color: #DDDDDD;
-}
-
-.forgot-password, .create-account {
-  display: block;
-  margin-top: 10px;
-  color: #ccc;
-  font-size: 12px;
-  text-decoration: none;
+.circle {
+	height: 200px;
+	width: 200px;
+	background-color: #555;
+	border-radius: 50%;
+	position: absolute;
+	z-index: 1;
+	left: 100px;
+	top: 150px;
 }
