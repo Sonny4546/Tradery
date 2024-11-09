@@ -45,6 +45,11 @@ body {
   font-family: "Rubik", sans-serif;
 }
 
+.search {
+  margin: auto;
+  width: 50%;
+}
+
 .menu-container {
   position: relative;
   display: flex;

@@ -33,12 +33,12 @@ export default function HomePage() {
                 </div>
             </nav>
             <div class="Main" id="wrapper">
-                <form>
-                    <i class="fa fa-search">
-                    </i>
-                    <input name="keyword" placeholder="Search for Items..."></input>
-                    <button type="submit">Search</button>
-                </form>
+                <div class="search">
+                    <form>
+                        <input name="keyword" placeholder="Search for Items..."></input>
+                        <button type="submit">Search</button>
+                    </form>
+                </div>
             </div>
           </div>
       </>
