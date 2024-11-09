@@ -5,14 +5,11 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
   base: "/Tradery/",
-  build: {
-    rollupOptions: {
-      external: ["react", "react-router", "react-router-dom", "react-redux"],
-      output: {
-        globals: {
-          react: "React",
-        },
-      },
-    },
+  resolve: {
+    alias: {
+      'react': 'https://cdn.skypack.dev/react@17',
+      'react-dom': 'https://cdn.skypack.dev/react-dom@17'
+    }
   },
 });
+
