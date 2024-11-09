@@ -1,8 +1,9 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import './main.css'
-import LoginPage from "./root";
-import ErrorPage from "./error";
+import LoginPage from "../pages/Login";
+import HomePage from "../pages/Home";
+import ErrorPage from "../pages/Error";
 
 import {
   createBrowserRouter,
@@ -11,7 +12,8 @@ import {
 
 const router = createBrowserRouter([
   {
-    path: "/", element: <LoginPage />,
+    path: "/", element: <HomePage />,
+    path: "/login", element: <LoginPage />,
     errorElement: <ErrorPage />,
   },
 ]);

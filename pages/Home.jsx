@@ -1,6 +1,6 @@
 import './main.css'
 
-export default function Homepage() {
+export default function HomePage() {
     return (
       <>
       <nav class="menu-container">
