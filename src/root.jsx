@@ -2,7 +2,7 @@ import './main.css'
 
 import { GoogleLogin } from '@react-oauth/google';
 
-export default function Login() {
+export default function LoginPage() {
   return (
     <>
       <h3 class="user">User Login</h3>
