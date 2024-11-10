@@ -34,6 +34,8 @@ export default function HomePage() {
             <div class="Main" id="wrapper">
                 <div class="search">
                     <form>
+                        <i class="fa fa-search">
+                        </i>
                         <input name="keyword" placeholder="Search for Items..."></input>
                         <button type="submit">Search</button>
                     </form>
