@@ -195,22 +195,23 @@ body {
 /*LOGIN PAGE*/
 
 /*New Page*/
-.logincontainer a {
-	color: white;
-	position: relative;
+.logincontainer .fp {
+	  color: white;
+	  position: relative;
     left: 250px;
     top: 30px;
 }
-.logincontainer a:active{
-	color: red;
+.logincontainer a:active:focus{
+	  color: red;
 }
 .cAcc {
-	position: relative;
+    color: white;
+	  position: relative;
     left: 70px;
     top: 130px;
 }
 .google-button {
-	height: 50px;
+	  height: 50px;
     width: 250px;
     background-color: white;
     position: relative;
