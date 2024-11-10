@@ -15,7 +15,7 @@ export default function LoginPage() {
         <input class="psBox" type="text" placeholder="Password"></input>
       <p> USER LOGIN </p>
         <a class="fp" href="#">Forgot Password?</a>
-            <a class="cAcc" href="#">Create Account</a>
+        <a class="cAcc" href="#">Create Account</a>
     </div>
     </>
   )
