@@ -8,9 +8,9 @@ import { GoogleLogin } from '@react-oauth/google';
 export default function LoginPage() {
 
   const navigate = useNavigate();
-  let IsAuthenticated = False;
+  let IsAuthenticated = false;
 
-  if (IsAuthenticated == True) {
+  if (IsAuthenticated == true) {
     navigate("/Home");
   } else {
   return (
@@ -20,10 +20,10 @@ export default function LoginPage() {
       <div class="google-button">
         <GoogleLogin onSuccess={credentialResponse => {console.log(credentialResponse);
           navigate("/Home");
-          IsAuthenticated = True;
+          IsAuthenticated = true;
         }}
         onError={() => {console.log('Login Failed');
-          IsAuthenticated = False;
+          IsAuthenticated = false;
         }}/>
       </div>
         <input class="emBox" type="text" placeholder="Email"></input>
