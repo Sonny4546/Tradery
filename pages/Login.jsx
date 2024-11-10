@@ -6,7 +6,7 @@ export default function LoginPage() {
   return (
     <>
     <div class="circle"></div>
-    <div class="square">
+    <div class="logincontainer">
       <div class="google-button">
         <GoogleLogin onSuccess={credentialResponse => {console.log(credentialResponse);}}
         onError={() => {console.log('Login Failed');}}/>

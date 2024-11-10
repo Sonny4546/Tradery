@@ -31,11 +31,11 @@ export default function HomePage() {
                 </ul>
                 </div>
             </nav>
-            <div class="Main" id="wrapper">
-                <div class="search">
+            <div class="Main" id="pagewrap">
+                <div class="searchinput">
                     <form>
                         <input name="keyword" placeholder="Search for Items..."></input>
-                        <button type="submit">Search</button>
+                        <button type="submitbtn">Search</button>
                     </form>
                 </div>
             </div>
