@@ -11,8 +11,8 @@ export default function LoginPage() {
   let IsAuthenticated = False;
 
   if (IsAuthenticated == True) {
-    <navigate to="/Home" />
-  };
+    navigate("/Home");
+  } else {
   return (
     <>
     <div class="circle"></div>
@@ -34,4 +34,5 @@ export default function LoginPage() {
     </div>
     </>
   )
+}
 }
