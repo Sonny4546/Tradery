@@ -14,7 +14,7 @@ export default function LoginPage() {
         <input class="emBox" type="text" placeholder="Email"></input>
         <input class="psBox" type="text" placeholder="Password"></input>
       <p> USER LOGIN </p>
-        <a href="#">Forgot Password?</a>
+        <a class="fp" href="#">Forgot Password?</a>
             <a class="cAcc" href="#">Create Account</a>
     </div>
     </>

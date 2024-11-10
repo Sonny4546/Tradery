@@ -194,13 +194,13 @@ body {
 /*LOGIN PAGE*/
 
 /*New Page*/
-a {
+.square a {
 	color: white;
 	position: relative;
     left: 250px;
     top: 30px;
 }
-a:active{
+.square a:active{
 	color: red;
 }
 .cAcc {
@@ -220,13 +220,16 @@ a:active{
 .square {
   	height: 500px;
   	width: 450px;
-
-	background: rgba(218, 62, 62, 0.38);
-	border-radius: 16px;
-	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-	backdrop-filter: blur(12.4px);
-	-webkit-backdrop-filter: blur(12.4px);
-	border: 1px solid rgba(218, 62, 62, 0.58);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(218, 62, 62, 0.38);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(12.4px);
+    -webkit-backdrop-filter: blur(12.4px);
+    border: 1px solid rgba(218, 62, 62, 0.58);
   	position: absolute;
   	z-index: 0;
   	margin-left: auto;
