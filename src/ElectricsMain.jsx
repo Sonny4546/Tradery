@@ -12,11 +12,11 @@ import {
 
 const router = createHashRouter([
   {
-    path: "#", element: <HomePage />,
+    path: "/Home", element: <HomePage />,
     errorElement: <ErrorPage />,
   },
   {
-    path: "/Login", element: <LoginPage />,
+    path: "#", element: <LoginPage />,
   },
 ]);
 
