@@ -61,7 +61,13 @@ html {
 		color: #282828;
 		letter-spacing: 0.025em;
 		margin: 0;
+    background: url(images/errormask.jpg);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 		transition: 750ms ease-in-out;
+    &:hover {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
 	}
 }
 

@@ -1,9 +1,14 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
+import { Client} from 'appwrite';
 import './main.css'
 import LoginPage from "../pages/Login";
 import HomePage from "../pages/Home";
 import ErrorPage from "../pages/Error";
+
+
+const client = new Client();
+client.setProject('678ba12f001dce105c6a');
 
 import {
   createHashRouter,
