@@ -38,7 +38,7 @@ html {
 }
 
 /*Error Page*/
-body {
+.error {
 	font-family: "Poppins";
 	height: 100vh;
 	background: #121212;
