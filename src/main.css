@@ -37,8 +37,10 @@ html {
 
 /*Error Page*/
 #error-page {
-  margin: auto;
-  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
 }
 
 .myButton {
