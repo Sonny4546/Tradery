@@ -41,7 +41,7 @@ html {
 .error {
 	font-family: "Poppins";
 	height: 100vh;
-	background: #121212;
+	background: #12121200;
 	padding: 1em;
 	overflow: hidden;
 }
@@ -55,7 +55,7 @@ html {
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		transform: translate(-50%, -50%) rotate(-45deg);
+		transform: translate(-50%, -50%) rotate(-10deg);
 		font-family: "Eczar";
 		font-size: 30vmax;
 		color: #282828;
@@ -65,7 +65,7 @@ html {
 	}
 }
 
-a {
+.errorButton {
 	border: 2px solid #555;
 	padding: 0.5em 0.8em;
 	position: fixed;
@@ -91,7 +91,7 @@ a {
 	}
 }
 
-p {
+.errorText {
 	color: #dadada;
 	font-size: calc(1em + 3vmin);
 	position: fixed;
