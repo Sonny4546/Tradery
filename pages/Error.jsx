@@ -1,5 +1,5 @@
 import { useRouteError } from "react-router-dom";
-import imgUrl from './images/errormask.jpg'
+import imgUrl from '/images/errormask.jpg'
 
 export default function ErrorPage() {
   const error = useRouteError();
