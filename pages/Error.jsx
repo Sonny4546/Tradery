@@ -1,9 +1,25 @@
 import { useRouteError } from "react-router-dom";
+import imgUrl from 'images/errormask.jpg'
 
 export default function ErrorPage() {
   const error = useRouteError();
   console.error(error);
 
+  const myStyle = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    fontFamily: "Eczar",
+    fontSize: "30vmax",
+    color: "#282828",
+    letterSpacing: "0.025em",
+    margin: "0",
+    background: url(imgUrl),
+    backgroundClip: "text",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    transition: "750ms ease-in-out",
+  };
   return (
     <div id="error-page">
       <div class="error">
@@ -18,7 +34,7 @@ export default function ErrorPage() {
           </svg> Home
         </a>
         <div class="background-wrapper">
-          <h1 id="visual">Error!</h1>
+          <h1 style={myStyle} id="visual">Error!</h1>
         </div>
         <p class="errorText">The page you’re looking for does not exist.</p>
         <p>
