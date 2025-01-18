@@ -1,4 +1,6 @@
 /*GLOBAL STLYES*/
+@import url('https://fonts.googleapis.com/css?family=Eczar:800');
+@import url('https://fonts.googleapis.com/css?family=Poppins:600');
 
 html {
   overflow: auto;
@@ -36,10 +38,6 @@ html {
 }
 
 /*Error Page*/
-@import url('https://fonts.googleapis.com/css?family=Eczar:800');
-@import url('https://fonts.googleapis.com/css?family=Poppins:600');
-
-
 body {
 	font-family: "Poppins";
 	height: 100vh;
