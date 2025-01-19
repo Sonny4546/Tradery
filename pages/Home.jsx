@@ -1,6 +1,6 @@
 import '../src/main.css'
 import React, { useState, useEffect } from 'react'
-import { logoutUser, getUser } from './auth'
+import { logoutUser, getUser } from './Login'
 
 const HomePage = () => {
   const [user, setUser] = useState(null)
