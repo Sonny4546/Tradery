@@ -1,38 +1,48 @@
 import '../src/main.css'
 import { Route, useNavigate } from 'react-router-dom';
-
+import { Account, OAuthProvider } from './appwrite.js'
 import { GoogleLogin } from '@react-oauth/google';
+import React, { useState, useEffect } from 'react'
 
+// functions
+export const loginWithGoogle = async () => {
+  try {
+    await account.createOAuth2Session(
+      'google',
+      'https://sonny4546.github.io/Tradery/#/Home',
+      'https://sonny4546.github.io/Tradery')
+  } catch (error) {
+    console.error(error)
+  }
+}
 
-/*change auth logic later please it's not secure*/
+export const logoutUser = async () => {
+  try {
+    await account.deleteSession('current')
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+export const getUser = async () => {
+  try {
+    return await account.get()
+  } catch (error) {
+    console.error(error)
+  }
+}
+
 export default function LoginPage() {
-
-  const navigate = useNavigate();
-  let IsAuthenticated = false;
-
-  if (IsAuthenticated == true) {
-    navigate("/Home");
-  } else {
   return (
     <>
     <div class="circle"></div>
     <div class="logincontainer">
       <div class="google-button">
         <GoogleLogin onSuccess={credentialResponse => {console.log(credentialResponse);
-          navigate("/Home");
-          IsAuthenticated = true;
-        }}
-        onError={() => {console.log('Login Failed');
-          IsAuthenticated = false;
-        }}/>
+          navigate("/Home");}}onError={() => {console.log('Login Failed');}}/>
       </div>
-        <input class="emBox" type="text" placeholder="Email"></input>
-        <input class="psBox" type="text" placeholder="Password"></input>
       <p> USER LOGIN </p>
-        <a class="fp" href="#">Forgot Password?</a>
-        <a class="cAcc" href="#">Create Account</a>
     </div>
     </>
   )
-}
 }
