@@ -1,6 +1,5 @@
 import '../src/main.css'
 import { Route, useNavigate } from 'react-router-dom';
-import { Account, OAuthProvider } from './appwrite.js'
 import { GoogleLogin } from '@react-oauth/google';
 import React, { useState, useEffect } from 'react'
 
