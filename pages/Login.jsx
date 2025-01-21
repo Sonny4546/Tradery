@@ -54,8 +54,8 @@ export default function LoginPage() {
       <p> USER LOGIN </p>
       <div class="google-button">
         <div id="google">
-        <GoogleLogin onSuccess={credentialResponse => {console.log(credentialResponse);
-          navigate("/Home");}}onError={() => {console.log('Login Failed');}}/>
+        <div id="g_id_onload"
+
         </div>
       </div>
       <input type="checkbox" id="condition" name="notice" onClick={notice()}></input>
