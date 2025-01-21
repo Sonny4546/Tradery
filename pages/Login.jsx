@@ -54,8 +54,21 @@ export default function LoginPage() {
       <p> USER LOGIN </p>
       <div class="google-button">
         <div id="google">
-        <div id="g_id_onload"
-
+          <div id="g_id_onload"
+              data-client_id="1000212830777-k85n77vef4cbrma455a9ufpafl6sl316.apps.googleusercontent.com"
+              data-context="signup"
+              data-ux_mode="popup"
+              data-login_uri="https://cloud.appwrite.io/v1/account/sessions/oauth2/callback/google/678ba12f001dce105c6a"
+              data-auto_prompt="false">
+          </div>
+          <div class="g_id_signin"
+              data-type="standard"
+              data-shape="pill"
+              data-theme="outline"
+              data-text="signin_with"
+              data-size="large"
+              data-logo_alignment="left">
+          </div>
         </div>
       </div>
       <input type="checkbox" id="condition" name="notice" onClick={notice()}></input>
