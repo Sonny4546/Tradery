@@ -10,12 +10,12 @@ export default function ErrorPage() {
     left: "50%",
     fontFamily: "Eczar",
     fontSize: "30vmax",
-    color: "#282828",
+    color: "rgb(255 174 174)",
     letterSpacing: "0.025em",
     margin: "0",
     backgroundClip: "text",
     WebkitBackgroundClip: "text",
-    WebkitTextFillColor: "transparent",
+    textShadow: "rgba(255,0,0,0.9) 0px 0px 59px",
     transition: "750ms ease-in-out",
   };
   return (
