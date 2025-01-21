@@ -31,21 +31,22 @@ export const getUser = async () => {
   }
 }
 
-export function notice() {
-  // Get the checkbox
-  var checkBox = document.getElementById("condition");
-  // Get the output text
-  var google = document.getElementById("text");
-
-  // If the checkbox is checked, display the output text
-  if (checkBox.checked == true){
-    google.style.display = "block";
-  } else {
-    google.style.display = "none";
-  }
-}
 
 export default function LoginPage() {
+  function notice() {
+    // Get the checkbox
+    var checkBox = document.getElementById("condition");
+    // Get the output text
+    var google = document.getElementById("text");
+
+    // If the checkbox is checked, display the output text
+    if (checkBox.checked == true){
+      google.style.display = "block";
+    } else {
+      google.style.display = "none";
+    }
+  }
+  
   return (
     <>
     <div class="logincontainer">
