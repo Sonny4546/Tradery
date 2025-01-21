@@ -290,13 +290,11 @@ body {
     margin-right: auto;
     top: 340px;
 }
-.google-button div div iframe{
-    margin: 0px;
-}
+
 .logincontainer {
   	height: 500px;
   	width: 450px;
-    top: 0;
+  	top: 15%;
     left: 0;
     right: 0;
     bottom: 0;
@@ -309,8 +307,7 @@ body {
   	position: absolute;
   	z-index: 0;
   	margin-left: auto;
-  	margin-right: 80px;
-  	top: 70px;
+  	margin-right: auto;
     overflow: hidden;
 }
 .logincontainer p{

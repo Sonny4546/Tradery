@@ -31,16 +31,35 @@ export const getUser = async () => {
   }
 }
 
+export function notice() {
+  // Get the checkbox
+  var checkBox = document.getElementById("condition");
+  // Get the output text
+  var google = document.getElementById("text");
+
+  // If the checkbox is checked, display the output text
+  if (checkBox.checked == true){
+    google.style.display = "block";
+  } else {
+    google.style.display = "none";
+  }
+}
+
 export default function LoginPage() {
   return (
     <>
-    <div class="circle"></div>
     <div class="logincontainer">
+      <div class="circle"></div>
+      <p> USER LOGIN </p>
       <div class="google-button">
+        <div id="google">
         <GoogleLogin onSuccess={credentialResponse => {console.log(credentialResponse);
           navigate("/Home");}}onError={() => {console.log('Login Failed');}}/>
+        </div>
       </div>
-      <p> USER LOGIN </p>
+      <input type="checkbox" id="condition" name="notice" onClick={notice()}></input>
+      <label for="notice"> By using this website, you confirm that you are a member of the University of the East and agree to use only a valid UE email address (@ue.edu.ph) for registration and access.
+By proceeding, you acknowledge and accept this condition.</label>
     </div>
     </>
   )
