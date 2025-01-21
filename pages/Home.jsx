@@ -3,20 +3,20 @@ import React, { useState, useEffect } from 'react'
 import { logoutUser, getUser } from './Login'
 
 const HomePage = () => {
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    const checkUser = async () => {
-      try {
-        const userData = await getUser()
-        setUser(userData)
-      } catch (error) {
-        setUser(null)
-      }
-    }
+  // useEffect(() => {
+  //   const checkUser = async () => {
+  //     try {
+  //       const userData = await getUser()
+  //       setUser(userData)
+  //     } catch (error) {
+  //       setUser(null)
+  //     }
+  //   }
 
-    checkUser()
-  }, []);
+  //   checkUser()
+  // }, []);
   return (
     <>
     <div class="body">

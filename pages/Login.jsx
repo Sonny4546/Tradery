@@ -33,19 +33,19 @@ export const getUser = async () => {
 
 
 export default function LoginPage() {
-  const notice = () => {
-    // Get the checkbox
-    var checkBox = document.getElementById("condition");
-    // Get the output text
-    var google = document.getElementById("google");
+  // const notice = () => {
+  //   // Get the checkbox
+  //   var checkBox = document.getElementById("condition");
+  //   // Get the output text
+  //   var google = document.getElementById("google");
 
-    // If the checkbox is checked, display the output text
-    if (checkBox.checked == true){
-      google.style.display = "block";
-    } else {
-      google.style.display = "none";
-    }
-  };
+  //   // If the checkbox is checked, display the output text
+  //   if (checkBox.checked == true){
+  //     google.style.display = "block";
+  //   } else {
+  //     google.style.display = "none";
+  //   }
+  // };
 
   return (
     <>
