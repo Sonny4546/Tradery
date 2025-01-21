@@ -33,7 +33,7 @@ export const getUser = async () => {
 
 
 export default function LoginPage() {
-  function notice() {
+  notice = () => {
     // Get the checkbox
     var checkBox = document.getElementById("condition");
     // Get the output text
@@ -46,7 +46,7 @@ export default function LoginPage() {
       google.style.display = "none";
     }
   }
-  
+
   return (
     <>
     <div class="logincontainer">
