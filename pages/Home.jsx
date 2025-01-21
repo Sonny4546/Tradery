@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react'
 import { logoutUser, getUser } from './Login'
 
 const HomePage = () => {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -16,7 +16,7 @@ const HomePage = () => {
     }
 
     checkUser()
-  }, [])
+  }, []);
   return (
     <>
     <div class="body">
@@ -57,6 +57,6 @@ const HomePage = () => {
           </div>
         </div>
     </>
-  )
+  );
 }
 export default HomePage

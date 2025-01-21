@@ -42,5 +42,5 @@ export default function ErrorPage() {
         </p>
       </div>
     </div>
-  );
+  )
 }

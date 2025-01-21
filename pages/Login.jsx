@@ -9,35 +9,35 @@ export const loginWithGoogle = async () => {
     await account.createOAuth2Session(
       'google',
       'https://sonny4546.github.io/Tradery/#/Home',
-      'https://sonny4546.github.io/Tradery')
+      'https://sonny4546.github.io/Tradery');
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
-}
+};
 
 export const logoutUser = async () => {
   try {
-    await account.deleteSession('current')
+    await account.deleteSession('current');
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
-}
+};
 
 export const getUser = async () => {
   try {
-    return await account.get()
+    return await account.get();
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 }
 
 
 export default function LoginPage() {
-  notice = () => {
+  const notice = () => {
     // Get the checkbox
     var checkBox = document.getElementById("condition");
     // Get the output text
-    var google = document.getElementById("text");
+    var google = document.getElementById("google");
 
     // If the checkbox is checked, display the output text
     if (checkBox.checked == true){
@@ -45,7 +45,7 @@ export default function LoginPage() {
     } else {
       google.style.display = "none";
     }
-  }
+  };
 
   return (
     <>
@@ -76,5 +76,5 @@ export default function LoginPage() {
 By proceeding, you acknowledge and accept this condition.</label>
     </div>
     </>
-  )
+  );
 }
