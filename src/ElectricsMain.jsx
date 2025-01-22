@@ -5,7 +5,11 @@ import LoginPage from "../pages/Login";
 import HomePage from "../pages/Home";
 import ErrorPage from "../pages/Error";
 import DBPage from "../pages/UserDB";
-import { Profile, Messages, Post, Items, Requests } from '../pages/Dashboard';
+import Profile from "../pages/DB-components/Profile";
+import Messages from "../pages/DB-components/Messages";
+import Post from "../pages/DB-components/Post";
+import Items from "../pages/DB-components/Items";
+import Requests from "../pages/DB-components/Requests";
 
 import {
   createHashRouter,
@@ -33,6 +37,7 @@ const router = createHashRouter([
 ]);
 
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import Profile from "../pages/DB-components/Profile";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
