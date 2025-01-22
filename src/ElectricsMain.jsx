@@ -30,9 +30,17 @@ const router = createHashRouter([
   },
   {
     path: "/Profile", element: <Profile />,
+  },
+  {
     path: "/Messages", element: <Messages />,
+  },
+  {
     path: "/Post", element: <Post />,
+  },
+  {
     path: "/Items", element: <Items />,
+  },
+  {
     path: "/Requests", element: <Requests />,
   },
 ]);
