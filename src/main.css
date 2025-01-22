@@ -77,7 +77,7 @@ html {
 		background: #dadada;
 		border-color:transparent;
 		svg > polyline {
-			stroke: #000;
+			stroke: #dadada;
 		}
 		+ .background-wrapper > h1 {
 			color: #dadada;
@@ -203,7 +203,7 @@ body {
 .uWholeBox {
 	height: 10%;
   	width: 100%;
-    position: relative;
+    position: absolute;
     overflow: hidden;
     background: rgba(0, 0, 0, 0.56);
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
