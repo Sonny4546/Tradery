@@ -35,12 +35,15 @@ export default function LoginPage() {
   return (
     <>
     <div class="logincontainer">
-    <div class="circle"></div>
+      <div class="circle"></div>
+      <p class="LoginWord"> USER LOGIN </p>
       <div class="google-button">
         <GoogleLogin onSuccess={credentialResponse => {console.log(credentialResponse);
-          navigate("/Home");}}onError={() => {console.log('Login Failed');}}/>
+                useNavigate("/Home");}}onError={() => {console.log('Login Failed');useNavigate("");}}/>
       </div>
-      <p> USER LOGIN </p>
+      <p class="Use">By using this website, you confirm that you are a member of the University of the East and agree to use only a valid UE email address (@ue.edu.ph) for registration and access.</p>
+      <p class="Proc"> By proceeding, you acknowledge and accept this condition.</p>
+      <input type="checkbox" class="CheckBox"></input>
     </div>
     </>
   )
