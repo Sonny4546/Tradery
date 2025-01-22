@@ -11,7 +11,6 @@ export default function UserDB() {
             <div class="uLooks"> User Dashboard </div>
         </div>
         <div class ="NaviBar">
-            <Navbar/>
             <ul>
                 <li><NavLink to="/Profile">Profile</NavLink></li>
                 <li><NavLink to="/Messages">Messages</NavLink></li>
