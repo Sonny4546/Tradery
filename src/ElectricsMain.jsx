@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import './main.css'
+import { GoogleOAuthProvider } from '@react-oauth/google';
 import LoginPage from "../pages/Login";
 import HomePage from "../pages/Home";
 import ErrorPage from "../pages/Error";
@@ -35,9 +36,6 @@ const router = createHashRouter([
     path: "/Requests", element: <Requests />,
   },
 ]);
-
-import { GoogleOAuthProvider } from '@react-oauth/google';
-import Profile from "../pages/DB-components/Profile";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
