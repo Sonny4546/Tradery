@@ -5,7 +5,7 @@ import LoginPage from "../pages/Login";
 import HomePage from "../pages/Home";
 import ErrorPage from "../pages/Error";
 import DBPage from "../pages/UserDB";
-import { Profile, Messages, Post, Items, Requests } from '../pages/Dashboard'
+import { Profile, Messages, Post, Items, Requests } from '../pages/Dashboard';
 
 import {
   createHashRouter,
