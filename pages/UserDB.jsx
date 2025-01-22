@@ -1,6 +1,7 @@
 import '../src/main.css'
 import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
+import {Outlet} from "react-router-dom";
 
 export default function UserDB() {
     return (
@@ -9,6 +10,7 @@ export default function UserDB() {
             <div class="uLooks"> User Dashboard </div>
         </div>
         <div class ="NaviBar">
+            <Navbar/>
             <ul>
                 <li><NavLink to="/Profile">Profile</NavLink></li>
                 <li><NavLink to="/Messages">Messages</NavLink></li>
@@ -16,6 +18,7 @@ export default function UserDB() {
                 <li><NavLink to="/Items">Your Items</NavLink></li>
                 <li><NavLink to="/Requests">Requests</NavLink></li>
             </ul>
+            <Outlet/>
         </div>
         </>
     )
