@@ -21,7 +21,7 @@ export default function ErrorPage() {
   return (
     <div id="error-page">
       <div class="error">
-        <a class="errorButton" href="/home">
+        <a class="errorButton" href="#/home">
           <svg height="0.8em" width="0.8em" viewBox="0 0 2 1" preserveAspectRatio="none">
           <polyline
                 fill="none" 

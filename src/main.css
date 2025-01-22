@@ -60,11 +60,11 @@ html {
 }
 
 .errorButton {
-	border: 2px solid #555;
+	border: 2px solid #dadada;
 	padding: 0.5em 0.8em;
 	position: fixed;
 	z-index: 1;
-	color: #555;
+	color: #dadada;
 	text-decoration: none;
 	display: flex;
 	align-items: center;
@@ -196,71 +196,81 @@ body {
   padding: 10px 0;
   font-size: 22px;
 }
-/* mobile styles */
-@media only screen and (max-width: 767px) { 
-  .menu-container {
-  flex-direction: column;
-  align-items: flex-end;
-  }
-  
-  .menu {
-  position: absolute;
-  box-sizing: border-box;
-  width: 300px;
-  right: -300px;
-  top: 0;
-  margin: -20px;
-  padding: 75px 50px 50px;
-  background: #cdcdcd;
-  -webkit-font-smoothing: antialiased;
-    /* to stop flickering of text in safari */
-  transform-origin: 0% 0%;
-  transform: translateX(0%);
-  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
-  }
-  .menu-container input:checked ~ .menu {
-  transform: translateX(-100%);
-  }
-}
-/* desktop styles */
-@media only screen and (min-width: 768px) { 
-  .menu-container {
-  width: 100%;
-  }
-  .menu-container a {
-  color: #cdcdcd;
-  }
-  .menu-container input {
-  display: none;
-  }
-  /* Burger menu */
-  .menu-container span {
-  display: none;
-  }
-  .menu {
-  position: relative;
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  }
-  .menu ul {
-  display: flex;
-  padding: 0;
-  }
-  .menu li {
-  padding: 0 20px;
-  }
+
+/*User Dashboard*/
+
+/* Whole Top Box*/
+.uWholeBox {
+	height: 10%;
+  	width: 100%;
+    position: relative;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.56);
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(2.6px);
+	-webkit-backdrop-filter: blur(2.6px);
+	border: none;
+    z-index: 0;
+} 
+
+/* Letter User Dashboard*/
+.uLooks {
+    font-family: "Rubik", sans-serif;
+    font-size: 40px;
+    letter-spacing: 4px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
 }
 
-@media (max-width: 1460px){
-  body {
-      background-image: url(images/900px.png);
-      background-size: auto;
-  }
-  /*Main Page*/   
-  #pagewrap {
-      max-width: 1280px;
-  }
+/* Testing Nav Bar*/
+.ul {
+    position: absolute;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.NaviBar {
+    height: 5%;
+    width: 100%;
+    position: absolute;
+    top: 10%;
+}
+/*design of nav box*/
+ul {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: auto;
+    position: relative;
+    background: rgba(0, 0, 0, 0.56);
+	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	backdrop-filter: blur(2.6px);
+	-webkit-backdrop-filter: blur(2.6px);
+	border: none;
+    z-index: 1;
+}
+
+li {
+  display: inline;
+  flex: 1;
+}
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+li a:hover {
+    background-color: grey;
 }
 
 
@@ -349,4 +359,71 @@ body {
     z-index: 1;
     left: 100px;
     top: 150px;
+}
+
+/* mobile styles */
+@media only screen and (max-width: 767px) { 
+  .menu-container {
+  flex-direction: column;
+  align-items: flex-end;
+  }
+  
+  .menu {
+  position: absolute;
+  box-sizing: border-box;
+  width: 300px;
+  right: -300px;
+  top: 0;
+  margin: -20px;
+  padding: 75px 50px 50px;
+  background: #cdcdcd;
+  -webkit-font-smoothing: antialiased;
+    /* to stop flickering of text in safari */
+  transform-origin: 0% 0%;
+  transform: translateX(0%);
+  transition: transform 0.5s cubic-bezier(0.77,0.2,0.05,1.0);
+  }
+  .menu-container input:checked ~ .menu {
+  transform: translateX(-100%);
+  }
+}
+/* desktop styles */
+@media only screen and (min-width: 768px) { 
+  .menu-container {
+  width: 100%;
+  }
+  .menu-container a {
+  color: #cdcdcd;
+  }
+  .menu-container input {
+  display: none;
+  }
+  /* Burger menu */
+  .menu-container span {
+  display: none;
+  }
+  .menu {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  }
+  .menu ul {
+  display: flex;
+  padding: 0;
+  }
+  .menu li {
+  padding: 0 20px;
+  }
+}
+
+@media (max-width: 1460px){
+  body {
+      background-image: url(images/900px.png);
+      background-size: auto;
+  }
+  /*Main Page*/   
+  #pagewrap {
+      max-width: 1280px;
+  }
 }

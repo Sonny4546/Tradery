@@ -4,6 +4,8 @@ import './main.css'
 import LoginPage from "../pages/Login";
 import HomePage from "../pages/Home";
 import ErrorPage from "../pages/Error";
+import DBPage from "../pages/UserDB";
+import { Profile, Messages, Post, Items, Requests } from '../pages/Dashboard'
 
 import {
   createHashRouter,
@@ -17,6 +19,16 @@ const router = createHashRouter([
   },
   {
     path: "/Home", element: <HomePage />,
+  },
+  {
+    path: "/Dashboard", element: <DBPage />,
+  },
+  {
+    path: "/Profile", element: <Profile />,
+    path: "/Messages", element: <Messages />,
+    path: "/Post", element: <Post />,
+    path: "/Items", element: <Items />,
+    path: "/Requests", element: <Requests />,
   },
 ]);
 

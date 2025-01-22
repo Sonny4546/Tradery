@@ -28,19 +28,19 @@ const HomePage = () => {
               <div class="menu">
               <ul>
                   <li>
-                  <a href="/home">
+                  <a href="#/Home">
                       Tradery
                   </a>
                   </li>
               </ul>
               <ul>
                   <li>
-                  <a href="#/messages">
+                  <a href="#/Messages">
                       Messages
                   </a>
                   </li>
                   <li>
-                  <a href="">
+                  <a href="#/Dashboard">
                       User
                   </a>
                   </li>
