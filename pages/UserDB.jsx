@@ -12,11 +12,11 @@ export default function UserDB() {
         </div>
         <div class ="NaviBar">
             <ul>
-                <li><NavLink to="/Profile">Profile</NavLink></li>
-                <li><NavLink to="/Messages">Messages</NavLink></li>
-                <li><NavLink to="/Post">Post</NavLink></li>
-                <li><NavLink to="/Items">Your Items</NavLink></li>
-                <li><NavLink to="/Requests">Requests</NavLink></li>
+                <li><NavLink to="/Dashboard/Profile">Profile</NavLink></li>
+                <li><NavLink to="/Dashboard/Messages">Messages</NavLink></li>
+                <li><NavLink to="/Dashboard/Post">Post</NavLink></li>
+                <li><NavLink to="/Dashboard/Items">Your Items</NavLink></li>
+                <li><NavLink to="/Dashboard/Requests">Requests</NavLink></li>
             </ul>
             <Outlet/>
         </div>

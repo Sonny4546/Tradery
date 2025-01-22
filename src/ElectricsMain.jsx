@@ -29,7 +29,6 @@ const router = createHashRouter([
   {
     path: "/Dashboard", element: <DBPage />,
     children:[
-      {path: "/Dashboard/", element: <DBPage />},
       {path: "/Dashboard/Profile", element: <Profile />},
       {path: "/Dashboard/Messages", element: <Messages />},
       {path: "/Dashboard/Post", element: <Post />},
