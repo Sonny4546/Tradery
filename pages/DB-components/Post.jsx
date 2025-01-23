@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 const Post = () => { 
     return(
         <>
-        <div class="Main" id="pagewrap">
+        <div class="Main">
             <div class="container">
                 <h1>Post Item</h1>
                 <div class="uploader">

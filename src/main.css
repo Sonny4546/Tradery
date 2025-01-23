@@ -113,7 +113,7 @@ body {
   min-height: 100vh;
   margin: 0;
   padding: 0;
-  background-color: black;
+  background-color: rgb(255, 255, 255);
   vertical-align: baseline;
   font-family: "Rubik", sans-serif;
 }
@@ -255,6 +255,7 @@ ul {
 	-webkit-backdrop-filter: blur(2.6px);
 	border: none;
     z-index: 1;
+    margin-bottom: 0rem;
 }
 
 li {
@@ -472,7 +473,6 @@ box-shadow: 0px 0px 20px 7px rgba(46,126,255,1);
 
 @media (max-width: 1460px){
   body {
-      background-image: url(images/900px.png);
       background-size: auto;
   }
   /*Main Page*/   
