@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import './main.css'
+import 'bootstrap'
+import 'react-bootstrap'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import LoginPage from "../pages/Login";
 import HomePage from "../pages/Home";

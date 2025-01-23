@@ -297,12 +297,9 @@ li a:hover {
   overflow: hidden;
 }
 .google-button {
-height: 44px;
-width: 200px;
-bottom: 10%;
-position: absolute;
-bottom: 30%;
-left: 28%;
+  position: relative;
+  left: 25%;
+  top: 50%;
 }
 .LoginWord{
   color: black;
@@ -329,7 +326,7 @@ text-align-last: center;
 .Proc{
 font-size: 13px;
 bottom: 5%;
-left: 20%;
+left: 12%;
 }
 
 .circle {
@@ -347,13 +344,75 @@ height: 15px;
 width: 15px;
 background-color: #555;
 bottom: 7%;
-margin-left: 14%;
+left: 5%;
 position: absolute;
 z-index: 0;
 -webkit-box-shadow:0px 0px 20px 7px rgba(46,126,255,1);
 -moz-box-shadow: 0px 0px 20px 7px rgba(46,126,255,1);
 box-shadow: 0px 0px 20px 7px rgba(46,126,255,1);
 }
+
+/*post page*/
+.uploader {
+    padding: 50px;
+    position: relative;
+    border: 2px dashed var(--select-border-color);
+}
+.uploader-content {
+  filter: blur(5px) brightness(0.5);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  right: 0;
+  top: 0;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: -90;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* mobile styles */
 @media only screen and (max-width: 767px) { 
