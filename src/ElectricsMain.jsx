@@ -1,6 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import './main.css'
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap'
 import 'react-bootstrap'
 import { GoogleOAuthProvider } from '@react-oauth/google';
