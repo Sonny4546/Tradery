@@ -1,7 +1,7 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form';
 import { useState, useEffect } from "react";
-import { sessioncheck } from './Authenticate'
+import { sessioncheck } from '../Authenticate'
 
 const Post = () => { 
     useEffect(() => {
