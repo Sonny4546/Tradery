@@ -1,6 +1,6 @@
 import { Account } from "appwrite";
 import { useNavigate } from "react-router-dom";
-import { Client, Account, OAuthProvider } from 'appwrite'
+import { Client, OAuthProvider } from 'appwrite'
 
 const client = new Client()
 client
