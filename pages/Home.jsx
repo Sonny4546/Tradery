@@ -1,7 +1,7 @@
 import '../src/main.css'
 import React from 'react'
 import { Account } from "appwrite";
-import { getUsername } from './GetUser';
+import { getUsername, client } from './GetUser';
 import { CheckSession } from './Authenticate'
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
