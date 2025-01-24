@@ -1,6 +1,12 @@
 import '../src/main.css'
 import React, { useState, useEffect } from 'react'
-import { Account, OAuthProvider } from '../src/appwrite'
+import { Client, Account, OAuthProvider } from 'appwrite'
+
+const client = new Client()
+client
+  .setEndpoint('https://cloud.appwrite.io/v1')
+  .setProject('678ba12f001dce105c6a')
+export { OAuthProvider }
 
 // functions
 export const loginWithGoogle = async () => {
@@ -24,7 +30,7 @@ export const logoutUser = async () => {
 
 export const getUser = async () => {
   try {
-    return await account.get()
+    return await Account.get()
   } catch (error) {
     console.error(error)
   }
