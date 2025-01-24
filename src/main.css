@@ -44,7 +44,7 @@ html {
 	background: #12121200;
 	padding: 1em;
 	overflow: hidden;
-  p {
+  p i{
     top: 10%;
     position: absolute;
   }

@@ -1,21 +1,13 @@
 import React from 'react'
 import { useState, useEffect } from "react";
+import { getUsername } from './GetUser';
+import { sessioncheck } from './Authenticate'
 
 const Profile = () => { 
-    const [user, setUser] = useState(null);
-    
     useEffect(() => {
-      const checkUser = async () => {
-        try {
-          const userData = await getUser()
-          setUser(userData)
-        } catch (error) {
-          setUser(null)
-          useNavigate("/")
-        }
-      }
-      checkUser()
-    }, []);
+          sessioncheck();
+          getUsername;
+    });
     return(
         <>
         <div class="Main">
@@ -27,7 +19,7 @@ const Profile = () => {
                 </div>
                 <div class="form-floating mb-3">
                     <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" placeholder={user.name}/>
+                    <Form.Control type="text" placeholder="name"/>
                 </div>
                 <Form.Group className="mb-3" controlId="Description.ControlTextarea1">
                     <Form.Label>Profile Summary</Form.Label>

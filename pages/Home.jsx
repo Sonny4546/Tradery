@@ -1,27 +1,17 @@
 import '../src/main.css'
 import React, { useState, useEffect } from 'react'
 import { logoutUser, getUser } from './Login'
-import { useNavigate } from "react-router-dom";
+import { getUsername } from './GetUser';
+import { sessioncheck } from './Authenticate'
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 
 const HomePage = () => {
-  const [user, setUser] = useState(null);
-
   useEffect(() => {
-    const checkUser = async () => {
-      try {
-        const userData = await getUser()
-        setUser(userData)
-      } catch (error) {
-        setUser(null)
-        useNavigate("/")
-      }
-    }
-
-    checkUser()
-  }, []);
+      sessioncheck();
+      getUsername;
+  });
   return (
     <>
     <div class="body">
@@ -40,7 +30,7 @@ const HomePage = () => {
         <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
           <Nav className="me-auto">
             <Nav.Link href="#/Dashboard/Messages">Messages</Nav.Link>
-            <NavDropdown title={user.name} id="basic-nav-dropdown">
+            <NavDropdown title={getUsername} id="basic-nav-dropdown">
               <NavDropdown.Item href="#/Dashboard">User Dashboard</NavDropdown.Item>
               <NavDropdown.Item href="/" onlick={logoutUser}>Logout</NavDropdown.Item>
             </NavDropdown>
