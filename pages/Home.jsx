@@ -9,7 +9,7 @@ import Nav from 'react-bootstrap/Nav';
 
 const HomePage = () => {
   useEffect(() => {
-      CheckSession()
+      CheckSession();
       getUsername();
   });
   return (
