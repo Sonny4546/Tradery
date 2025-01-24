@@ -2,14 +2,14 @@ import '../src/main.css'
 import React, { useState, useEffect } from 'react'
 import { logoutUser, getUser } from './Login'
 import { getUsername } from './GetUser';
-import { sessioncheck } from './Authenticate'
+import { CheckSession } from './Authenticate'
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 
 const HomePage = () => {
   useEffect(() => {
-      sessioncheck();
+      CheckSession()
       getUsername();
   });
   return (
