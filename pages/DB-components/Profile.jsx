@@ -16,12 +16,11 @@ const Profile = () => {
             <div class="container">
                 <h1>Edit Profile</h1>
                 <div class="inputprofile">
-                    <p>Upload an image: accepts jpg and png only</p>
                     <input type="file" accept=".png, .jpg"></input>
+                    <p>Upload an image: accepts jpg and png only</p>
                 </div>
                 <div class="form-floating mb-3">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control type="text" placeholder="name"/>
+                    <Form.Control type="text" placeholder="Name"/>
                 </div>
                 <Form.Group className="mb-3" controlId="Description.ControlTextarea1">
                     <Form.Label>Profile Summary</Form.Label>

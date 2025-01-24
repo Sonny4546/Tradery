@@ -20,8 +20,7 @@ const Post = () => {
                     </Form.Group>
                 </div>
                 <div class="form-floating mb-3">
-                    <Form.Label>Name</Form.Label>
-                    <Form.Control type="text"/>
+                    <Form.Control type="text" placeholder="Name"/>
                 </div>
                 <Form.Group className="mb-3" controlId="Description.ControlTextarea1">
                     <Form.Label>Item Description</Form.Label>

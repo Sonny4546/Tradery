@@ -9,10 +9,10 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 
 const HomePage = () => {
-  useEffect(() => {
-      CheckSession();
-      getUsername();
-  });
+  // useEffect(() => {
+  //     CheckSession();
+  //     getUsername();
+  // });
   return (
     <>
     <div class="body">
@@ -32,7 +32,7 @@ const HomePage = () => {
           <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
             <Nav className="me-auto">
               <Nav.Link href="#/Dashboard/Messages">Messages</Nav.Link>
-              <NavDropdown title={getUsername()} id="basic-nav-dropdown">
+              <NavDropdown title="User" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#/Dashboard">User Dashboard</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#" onclick={logoutUser}>
