@@ -1,11 +1,11 @@
 import React from 'react'
 import { useState, useEffect } from "react";
 import { getUsername } from '../GetUser';
-import { sessioncheck } from '../Authenticate'
+import { CheckSession } from '../Authenticate'
 
 const Profile = () => { 
     useEffect(() => {
-          sessioncheck();
+          CheckSession();
           getUsername;
     });
     return(

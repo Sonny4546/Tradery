@@ -2,11 +2,11 @@ import '../src/main.css'
 import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
-import { sessioncheck } from './Authenticate'
+import { CheckSession } from './Authenticate'
 
 export default function UserDB() {
     useEffect(() => {
-        sessioncheck()
+        CheckSession();
     });
     return (
         <>

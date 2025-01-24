@@ -1,10 +1,10 @@
 import React from 'react'
-import { sessioncheck } from '../Authenticate'
+import { CheckSession } from '../Authenticate'
 import { useState, useEffect } from "react";
 
 const Requests = () => { 
     useEffect(() => {
-        sessioncheck()
+        CheckSession();
     });
     return(
         <>
