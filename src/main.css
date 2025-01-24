@@ -44,6 +44,10 @@ html {
 	background: #12121200;
 	padding: 1em;
 	overflow: hidden;
+  p {
+    top: 10%;
+    position: absolute;
+  }
 }
 
 .background-wrapper {

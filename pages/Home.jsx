@@ -2,7 +2,9 @@ import '../src/main.css'
 import React, { useState, useEffect } from 'react'
 import { logoutUser, getUser } from './Login'
 import { useNavigate } from "react-router-dom";
+import NavDropdown from 'react-bootstrap/NavDropdown';
 import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
 
 const HomePage = () => {
   const [user, setUser] = useState(null);
