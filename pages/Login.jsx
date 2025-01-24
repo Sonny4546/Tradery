@@ -8,11 +8,13 @@ client
   .setProject('678ba12f001dce105c6a')
 export { OAuthProvider }
 
+const account = new Account(client);
+
 // functions
 export const loginWithGoogle = async () => {
   try {
-    await Account.createOAuth2Session(
-      'google',
+    await account.createOAuth2Session(
+      OAuthProvider.Google,
       'https://sonny4546.github.io/Tradery/#/Home',
       'https://sonny4546.github.io/Tradery')
   } catch (error) {
@@ -22,7 +24,7 @@ export const loginWithGoogle = async () => {
 
 export const logoutUser = async () => {
   try {
-    await Account.deleteSession('current')
+    await account.deleteSession('current')
   } catch (error) {
     console.error(error)
   }
@@ -30,7 +32,7 @@ export const logoutUser = async () => {
 
 export const getUser = async () => {
   try {
-    return await Account.get()
+    return await account.get()
   } catch (error) {
     console.error(error)
   }
