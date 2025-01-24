@@ -10,7 +10,7 @@ export { OAuthProvider }
 
 const account = new Account(client);
 
-const getUsername = async () => {
+export const getUsername = async () => {
     try {
         const user = await account.get();
         return(user.name)
