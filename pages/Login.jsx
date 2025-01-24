@@ -1,6 +1,7 @@
 import '../src/main.css'
 import React, { useState, useEffect } from 'react'
 import { Client, Account, OAuthProvider } from 'appwrite'
+import Button from 'react-bootstrap/Button';
 
 const client = new Client()
 client
@@ -45,7 +46,7 @@ export default function LoginPage() {
       <div class="circle"></div>
       <p class="LoginWord"> USER LOGIN </p>
       <div class="google-button">
-        <button class="login" variant="primary" size="lg" onClick={loginWithGoogle}>Login with Google</button>
+        <Button class="login" variant="primary" size="lg" onClick={loginWithGoogle}>Login with Google</Button>
       </div>
       <p class="Use">By using this website, you confirm that you are a member of the University of the East and agree to use only a valid UE email address (@ue.edu.ph) for registration and access.</p>
       <p class="Proc"> By proceeding, you acknowledge and accept this condition.</p>

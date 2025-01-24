@@ -10,32 +10,37 @@ import Nav from 'react-bootstrap/Nav';
 const HomePage = () => {
   useEffect(() => {
       sessioncheck();
-      getUsername;
+      getUsername();
   });
   return (
     <>
     <div class="body">
-    <Navbar className="bg-body-tertiary">
-    <Navbar.Toggle aria-controls="navbar-dark-example" />
-        <Navbar.Brand href="#/Home">
-          <img
-            alt=""
-            src="/img/logo.svg"
-            width="30"
-            height="30"
-            className="d-inline-block align-top"
-          />{' '}
-          Tradery
-        </Navbar.Brand>
-        <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
-          <Nav className="me-auto">
-            <Nav.Link href="#/Dashboard/Messages">Messages</Nav.Link>
-            <NavDropdown title={getUsername} id="basic-nav-dropdown">
-              <NavDropdown.Item href="#/Dashboard">User Dashboard</NavDropdown.Item>
-              <NavDropdown.Item href="/" onlick={logoutUser}>Logout</NavDropdown.Item>
-            </NavDropdown>
-          </Nav>
-        </Navbar.Collapse>
+      <Navbar expand="lg" className="bg-body-tertiary">
+        <Container>
+          <Navbar.Brand href="#/Home">
+            <img
+              alt=""
+              src="/img/logo.svg"
+              width="30"
+              height="30"
+              className="d-inline-block align-top"
+            />{' '}
+            Tradery
+          </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+            <Nav className="me-auto">
+              <Nav.Link href="#/Dashboard/Messages">Messages</Nav.Link>
+              <NavDropdown title={getUsername()} id="basic-nav-dropdown">
+                <NavDropdown.Item href="#/Dashboard">User Dashboard</NavDropdown.Item>
+                <NavDropdown.Divider />
+                <NavDropdown.Item href="#" onclick={logoutUser}>
+                  Separated link
+                </NavDropdown.Item>
+              </NavDropdown>
+            </Nav>
+          </Navbar.Collapse>
+        </Container>
       </Navbar>
           <div class="Main" id="pagewrap">
               <div class="searchinput">
