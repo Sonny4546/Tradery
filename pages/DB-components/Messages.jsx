@@ -8,7 +8,13 @@ const Messages = () => {
     });
     return(
         <>
-        <h1>MESSAGES</h1>
+        <div class="messages-container">
+            <iframe width="1920"
+                    height="1080"
+                    src="https://lynxlenior.github.io/TraderyMessenger/"
+                    title="TraderyMessenger">
+            </iframe>
+        </div>
         </>
     )
 }
