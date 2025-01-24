@@ -1,6 +1,12 @@
 import { Account } from "appwrite";
-import { client } from "./Login";
 import { useNavigate } from "react-router-dom";
+import { Client, Account, OAuthProvider } from 'appwrite'
+
+const client = new Client()
+client
+  .setEndpoint('https://cloud.appwrite.io/v1')
+  .setProject('678ba12f001dce105c6a')
+export { OAuthProvider }
 
 const account = new Account(client);
 
