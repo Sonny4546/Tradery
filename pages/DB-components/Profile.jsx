@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from "react";
-import { getUsername } from './GetUser';
+import { getUsername } from '../GetUser';
 import { sessioncheck } from '../Authenticate'
 
 const Profile = () => { 
