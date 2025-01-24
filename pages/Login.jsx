@@ -1,11 +1,11 @@
 import '../src/main.css'
 import React, { useState, useEffect } from 'react'
-import { account, OAuthProvider } from '../src/appwrite'
+import { Account, OAuthProvider } from '../src/appwrite'
 
 // functions
 export const loginWithGoogle = async () => {
   try {
-    await account.createOAuth2Session(
+    await Account.createOAuth2Session(
       'google',
       'https://sonny4546.github.io/Tradery/#/Home',
       'https://sonny4546.github.io/Tradery')
@@ -16,7 +16,7 @@ export const loginWithGoogle = async () => {
 
 export const logoutUser = async () => {
   try {
-    await account.deleteSession('current')
+    await Account.deleteSession('current')
   } catch (error) {
     console.error(error)
   }
