@@ -1,6 +1,6 @@
 import '../src/main.css'
 import React, { useState, useEffect } from 'react'
-import { account, OAuthProvider } from './appwrite'
+import { account, OAuthProvider } from 'appwrite'
 
 // functions
 export const loginWithGoogle = async () => {
