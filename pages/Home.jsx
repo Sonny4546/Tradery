@@ -29,7 +29,7 @@ const HomePage = () => {
           <Navbar.Brand href="#/Home">
             <img
               alt=""
-              src="/images/favicon.png"
+              src="./images/favicon.png"
               width="30"
               height="30"
               className="d-inline-block align-top"
@@ -37,7 +37,7 @@ const HomePage = () => {
             Tradery
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse className="justify-content-end flex-grow-1 pe-3">
+          <Navbar.Collapse className="justify-content-end flex-grow-1">
             <Nav className="me-auto">
               <Nav.Link href="#/Dashboard/Messages">Messages</Nav.Link>
               <NavDropdown title="User" id="basic-nav-dropdown">

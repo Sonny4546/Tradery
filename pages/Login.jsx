@@ -35,7 +35,9 @@ export default function LoginPage() {
   return (
     <>
     <div class="logincontainer">
-      <div class="circle"></div>
+      <div class="circle">
+        <image src="./images/favicon.png"></image>
+      </div>
       <p class="LoginWord"> USER LOGIN </p>
       <div class="google-button">
         <Button class="login" variant="primary" size="lg" onClick={loginWithGoogle}>Login with Google</Button>
