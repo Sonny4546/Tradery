@@ -129,9 +129,8 @@ body {
   display: flex;
   align-items: center;
   margin-bottom: 0px;
-  background: #0f0f10;
+  background: rgba(218, 62, 62, 0.38);
   color: #cdcdcd;
-  padding: 10px;
   z-index: 1;
   -webkit-user-select: none;
   user-select: none;
@@ -143,7 +142,7 @@ body {
   transition: color 0.3s ease;
 }
 .menu-container a:hover {
-  color: #00C6A7;
+  color: rgb(255, 255, 255);
 }
 .menu-container input {
   display: block;
@@ -191,6 +190,7 @@ body {
 }
 .menu ul {
   list-style: none;
+  margin-bottom: 1rem;
 }
 .menu li {
   padding: 10px 0;
@@ -205,7 +205,7 @@ body {
   	width: 100%;
     position: absolute;
     overflow: hidden;
-    background: rgba(0, 0, 0, 0.56);
+    background: rgba(218, 62, 62, 0.38);
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 	backdrop-filter: blur(2.6px);
 	-webkit-backdrop-filter: blur(2.6px);
@@ -241,7 +241,7 @@ body {
     top: 10%;
 }
 /*design of nav box*/
-ul {
+.NaviBar ul {
     display: flex;
     justify-content: space-around;
     list-style-type: none;
@@ -249,29 +249,28 @@ ul {
     padding: 0;
     overflow: auto;
     position: relative;
-    background: rgba(0, 0, 0, 0.56);
+    background: rgba(218, 62, 62, 0.38);
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 	backdrop-filter: blur(2.6px);
 	-webkit-backdrop-filter: blur(2.6px);
 	border: none;
     z-index: 1;
     margin-bottom: 0rem;
-}
-
-li {
-  display: inline;
-  flex: 1;
-}
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-li a:hover {
-    background-color: grey;
+    li {
+      display: inline;
+      flex: 1;
+    }
+    li a {
+        display: block;
+        color: white;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+    li a:hover {
+        background-color: grey;
+    }
 }
 
 
@@ -299,8 +298,11 @@ li a:hover {
 }
 .google-button {
   position: relative;
-  left: 25%;
   top: 50%;
+}
+.login{
+  margin-left: 50px;
+  margin-right: 50px;
 }
 .LoginWord{
   color: black;
@@ -355,7 +357,7 @@ box-shadow: 0px 0px 20px 7px rgba(46,126,255,1);
 
 /*post page*/
 .uploader {
-    padding: 50px;
+    padding: 20px;
     position: relative;
     border: 2px dashed var(--select-border-color);
 }
@@ -371,9 +373,25 @@ box-shadow: 0px 0px 20px 7px rgba(46,126,255,1);
   background-position: center;
   z-index: -90;
 }
+.container h1 {
+  padding: 10px;
+}
 
-
-
+/*edit profile page*/
+.inputprofile {
+  height: 20vh;
+  width: 20vw;
+  background-color: #5555559a;
+  border-radius: 50%;
+  position: absolute;
+  margin-top: 25%;
+  p {
+    opacity: 0%;
+  }
+  &:hover p{
+    opacity: 100%;
+  }
+}
 
 
 

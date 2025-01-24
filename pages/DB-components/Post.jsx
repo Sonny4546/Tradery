@@ -1,7 +1,12 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form';
+import { useState, useEffect } from "react";
+import { sessioncheck } from './Authenticate'
 
 const Post = () => { 
+    useEffect(() => {
+        sessioncheck()
+    });
     return(
         <>
         <div class="Main">
@@ -9,17 +14,19 @@ const Post = () => {
                 <h1>Post Item</h1>
                 <div class="uploader">
                     <Form.Group controlId="formFileLg" className="mb-3">
-                        <Form.Label>Large file input example</Form.Label>
-                        <Form.Control type="file" size="lg" />
+                        <Form.Label>Import Image</Form.Label>
+                        <Form.Control type="file" size="lg" accept=".png, .jpg" />
                     </Form.Group>
                 </div>
                 <div class="form-floating mb-3">
-                    <Form.Control type="text" placeholder="Item Name" />
+                    <Form.Label>Name</Form.Label>
+                    <Form.Control type="text"/>
                 </div>
                 <Form.Group className="mb-3" controlId="Description.ControlTextarea1">
                     <Form.Label>Item Description</Form.Label>
                     <Form.Control as="textarea" rows={4} />
                 </Form.Group>
+                <Button class="submitbtn" as="input" type="submit" value="Submit" />
             </div>
         </div>
         </>

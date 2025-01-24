@@ -1,9 +1,11 @@
 import '../src/main.css'
 import React, { useState, useEffect } from 'react'
 import { logoutUser, getUser } from './Login'
+import { useNavigate } from "react-router-dom";
+import Navbar from 'react-bootstrap/Navbar';
 
 const HomePage = () => {
-  {/* const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -12,41 +14,37 @@ const HomePage = () => {
         setUser(userData)
       } catch (error) {
         setUser(null)
+        useNavigate("/")
       }
     }
 
     checkUser()
-  }, []);*/}
+  }, []);
   return (
     <>
     <div class="body">
-          <nav class="menu-container">
-              <input type="checkbox" aria-label="Toggle menu" />
-              <span></span>
-              <span></span>
-              <span></span>
-              <div class="menu">
-              <ul>
-                  <li>
-                  <a href="#/Home">
-                      Tradery
-                  </a>
-                  </li>
-              </ul>
-              <ul>
-                  <li>
-                  <a href="#/Messages">
-                      Messages
-                  </a>
-                  </li>
-                  <li>
-                  <a href="#/Dashboard">
-                      User
-                  </a>
-                  </li>
-              </ul>
-              </div>
-          </nav>
+    <Navbar className="bg-body-tertiary">
+    <Navbar.Toggle aria-controls="navbar-dark-example" />
+        <Navbar.Brand href="#/Home">
+          <img
+            alt=""
+            src="/img/logo.svg"
+            width="30"
+            height="30"
+            className="d-inline-block align-top"
+          />{' '}
+          Tradery
+        </Navbar.Brand>
+        <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+          <Nav className="me-auto">
+            <Nav.Link href="#/Dashboard/Messages">Messages</Nav.Link>
+            <NavDropdown title={user.name} id="basic-nav-dropdown">
+              <NavDropdown.Item href="#/Dashboard">User Dashboard</NavDropdown.Item>
+              <NavDropdown.Item href="/" onlick={logoutUser}>Logout</NavDropdown.Item>
+            </NavDropdown>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
           <div class="Main" id="pagewrap">
               <div class="searchinput">
                   <form>
