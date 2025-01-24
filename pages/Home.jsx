@@ -1,6 +1,6 @@
 import '../src/main.css'
-import React, { useState, useEffect } from 'react'
-import { logoutUser, getUser } from './Login'
+import React from 'react'
+import { Account } from "appwrite";
 import { getUsername } from './GetUser';
 import { CheckSession } from './Authenticate'
 import NavDropdown from 'react-bootstrap/NavDropdown';
@@ -13,15 +13,23 @@ const HomePage = () => {
   //     CheckSession();
   //     getUsername();
   // });
+  const account = new Account(client);
+  async function logoutUser() {
+    try {
+      await account.deleteSession('current')
+    } catch (error) {
+      console.error(error)
+    }
+  }
   return (
     <>
     <div class="body">
-      <Navbar expand="lg" className="bg-body-tertiary">
+      <Navbar expand="lg" bg="danger" data-bs-theme="dark">
         <Container>
           <Navbar.Brand href="#/Home">
             <img
               alt=""
-              src="/img/logo.svg"
+              src="/images/favicon.png"
               width="30"
               height="30"
               className="d-inline-block align-top"
@@ -29,14 +37,14 @@ const HomePage = () => {
             Tradery
           </Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+          <Navbar.Collapse className="justify-content-end flex-grow-1 pe-3">
             <Nav className="me-auto">
               <Nav.Link href="#/Dashboard/Messages">Messages</Nav.Link>
               <NavDropdown title="User" id="basic-nav-dropdown">
                 <NavDropdown.Item href="#/Dashboard">User Dashboard</NavDropdown.Item>
                 <NavDropdown.Divider />
                 <NavDropdown.Item href="#" onclick={logoutUser}>
-                  Separated link
+                  Logout
                 </NavDropdown.Item>
               </NavDropdown>
             </Nav>
