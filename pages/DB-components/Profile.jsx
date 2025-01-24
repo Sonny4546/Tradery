@@ -2,6 +2,8 @@ import React from 'react'
 import { useState, useEffect } from "react";
 import { getUsername } from '../GetUser';
 import { CheckSession } from '../Authenticate'
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 
 const Profile = () => { 
     useEffect(() => {

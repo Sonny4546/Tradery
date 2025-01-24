@@ -10,7 +10,7 @@ export { OAuthProvider }
 
 const account = new Account(client);
 
-export const CheckSession = async () => {
+async function CheckSession() {
   try {
     const sessionid = await account.getSession()
     console.log(sessionid)
@@ -18,6 +18,6 @@ export const CheckSession = async () => {
     console.error(error)
     useNavigate("/")
   }
-}
+};
 
-CheckSession()
+CheckSession();
