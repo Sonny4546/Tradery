@@ -5,15 +5,17 @@ import Container from 'react-bootstrap/Container';
 import { useNavigate } from 'react-router-dom';
 import { CheckSession, account } from './appwrite'
 import Navbar from 'react-bootstrap/Navbar';
-import { getUsername } from './GetUser';
+import { Button } from 'react-bootstrap';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 
 const HomePage = () => {
+  useEffect(() => {
+    CheckSession();
+  });
   async function logoutUser() {
     try {
       await account.deleteSession('current')
-      await useNavigate("#")
     } catch (error) {
       console.error(error)
     }
@@ -21,7 +23,7 @@ const HomePage = () => {
   return (
     <>
     <div class="body">
-      <Navbar expand="xxl" bg="danger" className="justify-content-between">
+      <Navbar expand="lg" bg="danger" className="justify-content-between">
         <Container>
           <Navbar.Brand href="#/Home">
             <img
@@ -40,7 +42,7 @@ const HomePage = () => {
                 <NavDropdown title="User" id="basic-nav-dropdown">
                   <NavDropdown.Item href="#/Dashboard">User Dashboard</NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <button onclick={logoutUser}>
+                  <button onclick={logoutUser} href="#">
                   <NavDropdown.Item>
                     Logout
                   </NavDropdown.Item>
@@ -51,12 +53,12 @@ const HomePage = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-          <div class="Main" id="pagewrap">
+          <div class="container" id="pagewrap">
               <div class="searchinput">
-                  <form>
-                      <input name="keyword" placeholder="Search for Items..."></input>
-                      <button type="submitbtn">Search</button>
-                  </form>
+                <form class="search">
+                    <input name="keyword" placeholder="Search for Items..."></input>
+                    <Button type="submitbtn" as="input" value="Search"/>
+                </form>
               </div>
           </div>
         </div>

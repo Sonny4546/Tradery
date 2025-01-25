@@ -28,13 +28,32 @@ html {
 }
 
 #pagewrap {
-  
+  height: 92.5vh;
   width: 1340px;
   padding: 0 20px;
   margin: 0 auto;
   position: relative;
-  background: rgb(90,0,0);
-  background: linear-gradient(180deg, rgba(90,0,0,0.5) 0%, rgba(0,0,0,0.75) 50%, rgba(85,44,0,0.5) 100%);
+  /* background: rgb(90,0,0);
+  background: linear-gradient(180deg, rgba(90,0,0,0.5) 0%, rgba(0,0,0,0.75) 50%, rgba(85,44,0,0.5) 100%); */
+}
+
+.search {
+  position: relative;
+  width: 100%;
+  input {
+    width: 100%;
+    height: 60px;
+    text-indent: 25px;
+    border-radius: 10px;
+  }
+  button {
+    border-radius: 5px;
+    position: absolute;
+    height: 50px;
+    width: 100px;
+    right: 5px;
+    top: 5px;
+  }
 }
 
 /*Error Page*/
