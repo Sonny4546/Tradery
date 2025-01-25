@@ -5,21 +5,18 @@ import Container from 'react-bootstrap/Container';
 import { useNavigate } from 'react-router-dom';
 import { CheckSession, account } from './appwrite'
 import Navbar from 'react-bootstrap/Navbar';
-import { Button } from 'react-bootstrap';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
+
+async function logoutUser(){
+  await account.deleteSession('current'), 
+  useNavigate('#');
+} 
 
 const HomePage = () => {
   useEffect(() => {
     CheckSession();
   });
-  async function logoutUser() {
-    try {
-      await account.deleteSession('current')
-    } catch (error) {
-      console.error(error)
-    }
-  }
   return (
     <>
     <div class="body">
@@ -35,12 +32,13 @@ const HomePage = () => {
             />{' '}
             Tradery
           </Navbar.Brand>
+          <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse className="justify-content-end flex-grow-1">
             <Row>
               <Nav className="me-auto">
                 <Nav.Link href="#/Dashboard/Messages#view-messages">Messages</Nav.Link>
                 <NavDropdown title="User" id="basic-nav-dropdown">
-                  <NavDropdown.Item href="#/Dashboard">User Dashboard</NavDropdown.Item>
+                  <NavDropdown.Item href="#/Dashboard/Profile">User Dashboard</NavDropdown.Item>
                   <NavDropdown.Divider />
                   <button onclick={logoutUser} href="#">
                   <NavDropdown.Item>
@@ -57,7 +55,7 @@ const HomePage = () => {
               <div class="searchinput">
                 <form class="search">
                     <input name="keyword" placeholder="Search for Items..."></input>
-                    <Button type="submitbtn" as="input" value="Search"/>
+                    <button>Search</button>
                 </form>
               </div>
           </div>
