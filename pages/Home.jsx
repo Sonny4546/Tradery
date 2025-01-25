@@ -1,8 +1,7 @@
 import '../src/main.css'
-import React from 'react'
+import React, { useEffect } from 'react'
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
-import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { CheckSession, account } from './appwrite'
 import Navbar from 'react-bootstrap/Navbar';
