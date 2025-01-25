@@ -3,7 +3,7 @@ import React, { useEffect } from 'react'
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
 import { useNavigate } from 'react-router-dom';
-import { CheckSession, account } from './appwrite'
+import { CheckSession, account, getUser } from './appwrite'
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
@@ -14,9 +14,20 @@ async function logoutUser(){
 } 
 
 const HomePage = () => {
+  const [user, setUser] = useState(null)
+
   useEffect(() => {
-    CheckSession();
-  });
+    const checkUser = async () => {
+      try {
+        const userData = await getUser()
+        setUser(userData)
+      } catch (error) {
+        setUser(null)
+      }
+    }
+
+    checkUser()
+  }, [])
   return (
     <>
     <div class="body">
@@ -37,14 +48,21 @@ const HomePage = () => {
             <Row>
               <Nav className="me-auto">
                 <Nav.Link href="#/Dashboard/Messages#view-messages">Messages</Nav.Link>
-                <NavDropdown title="User" id="basic-nav-dropdown">
+                <NavDropdown title={user.name} id="basic-nav-dropdown" align="end">
                   <NavDropdown.Item href="#/Dashboard/Profile">User Dashboard</NavDropdown.Item>
                   <NavDropdown.Divider />
-                  <button onclick={logoutUser} href="#">
-                  <NavDropdown.Item>
-                    Logout
-                  </NavDropdown.Item>
-                  </button>
+                  {user ? (
+                    <>
+                      <NavDropdown.Item>
+                        Logout <button onclick={logoutUser} href="#" class="logout-btn"></button>
+                      </NavDropdown.Item>
+                    </>
+                  ) : (
+                    <NavDropdown.Item>
+                      Logout
+                    </NavDropdown.Item>
+                  )}
+                  
                 </NavDropdown>
               </Nav>
             </Row>

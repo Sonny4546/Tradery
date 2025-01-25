@@ -19,3 +19,11 @@ export async function CheckSession() {
     useNavigate("/")
   }
 };
+
+export const getUser = async () => {
+  try {
+    return await account.get()
+  } catch (error) {
+    console.error(error)
+  }
+};

@@ -141,6 +141,18 @@ body {
   font-family: "Rubik", sans-serif;
 }
 
+.logout-btn{
+  top: 0;
+  right: 0;
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+}
+
 .searchinput {
   margin-left: auto;
   margin-right: auto;
