@@ -2,7 +2,7 @@ import '../src/main.css'
 import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
-import { CheckSession } from './Authenticate'
+import { CheckSession } from './appwrite'
 
 export default function UserDB() {
     useEffect(() => {
@@ -11,7 +11,7 @@ export default function UserDB() {
     return (
         <>
         <div class="uWholeBox"> 
-            <a class="errorButton" href="#/Home">
+            <a class="HomeButton" href="#/Home">
             <svg height="0.8em" width="0.8em" viewBox="0 0 2 1" preserveAspectRatio="none">
             <polyline
                     fill="none" 
@@ -26,7 +26,7 @@ export default function UserDB() {
         <div class ="NaviBar">
             <ul>
                 <li><NavLink to="/Dashboard/Profile">Profile</NavLink></li>
-                <li><NavLink to="/Dashboard/Messages">Messages</NavLink></li>
+                <li><NavLink to="#/Dashboard/Messages#view-messages">Messages</NavLink></li>
                 <li><NavLink to="/Dashboard/Post">Post</NavLink></li>
                 <li><NavLink to="/Dashboard/Items">Your Items</NavLink></li>
                 <li><NavLink to="/Dashboard/Requests">Requests</NavLink></li>

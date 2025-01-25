@@ -1,5 +1,5 @@
 import React from 'react'
-import { CheckSession } from '../Authenticate'
+import { CheckSession } from '../appwrite'
 import { useState, useEffect } from "react";
 
 const Items = () => { 

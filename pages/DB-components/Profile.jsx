@@ -1,14 +1,12 @@
 import React from 'react'
 import { useState, useEffect } from "react";
-import { getUsername } from '../GetUser';
-import { CheckSession } from '../Authenticate'
+import { CheckSession } from '../appwrite'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 const Profile = () => { 
     useEffect(() => {
           CheckSession();
-          getUsername;
     });
     return(
         <>
@@ -19,7 +17,7 @@ const Profile = () => {
                     <input type="file" accept=".png, .jpg"></input>
                     <p>Upload an image: accepts jpg and png only</p>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="mb-3">
                     <Form.Control type="text" placeholder="Name"/>
                 </div>
                 <Form.Group className="mb-3" controlId="Description.ControlTextarea1">

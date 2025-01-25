@@ -1,5 +1,5 @@
 import React from 'react'
-import { CheckSession } from '../Authenticate'
+import { CheckSession } from '../appwrite'
 import { useState, useEffect } from "react";
 
 const Messages = () => {
@@ -9,11 +9,12 @@ const Messages = () => {
     return(
         <>
         <div class="messages-container">
-            <iframe width="1920"
-                    height="1080"
+            <iframe width="100%"
+                    height="100%"
                     src="https://lynxlenior.github.io/TraderyMessenger/"
                     title="TraderyMessenger">
             </iframe>
+            <div id="view-messages"></div>
         </div>
         </>
     )

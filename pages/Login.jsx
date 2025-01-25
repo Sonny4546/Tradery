@@ -42,9 +42,11 @@ export default function LoginPage() {
       <div class="google-button">
         <Button class="login" variant="primary" size="lg" onClick={loginWithGoogle}>Login with Google</Button>
       </div>
-      <p class="Use">By using this website, you confirm that you are a member of the University of the East and agree to use only a valid UE email address (@ue.edu.ph) for registration and access.</p>
-      <p class="Proc"> By proceeding, you acknowledge and accept this condition.</p>
-      <input type="checkbox" class="CheckBox"></input>
+      <div>
+        <p class="Use">By using this website, you confirm that you are a member of the University of the East and agree to use only a valid UE email address (@ue.edu.ph) for registration and access.</p>
+        <p class="Proc"> By proceeding, you acknowledge and accept this condition.</p>
+        <input type="checkbox" id="cb-login" class="CheckBox"></input>
+      </div>
     </div>
     </>
   )

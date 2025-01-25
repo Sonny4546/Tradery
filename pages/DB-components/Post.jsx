@@ -1,7 +1,7 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form';
 import { useState, useEffect } from "react";
-import { CheckSession } from '../Authenticate'
+import { CheckSession } from '../appwrite'
 import Button from 'react-bootstrap/Button';
 
 const Post = () => { 
@@ -19,7 +19,7 @@ const Post = () => {
                         <Form.Control type="file" size="lg" accept=".png, .jpg" />
                     </Form.Group>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="mb-3">
                     <Form.Control type="text" placeholder="Name"/>
                 </div>
                 <Form.Group className="mb-3" controlId="Description.ControlTextarea1">
