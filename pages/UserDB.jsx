@@ -26,7 +26,7 @@ export default function UserDB() {
         <div class ="NaviBar">
             <ul>
                 <li><NavLink to="/Dashboard/Profile">Profile</NavLink></li>
-                <li><NavLink to="#/Dashboard/Messages#view-messages">Messages</NavLink></li>
+                <li><NavLink to="/Dashboard/Messages#view-messages">Messages</NavLink></li>
                 <li><NavLink to="/Dashboard/Post">Post</NavLink></li>
                 <li><NavLink to="/Dashboard/Items">Your Items</NavLink></li>
                 <li><NavLink to="/Dashboard/Requests">Requests</NavLink></li>

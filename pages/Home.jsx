@@ -48,7 +48,7 @@ const HomePage = () => {
             <Row>
               <Nav className="me-auto">
                 <Nav.Link href="#/Dashboard/Messages#view-messages">Messages</Nav.Link>
-                <NavDropdown id="basic-nav-dropdown" align="end">
+                <NavDropdown title="User" id="basic-nav-dropdown" align="end">
                   <NavDropdown.Item href="#/Dashboard/Profile">User Dashboard</NavDropdown.Item>
                   <NavDropdown.Divider />
                   {user ? (
