@@ -4,11 +4,14 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
 import { getCurrentSession, account, getUser, DeleteSession } from './appwrite'
 import { Models } from 'appwrite';
+import { useAuth } from './AuthHook';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 
 const HomePage = () => {
+  const context = useAuth();
+  console.log('context', context);
   const [session, setSession] = useState<Models.Session>();
   useEffect(() => {
     (async function run() {
@@ -44,16 +47,9 @@ const HomePage = () => {
                 <NavDropdown title="User" id="basic-nav-dropdown" align="end">
                   <NavDropdown.Item href="#/Dashboard/Profile">User Dashboard</NavDropdown.Item>
                   <NavDropdown.Divider />
-                  {session && (
                     <NavDropdown.Item href="https://sonny4546.github.io/Tradery/">
                       Logout <button onClick={logout} className="logout-btn"></button>
                     </NavDropdown.Item>
-                  )}
-                  {!session && (
-                    <NavDropdown.Item href="https://sonny4546.github.io/Tradery/">
-                      Login <button className="logout-btn"></button>
-                    </NavDropdown.Item>
-                  )}
                 </NavDropdown>
               </Nav>
             </Row>

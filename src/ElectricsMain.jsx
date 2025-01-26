@@ -14,6 +14,7 @@ import Messages from "../pages/DB-components/Messages";
 import Post from "../pages/DB-components/Post";
 import Items from "../pages/DB-components/Items";
 import Requests from "../pages/DB-components/Requests";
+import { AuthProvider } from "../pages/AuthHook";
 
 import {
   createHashRouter,
@@ -44,6 +45,8 @@ const router = createHashRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>,
 )
