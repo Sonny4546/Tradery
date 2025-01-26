@@ -45,13 +45,13 @@ const HomePage = () => {
                   <NavDropdown.Item href="#/Dashboard/Profile">User Dashboard</NavDropdown.Item>
                   <NavDropdown.Divider />
                   {session && (
-                    <NavDropdown.Item>
-                      Logout <button onClick={logout} ref="https://sonny4546.github.io/Tradery/" className="logout-btn"></button>
+                    <NavDropdown.Item href="https://sonny4546.github.io/Tradery/">
+                      Logout <button onClick={logout} className="logout-btn"></button>
                     </NavDropdown.Item>
                   )}
                   {!session && (
-                    <NavDropdown.Item>
-                      Login <button ref="https://sonny4546.github.io/Tradery/" className="logout-btn"></button>
+                    <NavDropdown.Item href="https://sonny4546.github.io/Tradery/">
+                      Login <button className="logout-btn"></button>
                     </NavDropdown.Item>
                   )}
                 </NavDropdown>
