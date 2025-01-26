@@ -1,10 +1,10 @@
 import React from 'react'
-import { CheckSession } from '../appwrite'
+import { getCurrentSession } from '../appwrite'
 import { useState, useEffect } from "react";
 
 const Requests = () => { 
     useEffect(() => {
-        CheckSession();
+        getCurrentSession();
     });
     return(
         <>

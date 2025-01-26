@@ -1,12 +1,12 @@
 import React from 'react'
 import { useState, useEffect } from "react";
-import { CheckSession } from '../appwrite'
+import { getCurrentSession } from '../appwrite'
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 const Profile = () => { 
     useEffect(() => {
-          CheckSession();
+          getCurrentSession();
     });
     return(
         <>

@@ -2,11 +2,11 @@ import '../src/main.css'
 import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
-import { CheckSession } from './appwrite'
+import { getCurrentSession } from './appwrite'
 
 export default function UserDB() {
     useEffect(() => {
-        CheckSession();
+        getCurrentSession();
     });
     return (
         <>
