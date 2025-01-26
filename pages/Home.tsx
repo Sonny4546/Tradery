@@ -2,7 +2,7 @@ import '../src/main.css'
 import React, { useEffect, useState } from 'react'
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
-import { CheckSession, account, getUser, DeleteSession } from './appwrite'
+import { getCurrentSession, account, getUser, DeleteSession } from './appwrite'
 import { Models } from 'appwrite';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
@@ -12,7 +12,7 @@ const HomePage = () => {
   const [session, setSession] = useState<Models.Session>();
   useEffect(() => {
     (async function run() {
-      const data = await CheckSession();
+      const data = await getCurrentSession();
       setSession(data.session);
     })();
   }, [])

@@ -10,10 +10,12 @@ export { OAuthProvider }
 export const storage = new Storage(client)
 export const account = new Account(client);
 
-export async function CheckSession() {
-  const sessionid = await account.getSession('current')
-  return(sessionid)
-};
+export async function getCurrentSession() {
+  const session = await account.getSession('current');
+  return {
+    session
+  }
+}
 
 export const getUser = async () => {
   try {
@@ -25,4 +27,4 @@ export const getUser = async () => {
 
 export async function DeleteSession(){
   await account.deleteSession('current');
-} 
+}
