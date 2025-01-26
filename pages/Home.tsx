@@ -10,11 +10,10 @@ import Row from 'react-bootstrap/Row';
 
 const HomePage = () => {
   const [session, setSession] = useState<Models.Session>();
-
   useEffect(() => {
     (async function run() {
-      const data = CheckSession;
-      setSession(data.arguments);
+      const data = await CheckSession();
+      setSession(data.session);
     })();
   }, [])
 
@@ -47,12 +46,12 @@ const HomePage = () => {
                   <NavDropdown.Divider />
                   {session && (
                     <NavDropdown.Item>
-                      Logout <button onClick={logout} ref="#" className="logout-btn"></button>
+                      Logout <button onClick={logout} ref="https://sonny4546.github.io/Tradery/" className="logout-btn"></button>
                     </NavDropdown.Item>
                   )}
                   {!session && (
                     <NavDropdown.Item>
-                      Login <button ref="#" className="logout-btn"></button>
+                      Login <button ref="https://sonny4546.github.io/Tradery/" className="logout-btn"></button>
                     </NavDropdown.Item>
                   )}
                 </NavDropdown>
