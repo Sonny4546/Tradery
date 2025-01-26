@@ -2,15 +2,13 @@ import '../src/main.css'
 import React, { useEffect, useState } from 'react'
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
-import { useNavigate } from 'react-router-dom';
 import { CheckSession, account, getUser, DeleteSession } from './appwrite'
-import { Models } from 'appwrite'
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 
 const HomePage = () => {
-  const [session, setSession] = useState<Models.Session>
+  const [session, setSession] = useState<Models.Session>(undefined);
   useEffect(() => {
     (async function run() {
       const data = await CheckSession;
