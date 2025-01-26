@@ -11,13 +11,8 @@ export const storage = new Storage(client)
 export const account = new Account(client);
 
 export async function CheckSession() {
-  try {
-    const sessionid = await account.getSession('current')
-    console.log(sessionid)
-  } catch (error) {
-    console.error(error)
-    useNavigate("/")
-  }
+  const sessionid = await account.getSession('current')
+  return(sessionid)
 };
 
 export const getUser = async () => {
@@ -27,3 +22,7 @@ export const getUser = async () => {
     console.error(error)
   }
 };
+
+export async function DeleteSession(){
+  await account.deleteSession('current');
+} 

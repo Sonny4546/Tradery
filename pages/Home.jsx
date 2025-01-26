@@ -3,35 +3,28 @@ import React, { useEffect, useState } from 'react'
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
 import { useNavigate } from 'react-router-dom';
-import { CheckSession, account, getUser } from './appwrite'
+import { CheckSession, account, getUser, DeleteSession } from './appwrite'
+import { Models } from 'appwrite'
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
 
-async function logoutUser(){
-  await account.deleteSession('current'), 
-  useNavigate('#');
-} 
-
 const HomePage = () => {
-  const [user, setUser] = useState(null)
-
+  const [session, setSession] = useState<Models.Session>
   useEffect(() => {
-    const checkUser = async () => {
-      try {
-        const userData = await getUser()
-        setUser(userData)
-      } catch (error) {
-        setUser(null)
-      }
-    }
-
-    checkUser()
+    (async function run() {
+      const data = await CheckSession;
+      setSession(data.session);
+    })();
   }, [])
+  async function logout() {
+    await DeleteSession();
+    setSession(undefined);
+  }
   return (
     <>
     <div class="body">
-      <Navbar expand="lg" bg="danger" className="justify-content-between">
+      <Navbar expand="lg" bg="primary" className="justify-content-between">
         <Container>
           <Navbar.Brand href="#/Home">
             <img
@@ -51,18 +44,9 @@ const HomePage = () => {
                 <NavDropdown title="User" id="basic-nav-dropdown" align="end">
                   <NavDropdown.Item href="#/Dashboard/Profile">User Dashboard</NavDropdown.Item>
                   <NavDropdown.Divider />
-                  {user ? (
-                    <>
-                      <NavDropdown.Item>
-                        Logout <button onclick={logoutUser} href="#" class="logout-btn"></button>
-                      </NavDropdown.Item>
-                    </>
-                  ) : (
                     <NavDropdown.Item>
-                      Logout
+                      Logout <button onclick={logout} href="#" class="logout-btn"></button>
                     </NavDropdown.Item>
-                  )}
-                  
                 </NavDropdown>
               </Nav>
             </Row>

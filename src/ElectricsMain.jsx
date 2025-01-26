@@ -1,7 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
-import './main.css'
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import './main.css'
+import './bs-mdf.css'
 import 'bootstrap'
 import 'react-bootstrap'
 import LoginPage from "../pages/Login";

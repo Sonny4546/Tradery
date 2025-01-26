@@ -29,8 +29,6 @@ html {
 
 #pagewrap {
   height: 92.5vh;
-  width: 1340px;
-  padding: 0 20px;
   margin: 0 auto;
   position: relative;
   /* background: rgb(90,0,0);
@@ -45,8 +43,12 @@ html {
     height: 60px;
     text-indent: 25px;
     border-radius: 10px;
+    border-color: crimson;
   }
   button {
+    background-color: var(--bs-primary);
+    border-color: transparent;
+    color: white;
     border-radius: 5px;
     position: absolute;
     height: 50px;
@@ -561,9 +563,5 @@ box-shadow: 0px 0px 20px 7px rgba(46,126,255,1);
 @media (max-width: 1460px){
   body {
       background-size: auto;
-  }
-  /*Main Page*/   
-  #pagewrap {
-      max-width: 1280px;
   }
 }
