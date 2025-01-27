@@ -31,6 +31,7 @@ const App = () => {
   return (
       <HashRouter>
           <Routes>
+          <AuthProvider>
               <Route element={<PrivateRoutes/>}>
                 <Route path="/Home" element={<HomePage/>} />
                 <Route path="/Dashboard" element={<DBPage/>} />
@@ -40,6 +41,7 @@ const App = () => {
                 <Route path="/Dashboard/Items" element={<Items/>} />
                 <Route path="/Dashboard/Requests" element={<Requests/>} />
               </Route>
+            </AuthProvider>
               <Route path="/" element={<LoginPage />} />
               <Route path="*" element={<ErrorPage />} />
           </Routes>
@@ -49,8 +51,6 @@ const App = () => {
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AuthProvider>
-      <RouterProvider router={App} />
-    </AuthProvider>
+    <RouterProvider router={App} />
   </React.StrictMode>,
 )
