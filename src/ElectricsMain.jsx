@@ -27,7 +27,7 @@ const PrivateRoutes = () => {
   }
 }
 
-const root = () => {
+export default function App() {
   return (
     <Routes>
         {/* <Route element={<PrivateRoutes/>}> */}
@@ -49,7 +49,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
     <HashRouter>
-      <RouterProvider router={root} />
+      <RouterProvider router={App} />
     </HashRouter>
     </AuthProvider>
   </React.StrictMode>,
