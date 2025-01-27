@@ -15,7 +15,7 @@ import Post from "../pages/DB-components/Post";
 import Items from "../pages/DB-components/Items";
 import Requests from "../pages/DB-components/Requests";
 import { AuthProvider, useAuth } from "../pages/AuthHook";
-import { RouterProvider, HashRouter } from "react-router-dom";
+import { RouterProvider, HashRouter, createHashRouter } from "react-router-dom";
 import { Redirect } from "wouter";
 
 const PrivateRoutes = () => {
