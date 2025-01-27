@@ -88,12 +88,12 @@ const router = createHashRouter(
       path="/"
       element={<LoginPage />}
       errorElement={<ErrorPage />}>
-      <Route element={<PrivateRoutes/>}>
+      {/* <Route element={<PrivateRoutes/>}> */}
         <Route 
           path="/Home" 
           element={<HomePage/>} 
           errorElement={<ErrorPage />} />
-      </Route>
+      {/* </Route> */}
     </Route>
 
   ),
