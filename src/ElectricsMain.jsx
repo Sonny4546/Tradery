@@ -82,7 +82,7 @@ const PrivateRoutes = () => {
 //   </Router>
 // ]);
 
-const router = createBrowserRouter(
+const router = createHashRouter(
   createRoutesFromElements(
     <Route
       path="/"
