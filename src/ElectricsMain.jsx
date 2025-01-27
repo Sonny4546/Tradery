@@ -86,7 +86,7 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route
       path="/"
-      element={<Root />}
+      element={<LoginPage />}
       errorElement={<ErrorPage />}
     >
     </Route>
