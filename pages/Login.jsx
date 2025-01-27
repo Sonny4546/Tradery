@@ -1,7 +1,9 @@
 import '../src/main.css'
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Client, Account, OAuthProvider } from 'appwrite'
 import Button from 'react-bootstrap/Button';
+import { useAuth } from './AuthHook';
+import { Redirect } from 'wouter';
 
 const client = new Client()
 client
@@ -32,6 +34,11 @@ export const getUser = async () => {
 }
 
 export default function LoginPage() {
+  const { session } = useAuth();
+
+  if (session) {
+    return <Redirect to="#/Home" />
+  }
   return (
     <>
     <div class="logincontainer">

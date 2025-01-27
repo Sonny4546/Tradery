@@ -14,39 +14,44 @@ import Messages from "../pages/DB-components/Messages";
 import Post from "../pages/DB-components/Post";
 import Items from "../pages/DB-components/Items";
 import Requests from "../pages/DB-components/Requests";
-import { AuthProvider } from "../pages/AuthHook";
+import { AuthProvider, useAuth } from "../pages/AuthHook";
+import { RouterProvider } from "react-router-dom";
+import { Redirect } from "wouter";
 
-import {
-  createHashRouter,
-  RouterProvider,
-} from "react-router-dom";
+const PrivateRoutes = () => {
+  const session = useAuth();
+  if (!session) {
+    return (
+      <Redirect to="/" />
+    )
+  }
+}
 
-const router = createHashRouter([
-  {
-    path: "/", element: <LoginPage />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/Home", element: <HomePage />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/Dashboard", element: <DBPage />,
-    errorElement: <ErrorPage />,
-    children:[
-      {path: "/Dashboard/Profile", element: <Profile />},
-      {path: "/Dashboard/Messages", element: <Messages />},
-      {path: "/Dashboard/Post", element: <Post />},
-      {path: "/Dashboard/Items", element: <Items />},
-      {path: "/Dashboard/Requests", element: <Requests />},
-    ]
-  },
-]);
+const App = () => {
+  return (
+      <HashRouter>
+          <Routes>
+              <Route element={<PrivateRoutes/>}>
+                <Route path="/Home" element={<HomePage/>} />
+                <Route path="/Dashboard" element={<DBPage/>}>
+                  <Route path="/Dashboard/Profile" element={<Profile/>} />
+                  <Route path="/Dashboard/Messages" element={<Messages/>} />
+                  <Route path="/Dashboard/Post" element={<Post/>} />
+                  <Route path="/Dashboard/Items" element={<Items/>} />
+                  <Route path="/Dashboard/Requests" element={<Requests/>} />
+                </Route>
+              </Route>
+              <Route path="/" element={<LoginPage />} />
+              <Route path="*" element={<ErrorPage />} />
+          </Routes>
+      </HashRouter>
+  );
+};
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <RouterProvider router={App} />
     </AuthProvider>
   </React.StrictMode>,
 )
