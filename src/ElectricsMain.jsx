@@ -15,7 +15,7 @@ import Post from "../pages/DB-components/Post";
 import Items from "../pages/DB-components/Items";
 import Requests from "../pages/DB-components/Requests";
 import { AuthProvider, useAuth } from "../pages/AuthHook";
-import { RouterProvider, HashRouter, createHashRouter, Route } from "react-router-dom";
+import { RouterProvider, HashRouter, createHashRouter, Route, Router } from "react-router-dom";
 import { Redirect } from "wouter";
 
 const PrivateRoutes = () => {
@@ -67,7 +67,9 @@ const PrivateRoutes = () => {
 // },
 
 const router = createHashRouter([
-  <Route>
+  <Router>
+    <Route path="/" element={<LoginPage />} />
+    <Route path="*" element={<ErrorPage />} />
       {/* <Route element={<PrivateRoutes/>}> */}
         <Route path="/Home" element={<HomePage/>} />
         <Route path="/Dashboard" element={<DBPage/>} />
@@ -77,9 +79,7 @@ const router = createHashRouter([
         <Route path="/Dashboard/Items" element={<Items/>} />
         <Route path="/Dashboard/Requests" element={<Requests/>} />
       {/* </Route> */}
-      <Route path="/" element={<LoginPage />} />
-      <Route path="*" element={<ErrorPage />} />
-  </Route>
+  </Router>
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
