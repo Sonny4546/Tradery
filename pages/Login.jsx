@@ -18,7 +18,7 @@ export const loginWithGoogle = async () => {
   try {
     await account.createOAuth2Session(
       OAuthProvider.Google,
-      'https://sonny4546.github.io/Tradery/#/Home',
+      'https://sonny4546.github.io/Tradery/Home',
       'https://sonny4546.github.io/Tradery')
   } catch (error) {
     console.error(error)

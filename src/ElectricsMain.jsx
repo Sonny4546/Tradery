@@ -87,9 +87,15 @@ const router = createBrowserRouter(
     <Route
       path="/"
       element={<LoginPage />}
-      errorElement={<ErrorPage />}
-    >
+      errorElement={<ErrorPage />}>
+      <Route element={<PrivateRoutes/>}>
+        <Route 
+          path="/Home" 
+          element={<HomePage/>} 
+          errorElement={<ErrorPage />} />
+      </Route>
     </Route>
+
   ),
   { basename: "/Tradery" }
 );
