@@ -97,7 +97,6 @@ const router = createHashRouter(
     </Route>
 
   ),
-  { basename: "/Tradery" }
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
