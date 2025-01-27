@@ -68,7 +68,7 @@ const PrivateRoutes = () => {
 
 const router = createHashRouter([
   <Route>
-      <Route element={<PrivateRoutes/>}>
+      {/* <Route element={<PrivateRoutes/>}> */}
         <Route path="/Home" element={<HomePage/>} />
         <Route path="/Dashboard" element={<DBPage/>} />
         <Route path="/Dashboard/Profile" element={<Profile/>} />
@@ -76,7 +76,7 @@ const router = createHashRouter([
         <Route path="/Dashboard/Post" element={<Post/>} />
         <Route path="/Dashboard/Items" element={<Items/>} />
         <Route path="/Dashboard/Requests" element={<Requests/>} />
-      </Route>
+      {/* </Route> */}
       <Route path="/" element={<LoginPage />} />
       <Route path="*" element={<ErrorPage />} />
   </Route>
@@ -84,6 +84,8 @@ const router = createHashRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
+    <AuthProvider>
       <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>,
 )
