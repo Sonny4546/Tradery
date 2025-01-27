@@ -85,13 +85,13 @@ const PrivateRoutes = () => {
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route
-      path="/Tradery"
+      path="/Tradery/"
       element={<LoginPage />}
       errorElement={<ErrorPage />}
     >
     </Route>
   ),
-  { basename: "/presentation" }
+  { basename: "/Tradery" }
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
