@@ -66,21 +66,33 @@ const PrivateRoutes = () => {
 //   ]
 // },
 
-const router = createHashRouter([
-  <Router>
-    <Route path="/" element={<LoginPage />} />
-    <Route path="*" element={<ErrorPage />} />
-      {/* <Route element={<PrivateRoutes/>}> */}
-        <Route path="/Home" element={<HomePage/>} />
-        <Route path="/Dashboard" element={<DBPage/>} />
-        <Route path="/Dashboard/Profile" element={<Profile/>} />
-        <Route path="/Dashboard/Messages" element={<Messages/>} />
-        <Route path="/Dashboard/Post" element={<Post/>} />
-        <Route path="/Dashboard/Items" element={<Items/>} />
-        <Route path="/Dashboard/Requests" element={<Requests/>} />
-      {/* </Route> */}
-  </Router>
-]);
+// const router = createHashRouter([
+//   <Router>
+//     <Route path="/" element={<LoginPage />} />
+//     <Route path="*" element={<ErrorPage />} />
+//       {/* <Route element={<PrivateRoutes/>}> */}
+//         <Route path="/Home" element={<HomePage/>} />
+//         <Route path="/Dashboard" element={<DBPage/>} />
+//         <Route path="/Dashboard/Profile" element={<Profile/>} />
+//         <Route path="/Dashboard/Messages" element={<Messages/>} />
+//         <Route path="/Dashboard/Post" element={<Post/>} />
+//         <Route path="/Dashboard/Items" element={<Items/>} />
+//         <Route path="/Dashboard/Requests" element={<Requests/>} />
+//       {/* </Route> */}
+//   </Router>
+// ]);
+
+const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route
+      path="/Tradery"
+      element={<LoginPage />}
+      errorElement={<ErrorPage />}
+    >
+    </Route>
+  ),
+  { basename: "/presentation" }
+);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
