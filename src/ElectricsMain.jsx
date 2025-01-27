@@ -85,7 +85,7 @@ const PrivateRoutes = () => {
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route
-      path="/Tradery/"
+      path="/Tradery"
       element={<LoginPage />}
       errorElement={<ErrorPage />}
     >
