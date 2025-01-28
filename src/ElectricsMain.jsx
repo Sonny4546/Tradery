@@ -30,11 +30,11 @@ const router = createHashRouter([
     path: "/Dashboard", element: <DBPage />,
     errorElement: <ErrorPage />,
     children:[
-      {path: "/Dashboard/Profile", element: <Profile />},
-      {path: "/Dashboard/Messages", element: <Messages />},
       {path: "/Dashboard/Post", element: <Post />},
+      {path: "/Dashboard/Profile", element: <Profile />},
       {path: "/Dashboard/Items", element: <Items />},
       {path: "/Dashboard/Requests", element: <Requests />},
+      {path: "/Dashboard/Messages", element: <Messages />},
     ]
   },
 ]);
