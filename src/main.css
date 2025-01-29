@@ -159,6 +159,8 @@ body {
   margin-left: auto;
   margin-right: auto;
   width: 50%;
+  top: 10px;
+  position: relative;
 }
 
 .menu-container {
@@ -242,7 +244,7 @@ body {
   	width: 100%;
     position: absolute;
     overflow: hidden;
-    background: rgba(218, 62, 62, 0.38);
+    background: var(--bs-primary);
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 	backdrop-filter: blur(2.6px);
 	-webkit-backdrop-filter: blur(2.6px);
@@ -285,12 +287,13 @@ body {
     margin: 0;
     padding: 0;
     overflow: auto;
-    position: relative;
-    background: rgba(218, 62, 62, 0.38);
-	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-	backdrop-filter: blur(2.6px);
-	-webkit-backdrop-filter: blur(2.6px);
-	border: none;
+    position: sticky;
+    background: var(--bs-primary);
+	  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+	  backdrop-filter: blur(2.6px);
+	  -webkit-backdrop-filter: blur(2.6px);
+	  border: none;
+    top: 0;
     z-index: 1;
     margin-bottom: 0rem;
     li {
@@ -306,7 +309,7 @@ body {
         transition: background-color 0.3s ease;
     }
     li a:hover {
-        background-color: grey;
+        background-color: #aa0000;
     }
 }
 

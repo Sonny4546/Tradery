@@ -1,10 +1,11 @@
 import React from 'react'
-import { getCurrentSession } from '../appwrite'
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import { useAuth } from '../AuthHook';
 
 const Items = () => { 
     useEffect(() => {
-        getCurrentSession();
+        const { NoSessionCheck } = useAuth();
+        NoSessionCheck();
     });
     return(
         <>

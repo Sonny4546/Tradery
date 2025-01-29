@@ -1,10 +1,12 @@
 import React, { createContext, ReactNode, useContext, useState, useEffect } from "react";
 import { getCurrentSession, DeleteSession } from "./appwrite";
 import { Models } from "appwrite";
+import { Redirect } from "wouter";
 
 interface TraderyAuthContext {
     session?: Models.Session;
     logOut: Function;
+    NoSessionCheck: Function;
 }
 
 export const AuthContext = createContext<TraderyAuthContext | undefined>(undefined)
@@ -37,9 +39,17 @@ export function useAuthState() {
         setSession(undefined);
     }
 
+    async function NoSessionCheck(){
+      if (!session) {
+          return (
+          <Redirect to="/" />
+          )
+      }
+    }
     return{
         session,
-        logOut
+        logOut,
+        NoSessionCheck
     }
 }
 

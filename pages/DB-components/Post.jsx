@@ -1,12 +1,13 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form';
-import { useState, useEffect } from "react";
-import { getCurrentSession } from '../appwrite'
+import { useEffect } from "react";
 import Button from 'react-bootstrap/Button';
+import { useAuth } from '../AuthHook';
 
 const Post = () => { 
     useEffect(() => {
-        getCurrentSession();
+        const { NoSessionCheck } = useAuth();
+        NoSessionCheck();
     });
     return(
         <>

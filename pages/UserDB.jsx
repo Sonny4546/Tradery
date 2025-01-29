@@ -1,16 +1,17 @@
 import '../src/main.css'
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
-import { getCurrentSession } from './appwrite'
+import { useAuth } from './AuthHook'
 
 export default function UserDB() {
     useEffect(() => {
-        getCurrentSession();
+        const { NoSessionCheck } = useAuth();
+        NoSessionCheck();
     });
     return (
         <>
-        <div class="uWholeBox" bg="primary"> 
+        <div class="uWholeBox"> 
             <a class="HomeButton" href="#/Home">
             <svg height="0.8em" width="0.8em" viewBox="0 0 2 1" preserveAspectRatio="none">
             <polyline
@@ -24,7 +25,7 @@ export default function UserDB() {
             <div class="uLooks"> Dashboard </div>
         </div>
         <div class ="NaviBar">
-            <ul bg="primary">
+            <ul>
                 <li><NavLink to="/Dashboard/Post">Post</NavLink></li>
                 <li><NavLink to="/Dashboard/Items">Your Items</NavLink></li>
                 <li><NavLink to="/Dashboard/Requests">Requests</NavLink></li>

@@ -17,7 +17,7 @@ import Requests from "../pages/DB-components/Requests";
 import { AuthProvider, useAuth } from "../pages/AuthHook";
 import { RouterProvider, HashRouter, createHashRouter, Route, Router, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 
-const router = createHashRouter([
+const main = createHashRouter([
   {
     path: "/", element: <LoginPage />,
     errorElement: <ErrorPage />,
@@ -42,7 +42,7 @@ const router = createHashRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={router} />
+      <RouterProvider router={main} />
     </AuthProvider>
   </React.StrictMode>,
 )

@@ -1,5 +1,5 @@
 import '../src/main.css'
-import React from 'react'
+import React, { useEffect } from 'react'
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
 import { useAuth } from './AuthHook';
@@ -13,7 +13,10 @@ const HomePage = () => {
   async function logoutHandle() {
     await logOut();
   }
-
+  useEffect(() => {
+    const { NoSessionCheck } = useAuth();
+    NoSessionCheck();
+  });
   return (
     <>
     <div className="body">
@@ -52,6 +55,15 @@ const HomePage = () => {
                     <input name="keyword" placeholder="Search for Items..."></input>
                     <button>Search</button>
                 </form>
+              </div>
+              <div className="items container">
+                <div className="itemcontent">
+                  <div className="img-container">
+                    <img src="./images/900px.png"></img>
+                  </div>
+                  <div className="itemName">Name</div>
+                  <div className="itemAuthor">By: John Doe</div>
+                </div>
               </div>
           </div>
         </div>
