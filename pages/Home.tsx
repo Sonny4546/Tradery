@@ -56,7 +56,7 @@ const HomePage = () => {
                     <button>Search</button>
                 </form>
               </div>
-              <div className="items container">
+              {/* <div className="items container">
                 <div className="itemcontent">
                   <div className="img-container">
                     <img src="./images/900px.png"></img>
@@ -64,7 +64,7 @@ const HomePage = () => {
                   <div className="itemName">Name</div>
                   <div className="itemAuthor">By: John Doe</div>
                 </div>
-              </div>
+              </div> */}
           </div>
         </div>
     </>

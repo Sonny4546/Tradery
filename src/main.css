@@ -244,7 +244,7 @@ body {
   	width: 100%;
     position: absolute;
     overflow: hidden;
-    background: var(--bs-primary);
+    background: #dd0000;
 	box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 	backdrop-filter: blur(2.6px);
 	-webkit-backdrop-filter: blur(2.6px);
@@ -288,7 +288,7 @@ body {
     padding: 0;
     overflow: auto;
     position: sticky;
-    background: var(--bs-primary);
+    background: #dd0000;
 	  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 	  backdrop-filter: blur(2.6px);
 	  -webkit-backdrop-filter: blur(2.6px);
