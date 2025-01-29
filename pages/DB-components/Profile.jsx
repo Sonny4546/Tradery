@@ -5,8 +5,8 @@ import Form from 'react-bootstrap/Form';
 import { useAuth } from '../AuthHook';
 
 const Profile = () => { 
+    const { NoSessionCheck } = useAuth();
     useEffect(() => {
-        const { NoSessionCheck } = useAuth();
         NoSessionCheck();
     });
     return(

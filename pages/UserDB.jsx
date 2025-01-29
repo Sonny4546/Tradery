@@ -5,8 +5,8 @@ import { Outlet } from 'react-router-dom'
 import { useAuth } from './AuthHook'
 
 export default function UserDB() {
+    const { NoSessionCheck } = useAuth();
     useEffect(() => {
-        const { NoSessionCheck } = useAuth();
         NoSessionCheck();
     });
     return (

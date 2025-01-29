@@ -3,8 +3,8 @@ import { useEffect } from "react";
 import { useAuth } from '../AuthHook';
 
 const Items = () => { 
+    const { NoSessionCheck } = useAuth();
     useEffect(() => {
-        const { NoSessionCheck } = useAuth();
         NoSessionCheck();
     });
     return(

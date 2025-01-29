@@ -9,12 +9,12 @@ import Row from 'react-bootstrap/Row';
 
 const HomePage = () => {
   const { logOut } = useAuth();
-
+  const { NoSessionCheck } = useAuth();
+  
   async function logoutHandle() {
     await logOut();
   }
   useEffect(() => {
-    const { NoSessionCheck } = useAuth();
     NoSessionCheck();
   });
   return (

@@ -4,9 +4,9 @@ import { useEffect } from "react";
 import Button from 'react-bootstrap/Button';
 import { useAuth } from '../AuthHook';
 
-const Post = () => { 
+const Post = () => {
+    const { NoSessionCheck } = useAuth();
     useEffect(() => {
-        const { NoSessionCheck } = useAuth();
         NoSessionCheck();
     });
     return(
