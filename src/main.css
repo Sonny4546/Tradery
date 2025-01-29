@@ -274,7 +274,7 @@ body {
 }
 
 .NaviBar {
-    height: 5%;
+    height: 100px;;
     width: 100%;
     position: absolute;
     top: 10%;
