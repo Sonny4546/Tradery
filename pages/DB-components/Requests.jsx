@@ -6,7 +6,7 @@ const Requests = () => {
     const { NoSessionCheck } = useAuth();
     useEffect(() => {
         NoSessionCheck();
-    });
+    }, []);
     return(
         <>
         <h1>REQUESTS</h1>

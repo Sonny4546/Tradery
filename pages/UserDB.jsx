@@ -8,7 +8,7 @@ export default function UserDB() {
     const { NoSessionCheck } = useAuth();
     useEffect(() => {
         NoSessionCheck();
-    });
+    }, []);
     return (
         <>
         <div class="uWholeBox"> 

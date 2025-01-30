@@ -6,7 +6,7 @@ const Messages = () => {
     const { NoSessionCheck } = useAuth();
     useEffect(() => {
         NoSessionCheck();
-    });
+    }, []);
     return(
         <>
         <div class="messages-container">

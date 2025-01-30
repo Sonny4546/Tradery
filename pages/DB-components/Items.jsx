@@ -6,7 +6,7 @@ const Items = () => {
     const { NoSessionCheck } = useAuth();
     useEffect(() => {
         NoSessionCheck();
-    });
+    }, []);
     return(
         <>
         <h1>ITEMS</h1>

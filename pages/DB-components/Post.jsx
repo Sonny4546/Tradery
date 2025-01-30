@@ -8,7 +8,7 @@ const Post = () => {
     const { NoSessionCheck } = useAuth();
     useEffect(() => {
         NoSessionCheck();
-    });
+    }, []);
     return(
         <>
         <div class="Main">

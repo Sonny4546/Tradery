@@ -27,7 +27,7 @@ const HomePage = () => {
   }, []);
   return (
     <>
-    <div className="body">
+    <div className="body home" >
       <Navbar expand="lg" bg="primary" className="justify-content-between">
         <Container>
           <Navbar.Brand href="#/Home">
@@ -70,9 +70,9 @@ const HomePage = () => {
                   <img src="./images/900px.png"></img>
                 </div>
                 <div className="itemData">
-                  <div className="itemName">Name</div>
-                  <div className="itemDate">Date</div>
-                  <div className="itemAuthor">By: John Doe</div>
+                  <div className="itemName"><p>Name</p></div>
+                  <div className="itemAuthor"><p>By: John Doe</p></div>
+                  <div className="itemDate"><p>Date</p></div>
                 </div>
               </div>
             </div>
