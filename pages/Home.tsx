@@ -6,6 +6,7 @@ import { useAuth } from './AuthHook';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
+import { database } from './appwrite';
 
 const HomePage = () => {
   const { logOut } = useAuth();
@@ -16,7 +17,14 @@ const HomePage = () => {
   }
   useEffect(() => {
     NoSessionCheck();
-  });
+  }, []);
+
+  useEffect(() => {
+    (async function run() {
+      const results = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID);
+      console.log('results', results)
+    })();
+  }, []);
   return (
     <>
     <div className="body">
@@ -50,21 +58,24 @@ const HomePage = () => {
         </Container>
       </Navbar>
           <div className="container" id="pagewrap">
-              <div className="searchinput">
-                <form className="search">
-                    <input name="keyword" placeholder="Search for Items..."></input>
-                    <button>Search</button>
-                </form>
-              </div>
-              {/* <div className="items container">
-                <div className="itemcontent">
-                  <div className="img-container">
-                    <img src="./images/900px.png"></img>
-                  </div>
+            <div className="searchinput">
+              <form className="search">
+                  <input name="keyword" placeholder="Search for Items..."></input>
+                  <button>Search</button>
+              </form>
+            </div>
+            <div className="items container">
+              <div className="itemcontent">
+                <div className="img-container">
+                  <img src="./images/900px.png"></img>
+                </div>
+                <div className="itemData">
                   <div className="itemName">Name</div>
+                  <div className="itemDate">Date</div>
                   <div className="itemAuthor">By: John Doe</div>
                 </div>
-              </div> */}
+              </div>
+            </div>
           </div>
         </div>
     </>
