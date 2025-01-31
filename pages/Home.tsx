@@ -5,7 +5,7 @@ import { Col, Row, Nav, Navbar, NavDropdown, Container } from 'react-bootstrap';
 import ItemCard from './comp/ItemCards';
 import { TraderyItems } from './lib/ItemsInterface';
 import { getItems } from './lib/Items';
-import ItemCard from './comp/ItemCards';
+import ItemCard from './comp/ItemCard';
 import { Link } from 'wouter';
 
 const HomePage = () => {
@@ -65,31 +65,32 @@ const HomePage = () => {
             </form>
           </div>
           {Array.isArray(items) && items.length > 0 && (
-            <div className="items container">
-              <Row>
-              {items.map((items) => {
-                return (
-                <Col xs={12} md={3}>
-                      <Link key={items.name} href="#">
-                        <a>
-                          <ItemCard
-                            date={items.date}
-                            image={{
-                              alt: '',
-                              height: items.imageHeight,
-                              url: items.imageUrl,
-                              width: items.imageWidth
-                            }}
-                            name={items.name}
-                            author={items.author}
-                          />
-                        </a>
-                      </Link>
-                </Col>
-                )
-                })}
-              </Row>
-            </div>
+            // <div className="items container">
+            //   <Row>
+            //   {items.map((items) => {
+            //     return (
+            //     <Col xs={12} md={3}>
+            //           <Link key={items.name} href="#">
+            //             <a>
+            //               <ItemCard
+            //                 date={items.date}
+            //                 image={{
+            //                   alt: '',
+            //                   height: items.imageHeight,
+            //                   url: items.imageUrl,
+            //                   width: items.imageWidth
+            //                 }}
+            //                 name={items.name}
+            //                 author={items.author}
+            //               />
+            //             </a>
+            //           </Link>
+            //     </Col>
+            //     )
+            //     })}
+            //   </Row>
+            // </div>
+            <h1>ITEMS ACCESSED</h1>
           )}
           {Array.isArray(items) && items.length === 0 && (
             <Container>

@@ -1,7 +1,7 @@
 import React, { createContext, ReactNode, useContext, useState, useEffect } from "react";
 import { getCurrentSession, DeleteSession } from "./appwrite";
 import { Models } from "appwrite";
-import { Redirect } from "wouter";
+import { useNavigate } from 'react-router'
 
 interface TraderyAuthContext {
     session?: Models.Session;
@@ -40,8 +40,9 @@ export function useAuthState() {
     }
 
     async function NoSessionCheck(){
-      if (!session) {
-        return <Redirect to="#" />
+      if (session == false) {
+        const navigate = useNavigate()
+        return navigate('/')
       }
     }
     return{
