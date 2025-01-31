@@ -65,43 +65,43 @@ const HomePage = () => {
             </form>
           </div>
           <div className="items container">
-          {Array.isArray(items) && items.length > 0 && (
-            // 
-            //   <Row>
-            //   {items.map((items) => {
-            //     return (
-            //     <Col xs={12} md={3}>
-            //           <Link key={items.name} href="#">
-            //             <a>
-            //               <ItemCard
-            //                 date={items.date}
-            //                 image={{
-            //                   alt: '',
-            //                   height: items.imageHeight,
-            //                   url: items.imageUrl,
-            //                   width: items.imageWidth
-            //                 }}
-            //                 name={items.name}
-            //                 author={items.author}
-            //               />
-            //             </a>
-            //           </Link>
-            //     </Col>
-            //     )
-            //     })}
-            //   </Row>
-            // 
-            <h1>ITEMS ACCESSED</h1>
-            </div>
-          )}
-          {Array.isArray(items) && items.length === 0 && (
-            <Container>
-              <Alert key='warning' variant='warning'>
-                No Items are currently posted, 
-                <Alert.Link href="#">You can start by posting here</Alert.Link>.
-              </Alert>
-            </Container>
-          )}
+            {Array.isArray(items) && items.length > 0 && (
+              // 
+              //   <Row>
+              //   {items.map((items) => {
+              //     return (
+              //     <Col xs={12} md={3}>
+              //           <Link key={items.name} href="#">
+              //             <a>
+              //               <ItemCard
+              //                 date={items.date}
+              //                 image={{
+              //                   alt: '',
+              //                   height: items.imageHeight,
+              //                   url: items.imageUrl,
+              //                   width: items.imageWidth
+              //                 }}
+              //                 name={items.name}
+              //                 author={items.author}
+              //               />
+              //             </a>
+              //           </Link>
+              //     </Col>
+              //     )
+              //     })}
+              //   </Row>
+              // 
+              <h1>ITEMS ACCESSED</h1>
+            )}
+            {Array.isArray(items) && items.length === 0 && (
+              <Container>
+                <Alert key='warning' variant='warning'>
+                  No Items are currently posted, 
+                  <Alert.Link href="#">You can start by posting here</Alert.Link>.
+                </Alert>
+              </Container>
+            )}
+          </div>
         </div>
       </div>
     </>
