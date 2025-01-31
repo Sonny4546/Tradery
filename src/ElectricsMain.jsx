@@ -9,11 +9,11 @@ import LoginPage from "../pages/Login";
 import HomePage from "../pages/Home";
 import ErrorPage from "../pages/Error";
 import DBPage from "../pages/UserDB";
-import Profile from "../pages/DB-components/Profile";
-import Messages from "../pages/DB-components/Messages";
-import Post from "../pages/DB-components/Post";
-import Items from "../pages/DB-components/Items";
-import Requests from "../pages/DB-components/Requests";
+import Profile from "../pages/comp/Profile";
+import Messages from "../pages/comp/Messages";
+import Post from "../pages/comp/Post";
+import Items from "../pages/comp/Items";
+import Requests from "../pages/comp/Requests";
 import { AuthProvider, useAuth } from "../pages/AuthHook";
 import { RouterProvider, HashRouter, createHashRouter, Route, Router, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 

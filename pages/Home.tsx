@@ -1,29 +1,31 @@
 import '../src/main.css'
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
-import { useAuth } from './AuthHook';
+import { useAuth } from './lib/AuthHook';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Row from 'react-bootstrap/Row';
-import { database } from './appwrite';
+import Card from 'react-bootstrap/Card';
+import { TraderyItems } from './lib/ItemsInterface';
+import { getItems } from './lib/Items';
 
 const HomePage = () => {
+  const [items, setItems] = useState<Array<TraderyItems> | undefined>();
   const { logOut } = useAuth();
   const { NoSessionCheck } = useAuth();
+  useEffect(() => {
+    (async function run() {
+      const { items } = await getItems();
+      setItems(items)
+    })();
+  }, []);
   
   async function logoutHandle() {
     await logOut();
   }
   useEffect(() => {
     NoSessionCheck();
-  }, []);
-
-  useEffect(() => {
-    (async function run() {
-      const results = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID);
-      console.log('results', results)
-    })();
   }, []);
   return (
     <>
@@ -65,7 +67,7 @@ const HomePage = () => {
               </form>
             </div>
             <div className="items container">
-              <div className="itemcontent">
+              {/* <div className="itemcontent">
                 <div className="img-container">
                   <img src="./images/900px.png"></img>
                 </div>
@@ -74,7 +76,18 @@ const HomePage = () => {
                   <div className="itemAuthor"><p>By: John Doe</p></div>
                   <div className="itemDate"><p>Date</p></div>
                 </div>
-              </div>
+              </div> */}
+              <Card style={{ width: '18rem' }}>
+                <a className="itemLink">
+                <Card.Img variant="top" src="./images/900px.png" />
+                <Card.Body>
+                  <Card.Title>Card Title</Card.Title>
+                  <Card.Text>
+                    Author
+                  </Card.Text>
+                </Card.Body>
+                </a>
+              </Card>
             </div>
           </div>
         </div>
