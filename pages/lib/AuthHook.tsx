@@ -41,9 +41,7 @@ export function useAuthState() {
 
     async function NoSessionCheck(){
       if (!session) {
-          return (
-          console.log("KICK!")
-          )
+        return <Redirect to="#" />
       }
     }
     return{

@@ -57,14 +57,14 @@ const HomePage = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-          <div className="container" id="pagewrap">
-            <div className="searchinput">
-              <form className="search">
-                  <input name="keyword" placeholder="Search for Items..."></input>
-                  <button>Search</button>
-              </form>
-            </div>
-            {Array.isArray(items) && items.length > 0 && (
+        <div className="container" id="pagewrap">
+          <div className="searchinput">
+            <form className="search">
+                <input name="keyword" placeholder="Search for Items..."></input>
+                <button>Search</button>
+            </form>
+          </div>
+          {Array.isArray(items) && items.length > 0 && (
             <div className="items container">
               <Row>
               {items.map((items) => {
@@ -74,12 +74,12 @@ const HomePage = () => {
                         <a>
                           <ItemCard
                             date={items.date}
-                            // image={{
-                            //   alt: '',
-                            //   height: event.imageHeight,
-                            //   url: event.imageUrl,
-                            //   width: event.imageWidth
-                            // }}
+                            image={{
+                              alt: '',
+                              height: items.imageHeight,
+                              url: items.imageUrl,
+                              width: items.imageWidth
+                            }}
                             name={items.name}
                             author={items.author}
                           />
@@ -90,17 +90,17 @@ const HomePage = () => {
                 })}
               </Row>
             </div>
-            )}
-            {Array.isArray(items) && items.length === 0 && (
-              <Container>
-                <Alert key='warning' variant='warning'>
-                  No Items are currently posted, 
-                  <Alert.Link href="#">You can start by posting here</Alert.Link>.
-                </Alert>
-              </Container>
-            )}
-          </div>
+          )}
+          {Array.isArray(items) && items.length === 0 && (
+            <Container>
+              <Alert key='warning' variant='warning'>
+                No Items are currently posted, 
+                <Alert.Link href="#">You can start by posting here</Alert.Link>.
+              </Alert>
+            </Container>
+          )}
         </div>
+      </div>
     </>
   );
 }

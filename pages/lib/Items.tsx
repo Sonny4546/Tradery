@@ -12,7 +12,7 @@ export async function getItems() {
                 author: document.author,
                 date: document.date
             }
-            return (items)
+            return items;
         })
     }
 }

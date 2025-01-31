@@ -28,9 +28,9 @@ export const getUser = async () => {
 export default function LoginPage() {
   const { session } = useAuth();
 
-  // if (session) {
-  //   return <Redirect to="#/Home" />
-  // }
+  if (session) {
+    return <Redirect to="#/Home" />
+  }
   return (
     <>
     <div class="logincontainer">
