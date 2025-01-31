@@ -64,6 +64,7 @@ const HomePage = () => {
                   <button>Search</button>
               </form>
             </div>
+            {Array.isArray(items) && items.length > 0 && (
             <div className="items container">
               <Row>
               {items.map((items) => {
@@ -89,6 +90,15 @@ const HomePage = () => {
                 })}
               </Row>
             </div>
+            )}
+            {Array.isArray(items) && items.length === 0 && (
+              <Container>
+                <Alert key='warning' variant='warning'>
+                  No Items are currently posted, 
+                  <Alert.Link href="#">You can start by posting here</Alert.Link>.
+                </Alert>
+              </Container>
+            )}
           </div>
         </div>
     </>
