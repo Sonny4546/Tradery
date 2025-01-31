@@ -1,14 +1,12 @@
 import '../src/main.css'
 import React, { useEffect, useState } from 'react'
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Container from 'react-bootstrap/Container';
 import { useAuth } from './lib/AuthHook';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import Row from 'react-bootstrap/Row';
-import Card from 'react-bootstrap/Card';
+import { Col, Row, Nav, Navbar, NavDropdown, Container } from 'react-bootstrap';
+import ItemCard from './comp/ItemCards';
 import { TraderyItems } from './lib/ItemsInterface';
 import { getItems } from './lib/Items';
+import ItemCard from './comp/ItemCards';
+import { Link } from 'wouter';
 
 const HomePage = () => {
   const [items, setItems] = useState<Array<TraderyItems> | undefined>();
@@ -67,27 +65,29 @@ const HomePage = () => {
               </form>
             </div>
             <div className="items container">
-              {/* <div className="itemcontent">
-                <div className="img-container">
-                  <img src="./images/900px.png"></img>
-                </div>
-                <div className="itemData">
-                  <div className="itemName"><p>Name</p></div>
-                  <div className="itemAuthor"><p>By: John Doe</p></div>
-                  <div className="itemDate"><p>Date</p></div>
-                </div>
-              </div> */}
-              <Card style={{ width: '18rem' }}>
-                <a className="itemLink">
-                <Card.Img variant="top" src="./images/900px.png" />
-                <Card.Body>
-                  <Card.Title>Card Title</Card.Title>
-                  <Card.Text>
-                    Author
-                  </Card.Text>
-                </Card.Body>
-                </a>
-              </Card>
+              <Row>
+              {items.map((items) => {
+                return (
+                <Col xs={12} md={3}>
+                      <Link key={items.name} href="#">
+                        <a>
+                          <ItemCard
+                            date={items.date}
+                            // image={{
+                            //   alt: '',
+                            //   height: event.imageHeight,
+                            //   url: event.imageUrl,
+                            //   width: event.imageWidth
+                            // }}
+                            name={items.name}
+                            author={items.author}
+                          />
+                        </a>
+                      </Link>
+                </Col>
+                )
+                })}
+              </Row>
             </div>
           </div>
         </div>
