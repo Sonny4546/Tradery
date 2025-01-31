@@ -40,9 +40,9 @@ export function useAuthState() {
     }
 
     async function NoSessionCheck(){
-      if (session == false) {
+      if (session == undefined) {
         const navigate = useNavigate()
-        return navigate('/')
+        return navigate('https://sonny4546.github.io/Tradery/')
       }
     }
     return{

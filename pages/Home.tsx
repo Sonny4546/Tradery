@@ -64,8 +64,9 @@ const HomePage = () => {
                 <button>Search</button>
             </form>
           </div>
+          <div className="items container">
           {Array.isArray(items) && items.length > 0 && (
-            // <div className="items container">
+            // 
             //   <Row>
             //   {items.map((items) => {
             //     return (
@@ -89,8 +90,9 @@ const HomePage = () => {
             //     )
             //     })}
             //   </Row>
-            // </div>
+            // 
             <h1>ITEMS ACCESSED</h1>
+            </div>
           )}
           {Array.isArray(items) && items.length === 0 && (
             <Container>
