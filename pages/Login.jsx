@@ -1,6 +1,6 @@
 import '../src/main.css'
 import React from 'react'
-import { client, OAuthProvider } from './lib/appwrite'
+import { account, client, OAuthProvider } from './lib/appwrite'
 import Button from 'react-bootstrap/Button';
 import { useAuth } from './lib/AuthHook';
 import { Redirect } from 'wouter';
