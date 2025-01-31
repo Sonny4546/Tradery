@@ -14,7 +14,7 @@ import Messages from "../pages/comp/Messages";
 import Post from "../pages/comp/Post";
 import Items from "../pages/comp/Items";
 import Requests from "../pages/comp/Requests";
-import { AuthProvider, useAuth } from "../pages/AuthHook";
+import { AuthProvider, useAuth } from "../pages/lib/AuthHook";
 import { RouterProvider, HashRouter, createHashRouter, Route, Router, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 
 const main = createHashRouter([

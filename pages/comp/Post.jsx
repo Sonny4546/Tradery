@@ -2,7 +2,7 @@ import React from 'react'
 import Form from 'react-bootstrap/Form';
 import { useEffect } from "react";
 import Button from 'react-bootstrap/Button';
-import { useAuth } from '../AuthHook';
+import { useAuth } from '../lib/AuthHook';
 
 const Post = () => {
     const { NoSessionCheck } = useAuth();

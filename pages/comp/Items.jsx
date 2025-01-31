@@ -1,6 +1,6 @@
 import React from 'react'
 import { useEffect } from "react";
-import { useAuth } from '../AuthHook';
+import { useAuth } from '../lib/AuthHook';
 
 const Items = () => { 
     const { NoSessionCheck } = useAuth();

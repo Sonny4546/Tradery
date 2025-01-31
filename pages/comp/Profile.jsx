@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { useAuth } from '../AuthHook';
+import { useAuth } from '../lib/AuthHook';
 
 const Profile = () => { 
     const { NoSessionCheck } = useAuth();

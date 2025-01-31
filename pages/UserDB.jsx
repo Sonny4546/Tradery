@@ -2,7 +2,7 @@ import '../src/main.css'
 import React, { useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import { Outlet } from 'react-router-dom'
-import { useAuth } from './AuthHook'
+import { useAuth } from './lib/AuthHook'
 
 export default function UserDB() {
     const { NoSessionCheck } = useAuth();

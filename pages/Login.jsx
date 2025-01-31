@@ -1,17 +1,9 @@
 import '../src/main.css'
 import React from 'react'
-import { Client, Account, OAuthProvider } from 'appwrite'
+import { client, OAuthProvider } from './lib/appwrite'
 import Button from 'react-bootstrap/Button';
-import { useAuth } from './AuthHook';
+import { useAuth } from './lib/AuthHook';
 import { Redirect } from 'wouter';
-
-const client = new Client()
-client
-  .setEndpoint('https://cloud.appwrite.io/v1')
-  .setProject('678ba12f001dce105c6a')
-export { OAuthProvider }
-
-const account = new Account(client);
 
 // functions
 export const loginWithGoogle = async () => {
