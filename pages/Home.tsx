@@ -65,9 +65,9 @@ const HomePage = () => {
             </form>
           </div>
           <div className="items container">
+          <Row>
             {Array.isArray(items) && items.length > 0 && (
               <>
-                {/* <Row>
                 {items.map((items) => {
                   return (
                     <Col xs={12} md={3}>
@@ -89,8 +89,6 @@ const HomePage = () => {
                     </Col>
                   )
                 })}
-                </Row> */}
-                <h1>ITEMS ACCESSED</h1>
               </>
             )}
             {Array.isArray(items) && items.length === 0 && (
@@ -101,6 +99,7 @@ const HomePage = () => {
                 </Alert>
               </Container>
             )}
+          </Row>
           </div>
         </div>
       </div>
