@@ -12,7 +12,7 @@ interface ItemCardProps {
     author: string;
 }
 
-const ItemCard = ({ date, image, name, author }: ItemCardProps) => {
+const ItemCard = ({ name, date, author, image }: ItemCardProps) => {
     return (
         <Card className="itemcontent" style={{ width: '100%' }}>
             <a className="itemLink">

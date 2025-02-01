@@ -16,15 +16,13 @@ const HomePage = () => {
     (async function run() {
       const { items } = await getItems();
       setItems(items)
+      console.log(items);
     })();
   }, []);
   
   async function logoutHandle() {
     await logOut();
   }
-  useEffect(() => {
-    NoSessionCheck();
-  }, []);
   return (
     <>
     <div className="body home" >
@@ -72,7 +70,6 @@ const HomePage = () => {
                   return (
                     <Col xs={12} md={3} style={{ paddingBottom: '20px' }}>
                       <ItemCard
-                        date={items.date}
                         image={{
                           alt: '',
                           height: items.imageHeight,
@@ -80,6 +77,7 @@ const HomePage = () => {
                           width: items.imageWidth
                         }}
                         name={items.name}
+                        date={items.date}
                         author={items.author}
                       />
                     </Col>

@@ -12,7 +12,7 @@ import DBPage from "../pages/UserDB";
 import Profile from "../pages/comp/Profile";
 import Messages from "../pages/comp/Messages";
 import Post from "../pages/comp/Post";
-import Items from "../pages/comp/Items";
+import Items from "../pages/comp/Items-Page";
 import Requests from "../pages/comp/Requests";
 import { AuthProvider, useAuth } from "../pages/lib/AuthHook";
 import { RouterProvider, HashRouter, createHashRouter, Route, Router, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
