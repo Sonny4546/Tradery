@@ -70,22 +70,18 @@ const HomePage = () => {
               <>
                 {items.map((items) => {
                   return (
-                    <Col xs={12} md={3}>
-                        <Link key={items.name} href="#">
-                          <a>
-                            <ItemCard
-                              date={items.date}
-                              image={{
-                                alt: '',
-                                height: items.imageHeight,
-                                url: items.imageUrl,
-                                width: items.imageWidth
-                              }}
-                              name={items.name}
-                              author={items.author}
-                            />
-                          </a>
-                        </Link>
+                    <Col xs={12} md={3} style={{ paddingBottom: '20px' }}>
+                      <ItemCard
+                        date={items.date}
+                        image={{
+                          alt: '',
+                          height: items.imageHeight,
+                          url: items.imageUrl,
+                          width: items.imageWidth
+                        }}
+                        name={items.name}
+                        author={items.author}
+                      />
                     </Col>
                   )
                 })}

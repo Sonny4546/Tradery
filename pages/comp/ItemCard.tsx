@@ -14,7 +14,7 @@ interface ItemCardProps {
 
 const ItemCard = ({ date, image, name, author }: ItemCardProps) => {
     return (
-        <Card className="itemcontent" style={{ width: '15rem' }}>
+        <Card className="itemcontent" style={{ width: '100%' }}>
             <a className="itemLink">
                 {image?.url && (
                 <Card.Img variant="top"
