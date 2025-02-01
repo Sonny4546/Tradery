@@ -10,8 +10,8 @@ export async function getItems() {
     }
 }
 
-export async function getItemsById(itemId: string) {
-    const document = await database.getDocument(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, itemId);
+export async function getItemsById(itemsId: string) {
+    const document = await database.getDocument(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, itemsId);
     return {
         items: mapDocumentToItem(document)
     }
