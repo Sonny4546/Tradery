@@ -67,7 +67,7 @@ const HomePage = () => {
           <div className="items container">
             {Array.isArray(items) && items.length > 0 && (
               <>
-                <Row>
+                {/* <Row>
                 {items.map((items) => {
                   return (
                     <Col xs={12} md={3}>
@@ -89,7 +89,7 @@ const HomePage = () => {
                     </Col>
                   )
                 })}
-                </Row>
+                </Row> */}
                 <h1>ITEMS ACCESSED</h1>
               </>
             )}
