@@ -1,35 +1,19 @@
 import '../src/main.css'
 import React from 'react'
-import { account, client, OAuthProvider } from './lib/appwrite'
 import Button from 'react-bootstrap/Button';
 import { useAuth } from './lib/AuthHook';
 import { Redirect } from 'wouter';
 
-// functions
-export const loginWithGoogle = async () => {
-  try {
-    await account.createOAuth2Session(
-      OAuthProvider.Google,
-      'https://sonny4546.github.io/Tradery/#/Home',
-      'https://sonny4546.github.io/Tradery')
-  } catch (error) {
-    console.error(error)
-  }
-}
-
-export const getUser = async () => {
-  try {
-    return await account.get()
-  } catch (error) {
-    console.error(error)
-  }
-}
-
 export default function LoginPage() {
   const { session } = useAuth();
+  const { logIn } = useAuth();
 
-  if (session == true) {
+  if (session) {
     return <Redirect to="#/Home" />
+  }
+
+  async function loginHandle() {
+    await logIn();
   }
   return (
     <>
@@ -39,7 +23,7 @@ export default function LoginPage() {
       </div>
       <p class="LoginWord"> USER LOGIN </p>
       <div class="google-button">
-        <Button class="login" variant="primary" size="lg" onClick={loginWithGoogle}>Login with Google</Button>
+        <Button class="login" variant="primary" size="lg" onClick={loginHandle}>Login with Google</Button>
       </div>
       <div>
         <p class="Use">By using this website, you confirm that you are a member of the University of the East and agree to use only a valid UE email address (@ue.edu.ph) for registration and access.</p>

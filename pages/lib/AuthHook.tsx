@@ -1,11 +1,12 @@
 import React, { createContext, ReactNode, useContext, useState, useEffect } from "react";
-import { getCurrentSession, DeleteSession } from "./appwrite";
+import { getCurrentSession, DeleteSession, OAuthProvider, account } from "./appwrite";
 import { Models } from "appwrite";
 import { useNavigate } from 'react-router'
 
 interface TraderyAuthContext {
     session?: Models.Session;
     logOut: Function;
+    logIn: Function;
     NoSessionCheck: Function;
 }
 
@@ -39,6 +40,17 @@ export function useAuthState() {
         setSession(undefined);
     }
 
+    async function logIn() {
+      try {
+        await account.createOAuth2Session(
+          OAuthProvider.Google,
+          'https://sonny4546.github.io/Tradery/#/Home',
+          'https://sonny4546.github.io/Tradery')
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
     async function NoSessionCheck(){
       if (session == undefined) {
         const navigate = useNavigate()
@@ -48,7 +60,8 @@ export function useAuthState() {
     return{
         session,
         logOut,
-        NoSessionCheck
+        NoSessionCheck,
+        logIn
     }
 }
 

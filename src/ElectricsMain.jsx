@@ -14,6 +14,7 @@ import Messages from "../pages/comp/Messages";
 import Post from "../pages/comp/Post";
 import Items from "../pages/comp/Items-Page";
 import Requests from "../pages/comp/Requests";
+import ItemContent from "../pages/comp/ViewItem"
 import { AuthProvider, useAuth } from "../pages/lib/AuthHook";
 import { RouterProvider, HashRouter, createHashRouter, Route, Router, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 
@@ -24,6 +25,10 @@ const main = createHashRouter([
   },
   {
     path: "/Home", element: <HomePage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/Item/:itemid", element: <ItemContent/>,
     errorElement: <ErrorPage />,
   },
   {

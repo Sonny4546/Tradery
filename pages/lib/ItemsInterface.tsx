@@ -3,4 +3,5 @@ export interface TraderyItems {
     name: string;
     author: string;
     date: string;
+    description: string;
 }

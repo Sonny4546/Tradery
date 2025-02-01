@@ -1,3 +1,4 @@
+import React from 'react';
 import Card from 'react-bootstrap/Card';
 
 interface ItemCardProps {
@@ -15,7 +16,6 @@ interface ItemCardProps {
 const ItemCard = ({ name, date, author, image }: ItemCardProps) => {
     return (
         <Card className="itemcontent" style={{ width: '100%' }}>
-            <a className="itemLink">
                 {image?.url && (
                 <Card.Img variant="top"
                     width={image.width}
@@ -33,7 +33,6 @@ const ItemCard = ({ name, date, author, image }: ItemCardProps) => {
                     { date }
                     </Card.Text>
                 </Card.Body>
-            </a>
         </Card>
     )
 }

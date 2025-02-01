@@ -1,18 +1,21 @@
 import '../src/main.css'
+import { Col, Row, Nav, Navbar, NavDropdown, Container, Alert } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react'
+import { Link } from 'wouter';
+
+import { User } from './lib/GetUser';
 import { useAuth } from './lib/AuthHook';
-import { Col, Row, Nav, Navbar, NavDropdown, Container } from 'react-bootstrap';
-import ItemCard from './comp/ItemCards';
 import { TraderyItems } from './lib/ItemsInterface';
 import { getItems } from './lib/Items';
 import ItemCard from './comp/ItemCard';
-import { Link } from 'wouter';
 
 const HomePage = () => {
   const [items, setItems] = useState<Array<TraderyItems> | undefined>();
   const { logOut } = useAuth();
   const { NoSessionCheck } = useAuth();
+
   useEffect(() => {
+    User();
     (async function run() {
       const { items } = await getItems();
       setItems(items)
@@ -26,7 +29,7 @@ const HomePage = () => {
   return (
     <>
     <div className="body home" >
-      <Navbar expand="lg" bg="primary" className="justify-content-between">
+      <Navbar expand="lg" bg="primary" sticky="top" className="justify-content-between">
         <Container>
           <Navbar.Brand href="#/Home">
             <img
@@ -69,17 +72,21 @@ const HomePage = () => {
                 {items.map((items) => {
                   return (
                     <Col xs={12} md={3} style={{ paddingBottom: '20px' }}>
-                      <ItemCard
-                        image={{
-                          alt: '',
-                          height: items.imageHeight,
-                          url: items.imageUrl,
-                          width: items.imageWidth
-                        }}
-                        name={items.name}
-                        date={items.date}
-                        author={items.author}
-                      />
+                      <Link className="itemLink" href={`/Item/${items.$id}`}>
+                        <a>
+                          <ItemCard
+                            // image={{
+                            //   alt: '',
+                            //   height: items.imageHeight,
+                            //   url: items.imageUrl,
+                            //   width: items.imageWidth
+                            // }}
+                            name={items.name}
+                            date={items.date}
+                            author={items.author}
+                          />
+                        </a>
+                      </Link>
                     </Col>
                   )
                 })}
