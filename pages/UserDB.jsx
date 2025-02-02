@@ -1,7 +1,6 @@
 import '../src/main.css'
 import React, { useEffect } from 'react'
-import { NavLink } from 'react-router-dom'
-import { Outlet } from 'react-router-dom'
+import { NavLink, Outlet } from 'react-router-dom'
 import { useAuth } from './lib/AuthHook'
 
 export default function UserDB() {
@@ -32,8 +31,8 @@ export default function UserDB() {
                 <li><NavLink to="/Dashboard/Messages#view-messages">Messages</NavLink></li>
                 <li><NavLink to="/Dashboard/Profile">Profile</NavLink></li>
             </ul>
-            <Outlet/>
         </div>
+        <Outlet/>
         </>
     )
 }

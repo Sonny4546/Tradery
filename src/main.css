@@ -71,6 +71,10 @@ html {
   }
 }
 
+.error-page {
+  background-image: url(../images/errormask.jpg);
+}
+
 .background-wrapper {
 	position: relative;
 	width: 100%;

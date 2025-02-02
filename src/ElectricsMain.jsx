@@ -12,9 +12,9 @@ import DBPage from "../pages/UserDB";
 import Profile from "../pages/comp/Profile";
 import Messages from "../pages/comp/Messages";
 import Post from "../pages/comp/Post";
-import Items from "../pages/comp/Items-Page";
+import Items from "../pages/comp/ItemsDB";
 import Requests from "../pages/comp/Requests";
-import ItemContent from "../pages/comp/[itemId]"
+import ItemContent from "../pages/comp/ViewItem"
 import { AuthProvider, useAuth } from "../pages/lib/AuthHook";
 import { RouterProvider, HashRouter, createHashRouter, Route, Router, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 
@@ -26,15 +26,16 @@ const main = createHashRouter([
   {
     path: "/Home", element: <HomePage />,
     errorElement: <ErrorPage />,
-  },
-  {
-    path: "/Item/:itemsId", element: <ItemContent />,
-    errorElement: <ErrorPage />,
+    children: [
+      {path: "/Item/:itemsId", element: <ItemContent />,
+        errorElement: <ErrorPage/>,
+      }
+    ]
   },
   {
     path: "/Dashboard", element: <DBPage />,
     errorElement: <ErrorPage />,
-    children:[
+    children: [
       {path: "/Dashboard/Post", element: <Post />},
       {path: "/Dashboard/Profile", element: <Profile />},
       {path: "/Dashboard/Items", element: <Items />},
