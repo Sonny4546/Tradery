@@ -24,13 +24,13 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                     <div className="itemheading">
                         <div><h1>{items.name}</h1></div>
                         <div>By: {items.author}</div>
-                        <div>Date Posted: {items.date}</div>
+                        <div>Date Posted: { new Date(items.date).toLocaleString('en-US', { month: 'long', day: 'numeric' }) }</div>
                     </div>
                     <div className="Tradecont">
                         <Button className="Tradereq" variant="primary">Request a Trade</Button>
                     </div>
                     <div className="itemimg">
-                        <Carousel controls="false">
+                        <Carousel controls={false}>
                             <Carousel.Item>
                                 <img style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto' }} src="https://raw.githubusercontent.com/Sonny4546/OurFavoriteArtist/2b20d35e16c25397593d98943c14072b56aa9cbb/images/about.jpg"></img>
                             </Carousel.Item>

@@ -1,5 +1,6 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
+import TimeAgo from 'react-timeago'
 
 interface ItemCardProps {
     name: string;
@@ -30,7 +31,7 @@ const ItemCard = ({ name, date, author, image }: ItemCardProps) => {
                     { author }
                     </Card.Text>
                     <Card.Text>
-                    { date }
+                        <TimeAgo date={ date }/>
                     </Card.Text>
                 </Card.Body>
         </Card>
