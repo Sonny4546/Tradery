@@ -11,8 +11,7 @@ export default function ItemContent({ params }: { params: { itemsId: string}}) {
         (async function run() {
             const { items } = await getItemsById(params.itemsId);
             setItems(items);
-            
-            console.log(items);
+            // console.log(items);
         })();
     }, [params.itemsId]);
     return (
