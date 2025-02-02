@@ -27,7 +27,7 @@ const main = createHashRouter([
     path: "/Home", element: <HomePage />,
     errorElement: <ErrorPage />,
     children: [
-      {path: "/Item/:itemsId", element: <ItemContent />,
+      {path: "/Home/Item/:itemsId", element: <ItemContent />,
         errorElement: <ErrorPage/>,
       }
     ]

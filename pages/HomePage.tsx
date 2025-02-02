@@ -38,7 +38,7 @@ const HomePage = () => {
                     {items.map((items) => {
                     return (
                         <Col xs={12} md={3} style={{ paddingBottom: '20px' }}>
-                            <a className="itemLink" href={`#/Item/${items.$id}`}>
+                            <a className="itemLink" href={`#/Home/Item/${items.$id}`}>
                             <ItemCard
                                 // image={{
                                 //   alt: '',
