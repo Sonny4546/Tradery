@@ -68,6 +68,7 @@ html {
   p i{
     top: 10%;
     position: absolute;
+    color: #ffffff;
   }
 }
 
@@ -89,11 +90,11 @@ html {
 }
 
 .HomeButton {
-	border: 2px solid #000000;
+	border: 2px solid #ffffff;
 	padding: 0.5em 0.8em;
 	position: fixed;
 	z-index: 1;
-	color: #000000;
+	color: #ffffff;
 	text-decoration: none;
 	display: flex;
 	align-items: center;
@@ -106,7 +107,7 @@ html {
 		background: #dadada;
 		border-color:transparent;
 		svg > polyline {
-			stroke: #dadada;
+			stroke: #333;
 		}
 		+ .background-wrapper > h1 {
 			color: #dadada;
