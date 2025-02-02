@@ -71,7 +71,7 @@ html {
   }
 }
 
-.error-page {
+#error-page {
   background-image: url(../images/errormask.jpg);
 }
 

@@ -18,7 +18,6 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
     }, [params.itemsId]);
     return (
         <HomeNav>
-            <Container>
                 {items && (
                 <>
                     <div className="itemheading">
@@ -41,7 +40,6 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                     </div>
                 </>
                 )}
-            </Container>
         </HomeNav>
     )
 }

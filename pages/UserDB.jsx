@@ -31,8 +31,8 @@ export default function UserDB() {
                 <li><NavLink to="/Dashboard/Messages#view-messages">Messages</NavLink></li>
                 <li><NavLink to="/Dashboard/Profile">Profile</NavLink></li>
             </ul>
+            <Outlet/>
         </div>
-        <Outlet/>
         </>
     )
 }
