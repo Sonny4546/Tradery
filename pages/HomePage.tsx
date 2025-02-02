@@ -24,6 +24,7 @@ const HomePage = () => {
   }, []);
   return (
     <HomeNav>
+      <div className="home">
         <div className="container" id="pagewrap">
             <div className="searchinput">
                 <form className="search">
@@ -32,7 +33,7 @@ const HomePage = () => {
                 </form>
             </div>
             <div className="items container">
-                <Row>
+              <Row>
                 {Array.isArray(items) && items.length > 0 && (
                 <>
                     {items.map((items) => {
@@ -64,9 +65,10 @@ const HomePage = () => {
                     </Alert>
                 </Container>
                 )}
-                </Row>
+              </Row>
             </div>
         </div>
+      </div>
     </HomeNav>
   );
 }

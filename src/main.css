@@ -11,6 +11,25 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ===== Scrollbar CSS ===== */
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #ea1a1a #636363;
+}
+/* Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+  width: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: #636363;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #ea1a1a;
+  border-radius: 10px;
+  border: 3px dotted #940000;
+}
+
 /*Main Page*/
 
 .bgimg {
@@ -203,6 +222,13 @@ body {
 
 .itemDate {
   text-align: right;
+}
+
+.Tradereq {
+  float: right;
+  position: relative;
+  bottom: 70px;
+  right: 10px;
 }
 
 /*User Dashboard*/

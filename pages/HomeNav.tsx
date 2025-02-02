@@ -22,7 +22,7 @@ const HomeNav = ({ children }: HomeNavProps) => {
   }
   return (
     <>
-    <div className="body home" >
+    <div className="body" >
       <Navbar expand="lg" bg="primary" sticky="top" className="justify-content-between">
         <Container>
           <Navbar.Brand href="#/Home">

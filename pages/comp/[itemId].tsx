@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Container } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import Carousel from 'react-bootstrap/Carousel';
 import { useParams } from "react-router-dom";
 
@@ -18,6 +18,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
     }, [params.itemsId]);
     return (
         <HomeNav>
+            <div className="container">
                 {items && (
                 <>
                     <div className="itemheading">
@@ -25,8 +26,8 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                         <div>By: {items.author}</div>
                         <div>Date Posted: {items.date}</div>
                     </div>
-                    <div className="Tradebtn">
-                        <Button variant="primary">Request a Trade</Button>
+                    <div className="Tradecont">
+                        <Button className="Tradereq" variant="primary">Request a Trade</Button>
                     </div>
                     <div className="itemimg">
                         <Carousel controls="false">
@@ -40,6 +41,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                     </div>
                 </>
                 )}
+            </div>
         </HomeNav>
     )
 }
