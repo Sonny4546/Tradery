@@ -6,7 +6,7 @@ import './bs-mdf.css'
 import 'bootstrap'
 import 'react-bootstrap'
 import LoginPage from "../pages/Login";
-import HomePage from "../pages/Home";
+import HomePage from "../pages/HomePage";
 import ErrorPage from "../pages/Error";
 import DBPage from "../pages/UserDB";
 import Profile from "../pages/comp/Profile";
