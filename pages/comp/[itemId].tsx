@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 import Carousel from 'react-bootstrap/Carousel';
+import { useParams } from "react-router-dom";
 
 import { getItemsById } from "../lib/Items";
 import { TraderyItems } from "../lib/ItemsInterface";
 
-export default function ItemContent({ params }: { params: { itemsId: string}}) {
+export default function ItemContent({ params = useParams() }: { params: { itemsId: string}}) {
     const [items, setItems] = useState<TraderyItems | undefined>();
     useEffect(() => {
         (async function run() {
