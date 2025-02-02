@@ -5,13 +5,13 @@ import Carousel from 'react-bootstrap/Carousel';
 import { getItemsById } from "../lib/Items";
 import { TraderyItems } from "../lib/ItemsInterface";
 
-export default function ItemContent({ params }: { params: { itemsId: string }}) {
+export default function ItemContent({ params }: { params: { itemsId: string}}) {
     const [items, setItems] = useState<TraderyItems | undefined>();
-
     useEffect(() => {
         (async function run() {
             const { items } = await getItemsById(params.itemsId);
             setItems(items);
+            
             console.log(items);
         })();
     }, [params.itemsId]);
