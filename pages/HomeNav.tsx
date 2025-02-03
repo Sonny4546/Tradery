@@ -6,7 +6,7 @@ import { Link } from 'wouter';
 
 import { User } from './lib/GetUser';
 import { useAuth } from './lib/AuthHook';
-import { account } from "./appwrite";
+import { account } from "./lib/appwrite";
 import { TraderyItems } from './lib/ItemsInterface';
 import { getItems } from './lib/Items';
 import ItemCard from './comp/ItemCard';
