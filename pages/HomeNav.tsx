@@ -6,7 +6,7 @@ import { Link } from 'wouter';
 
 import { User } from './lib/GetUser';
 import { useAuth } from './lib/AuthHook';
-import { account } from "./lib/appwrite";
+import { Redirect } from 'wouter';
 import { TraderyItems } from './lib/ItemsInterface';
 import { getItems } from './lib/Items';
 import ItemCard from './comp/ItemCard';
@@ -16,12 +16,13 @@ interface HomeNavProps {
 }
 
 const HomeNav = ({ children }: HomeNavProps) => {
-  const { session } = useAuth();
+  const { session, logOut } = useAuth();
   
   async function logoutHandle() {
-    await account.deleteSession('67a0ad5325d5570555db');
-    console.log("deleted!");
-    // setSession(undefined);
+    await logOut()
+    return (
+      <Redirect to="/" />
+    )
   }
   return (
     <>
@@ -47,8 +48,8 @@ const HomeNav = ({ children }: HomeNavProps) => {
                   <NavDropdown.Item href="#/Dashboard/Profile">User Dashboard</NavDropdown.Item>
                   <NavDropdown.Divider />
                   { session && (
-                    <NavDropdown.Item href="/Tradery">
-                      Logout <button onClick={logoutHandle} className="logout-btn"></button>
+                    <NavDropdown.Item href="/Tradery" onClick='return logoutHandle()'>
+                      Logout
                     </NavDropdown.Item>
                   )}
                   { !session && (

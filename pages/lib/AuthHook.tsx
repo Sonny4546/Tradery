@@ -1,11 +1,12 @@
 import React, { createContext, ReactNode, useContext, useState, useEffect } from "react";
-import { getCurrentSession, OAuthProvider, account } from "./appwrite";
+import { getCurrentSession, DeleteSession, OAuthProvider, account } from "./appwrite";
 import { Models } from "appwrite";
 import { useNavigate } from 'react-router'
 
 interface TraderyAuthContext {
     session?: Models.Session;
     logIn: Function;
+    logOut: Function;
     NoSessionCheck: Function;
 }
 
@@ -45,6 +46,11 @@ export function useAuthState() {
       }
     }
 
+    async function logOut() {
+      await DeleteSession();
+      setSession(undefined);
+    }
+
     async function NoSessionCheck(){
       if (!session) {
         const navigate = useNavigate()
@@ -54,6 +60,7 @@ export function useAuthState() {
     return{
         session,
         NoSessionCheck,
+        logOut,
         logIn
     }
 }
