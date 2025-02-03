@@ -68,7 +68,7 @@ const Post = () => {
                 </div>
                 <Form.Group className="mb-3" controlId="Description.ControlTextarea1">
                     <Form.Label>Item Description</Form.Label>
-                    <Form.Control id="description" as="textarea" rows={4} />
+                    <textarea className="form-control" rows={4} id="description"></textarea>
                 </Form.Group>
                 <Button className="submitbtn" as="input" type="submit" value="Submit" onClick={handleOnSubmit} />
             </div>
