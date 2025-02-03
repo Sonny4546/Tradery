@@ -23,7 +23,6 @@ const HomeNav = ({ children }: HomeNavProps) => {
     console.log("account deleted!");
     // setSession(undefined);
   }
-  }
   return (
     <>
     <div className="body" >
