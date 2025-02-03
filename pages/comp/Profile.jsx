@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { Image, Button, Form } from 'react-bootstrap';
 
 const Profile = () => { 
+    const { session } = useAuth();
     const [user, setUser] = useState(null)
     useEffect(() => {
         const checkUser = async () => {

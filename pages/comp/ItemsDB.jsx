@@ -3,7 +3,8 @@ import { useEffect } from "react";
 import { useAuth } from '../lib/AuthHook';
 import { useNavigate } from 'react-router-dom';
 
-const Items = () => { 
+const Items = () => {
+    const { session } = useAuth(); 
     useEffect(() => {
         if (!session) {
             const navigate = useNavigate()

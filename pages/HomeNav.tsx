@@ -20,8 +20,7 @@ const HomeNav = ({ children }: HomeNavProps) => {
   
   useEffect(() => {
     if (!session) {
-        const navigate = useNavigate()
-        return navigate('https://sonny4546.github.io/Tradery/')
+        <Redirect to="/" />
       }
 }, []);
 

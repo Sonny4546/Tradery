@@ -4,6 +4,7 @@ import { useAuth } from '../lib/AuthHook';
 import { useNavigate } from 'react-router-dom';
 
 const Requests = () => { 
+    const { session } = useAuth();
     useEffect(() => {
         if (!session) {
             const navigate = useNavigate()
