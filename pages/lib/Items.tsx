@@ -1,17 +1,20 @@
 import React from 'react';
-import { Models } from 'appwrite';
+import { Models, Query } from 'appwrite';
 import { database } from './appwrite';
 import { TraderyItems } from './ItemsInterface';
 
 export async function getItems() {
-    const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID);
+    const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
+                                                    import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, 
+                                                    [Query.orderDesc('date'),]);
     return{
         items: documents.map(mapDocumentToItem)
     }
 }
 
 export async function getItemsById(itemsId: string) {
-    const document = await database.getDocument(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, itemsId);
+    const document = await database.getDocument(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
+                                                import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, itemsId);
     return {
         items: mapDocumentToItem(document)
     }

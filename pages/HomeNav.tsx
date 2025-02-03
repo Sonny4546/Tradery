@@ -48,6 +48,11 @@ const HomeNav = ({ children }: HomeNavProps) => {
                       Logout <button onClick={logoutHandle} className="logout-btn"></button>
                     </NavDropdown.Item>
                   )}
+                  { !session && (
+                    <NavDropdown.Item href="/Tradery">
+                      Login
+                    </NavDropdown.Item>
+                  )}
                 </NavDropdown>
               </Nav>
             </Row>

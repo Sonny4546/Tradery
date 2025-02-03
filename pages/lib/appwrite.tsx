@@ -27,6 +27,6 @@ export const getUser = async () => {
 };
 
 export async function DeleteSession(){
-  await account.deleteSession('current');
-  console.log("account deleted!")
+  await account.deleteSessions();
+  console.log("account deleted!");
 }
