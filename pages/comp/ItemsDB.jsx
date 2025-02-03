@@ -1,11 +1,14 @@
 import React from 'react'
 import { useEffect } from "react";
 import { useAuth } from '../lib/AuthHook';
+import { useNavigate } from 'react-router-dom';
 
 const Items = () => { 
-    const { NoSessionCheck } = useAuth();
     useEffect(() => {
-        NoSessionCheck();
+        if (!session) {
+            const navigate = useNavigate()
+            return navigate('https://sonny4546.github.io/Tradery/')
+          }
     }, []);
     return(
         <>

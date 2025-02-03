@@ -15,6 +15,7 @@ import Post from "../pages/comp/Post";
 import Items from "../pages/comp/ItemsDB";
 import Requests from "../pages/comp/Requests";
 import ItemContent from "../pages/comp/[itemId]"
+import EditProfile from "../pages/comp/EditProfile"
 import { AuthProvider, useAuth } from "../pages/lib/AuthHook";
 import { RouterProvider, HashRouter, createHashRouter, Route, Router, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 
@@ -37,6 +38,7 @@ const main = createHashRouter([
     children: [
       {path: "/Dashboard/Post", element: <Post />},
       {path: "/Dashboard/Profile", element: <Profile />},
+      {path: "/Dashboard/Profile/Edit", element: <EditProfile />},
       {path: "/Dashboard/Items", element: <Items />},
       {path: "/Dashboard/Requests", element: <Requests />},
       {path: "/Dashboard/Messages", element: <Messages />},

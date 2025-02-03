@@ -1,15 +1,15 @@
 import '../src/main.css'
 import { Col, Row, Nav, Navbar, NavDropdown, Container, Alert } from 'react-bootstrap';
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { Link } from 'wouter';
 
-import { User } from './lib/GetUser';
 import { useAuth } from './lib/AuthHook';
 import { Redirect } from 'wouter';
 import { TraderyItems } from './lib/ItemsInterface';
 import { getItems } from './lib/Items';
 import ItemCard from './comp/ItemCard';
+import { useNavigate } from 'react-router-dom';
 
 interface HomeNavProps {
   children?: ReactNode;
@@ -18,6 +18,13 @@ interface HomeNavProps {
 const HomeNav = ({ children }: HomeNavProps) => {
   const { session, logOut } = useAuth();
   
+  useEffect(() => {
+    if (!session) {
+        const navigate = useNavigate()
+        return navigate('https://sonny4546.github.io/Tradery/')
+      }
+}, []);
+
   async function logoutHandle() {
     await logOut()
     return (
@@ -48,7 +55,7 @@ const HomeNav = ({ children }: HomeNavProps) => {
                   <NavDropdown.Item href="#/Dashboard/Profile">User Dashboard</NavDropdown.Item>
                   <NavDropdown.Divider />
                   { session && (
-                    <button onClick={logoutHandle}>
+                    <button onClick={logoutHandle} className="logout-btn">
                       <NavDropdown.Item href="/Tradery">
                         Logout
                       </NavDropdown.Item>

@@ -1,31 +1,53 @@
 import React from 'react'
-import { useEffect } from "react";
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
+import { useEffect, useState } from "react";
 import { useAuth } from '../lib/AuthHook';
+import { client, account, getUser } from "./appwrite";
+import { useNavigate } from 'react-router-dom';
+import { Image, Button, Form } from 'react-bootstrap';
 
 const Profile = () => { 
-    const { NoSessionCheck } = useAuth();
+    const [user, setUser] = useState(null)
     useEffect(() => {
-        NoSessionCheck();
+        const checkUser = async () => {
+          try {
+            const userData = await getUser()
+            setUser(user)
+            console.log(userData)
+          } catch (error) {
+            setUser(null)
+          }
+        }
+    
+        checkUser()
+    }, [])
+
+    function sendtoEdit() {
+        return(
+            <Redirect to="#/Dashboard/Profile/Edit" />
+        )
+    }
+
+    useEffect(() => {
+        if (!session) {
+            const navigate = useNavigate()
+            return navigate('https://sonny4546.github.io/Tradery/')
+          }
     }, []);
     return(
         <>
         <div class="Main">
             <div class="container">
-                <h1>Edit Profile</h1>
+                <h1>Profile</h1>
+                <Button class="submitbtn" as="input" type="Edit Profile" value="Edit Profile" onclick={sendtoEdit}/>
                 <div class="inputprofile">
-                    <input type="file" accept=".png, .jpg"></input>
-                    <p>Upload an image: accepts jpg and png only</p>
+                    <Image src="holder.js/171x180" roundedCircle />
                 </div>
                 <div class="mb-3">
-                    <Form.Control type="text" placeholder="Name"/>
+                    <p>NAME PLACEHOLDER</p>
                 </div>
-                <Form.Group className="mb-3" controlId="Description.ControlTextarea1">
-                    <Form.Label>Profile Summary</Form.Label>
-                    <Form.Control as="textarea" rows={2} />
-                </Form.Group>
-                <Button class="submitbtn" as="input" type="submit" value="Submit" />
+                <div class ="mb-3">
+                    <p>PROFILE SUMMARY</p>
+                </div>
             </div>
         </div>
         </>

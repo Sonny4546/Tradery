@@ -1,11 +1,11 @@
 import React from 'react'
-import Form from 'react-bootstrap/Form';
 import { useEffect } from "react";
 import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
 import { useAuth } from '../lib/AuthHook';
 import { useNavigate } from 'react-router-dom';
 
-const Post = () => {
+const Profile = () => { 
     useEffect(() => {
         if (!session) {
             const navigate = useNavigate()
@@ -16,19 +16,17 @@ const Post = () => {
         <>
         <div class="Main">
             <div class="container">
-                <h1>Post Item</h1>
-                <div class="uploader">
-                    <Form.Group controlId="formFileLg" className="mb-3">
-                        <Form.Label>Import Image</Form.Label>
-                        <Form.Control type="file" size="lg" accept=".png, .jpg" />
-                    </Form.Group>
+                <h1>Edit Profile</h1>
+                <div class="inputprofile">
+                    <input type="file" accept=".png, .jpg"></input>
+                    <p>Upload an image: accepts jpg and png only</p>
                 </div>
                 <div class="mb-3">
                     <Form.Control type="text" placeholder="Name"/>
                 </div>
                 <Form.Group className="mb-3" controlId="Description.ControlTextarea1">
-                    <Form.Label>Item Description</Form.Label>
-                    <Form.Control as="textarea" rows={4} />
+                    <Form.Label>Profile Summary</Form.Label>
+                    <Form.Control as="textarea" rows={2} />
                 </Form.Group>
                 <Button class="submitbtn" as="input" type="submit" value="Submit" />
             </div>
@@ -36,4 +34,4 @@ const Post = () => {
         </>
     )
 }
-export default Post
+export default Profile

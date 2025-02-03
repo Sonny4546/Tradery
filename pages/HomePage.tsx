@@ -3,7 +3,6 @@ import { Col, Row, Nav, Navbar, NavDropdown, Container, Alert, AlertHeading } fr
 import React, { useEffect, useState } from 'react'
 import { Link } from 'wouter';
 
-import { User } from './lib/GetUser';
 import { useAuth } from './lib/AuthHook';
 import { TraderyItems } from './lib/ItemsInterface';
 import { getItems } from './lib/Items';

@@ -9,7 +9,9 @@ export default function LoginPage() {
   const { logIn } = useAuth();
 
   if (session) {
-    console.log(session)
+    return (
+      <Redirect to="#/Home" />
+    )
   }
 
   async function loginHandle() {

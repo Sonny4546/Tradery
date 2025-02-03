@@ -7,7 +7,6 @@ interface TraderyAuthContext {
     session?: Models.Session;
     logIn: Function;
     logOut: Function;
-    NoSessionCheck: Function;
 }
 
 export const AuthContext = createContext<TraderyAuthContext | undefined>(undefined)
@@ -50,16 +49,8 @@ export function useAuthState() {
       await DeleteSession();
       setSession(undefined);
     }
-
-    async function NoSessionCheck(){
-      if (!session) {
-        const navigate = useNavigate()
-        return navigate('https://sonny4546.github.io/Tradery/')
-      }
-    }
     return{
         session,
-        NoSessionCheck,
         logOut,
         logIn
     }
