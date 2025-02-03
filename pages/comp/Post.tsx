@@ -20,7 +20,7 @@ function getCurrentDateString() {
 
 const Post = () => {
     const { session } = useAuth();
-    const [, navigate] = useLocation();
+    const { navigate } = useLocation();
     const [user, setUser] = useState(undefined)
     useEffect(() => {
         const checkUser = async () => {
