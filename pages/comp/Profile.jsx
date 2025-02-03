@@ -1,7 +1,7 @@
 import React from 'react'
 import { useEffect, useState } from "react";
 import { useAuth } from '../lib/AuthHook';
-import { client, account, getUser } from "./appwrite";
+import { client, account, getUser } from "../lib/appwrite";
 import { useNavigate } from 'react-router-dom';
 import { Image, Button, Form } from 'react-bootstrap';
 
