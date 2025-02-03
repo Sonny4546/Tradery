@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router'
 
 interface TraderyAuthContext {
     session?: Models.Session;
-    logOut: Function;
     logIn: Function;
     NoSessionCheck: Function;
 }
@@ -34,12 +33,6 @@ export function useAuthState() {
           setSession(data.session);
         })();
       }, [])
-    
-    async function logOut() {
-        // await account.deleteSession('current')
-        console.log("account deleted!");
-        // setSession(undefined);
-    }
 
     async function logIn() {
       try {
@@ -60,7 +53,6 @@ export function useAuthState() {
     }
     return{
         session,
-        logOut,
         NoSessionCheck,
         logIn
     }

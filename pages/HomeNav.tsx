@@ -15,10 +15,13 @@ interface HomeNavProps {
 }
 
 const HomeNav = ({ children }: HomeNavProps) => {
-  const { logOut, session } = useAuth();
+  const { session } = useAuth();
   
   async function logoutHandle() {
-    await logOut();
+    await account.deleteSession('current');
+    console.log("account deleted!");
+    // setSession(undefined);
+  }
   }
   return (
     <>
