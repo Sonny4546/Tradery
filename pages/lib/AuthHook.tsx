@@ -1,5 +1,5 @@
 import React, { createContext, ReactNode, useContext, useState, useEffect } from "react";
-import { getCurrentSession, DeleteSession, OAuthProvider, account } from "./appwrite";
+import { getCurrentSession, OAuthProvider, account } from "./appwrite";
 import { Models } from "appwrite";
 import { useNavigate } from 'react-router'
 
@@ -36,7 +36,8 @@ export function useAuthState() {
       }, [])
     
     async function logOut() {
-        await DeleteSession();
+        await account.deleteSession('current')
+        console.log("account deleted!");
         setSession(undefined);
     }
 

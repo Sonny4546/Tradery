@@ -25,8 +25,3 @@ export const getUser = async () => {
     console.error(error)
   }
 };
-
-export async function DeleteSession(){
-  await account.deleteSessions();
-  console.log("account deleted!");
-}
