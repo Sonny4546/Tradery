@@ -48,9 +48,11 @@ const HomeNav = ({ children }: HomeNavProps) => {
                   <NavDropdown.Item href="#/Dashboard/Profile">User Dashboard</NavDropdown.Item>
                   <NavDropdown.Divider />
                   { session && (
-                    <NavDropdown.Item href="/Tradery" onClick='return logoutHandle()'>
-                      Logout
-                    </NavDropdown.Item>
+                    <button onClick={logoutHandle}>
+                      <NavDropdown.Item href="/Tradery">
+                        Logout
+                      </NavDropdown.Item>
+                    </button>
                   )}
                   { !session && (
                     <NavDropdown.Item href="/Tradery">

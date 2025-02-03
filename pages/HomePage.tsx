@@ -15,7 +15,6 @@ const HomePage = () => {
   const [items, setItems] = useState<Array<TraderyItems> | undefined>();
 
   useEffect(() => {
-    User();
     (async function run() {
       const { items } = await getItems();
       setItems(items)
