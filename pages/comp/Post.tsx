@@ -21,24 +21,22 @@ function getCurrentDateString() {
 const Post = () => {
     const { session } = useAuth();
     const { navigate } = useLocation();
-    const [user, setUser] = useState(undefined)
-    useEffect(() => {
-        const checkUser = async () => {
-          try {
-            const userData = await getUser()
-            setUser(user)
-            console.log(userData)
-          } catch (error) {
-            console.log(error)
-            setUser(user)
-          }
-        }
+    const [user, setUser] = useState(null)
+    // useEffect(() => {
+    //     const checkUser = async () => {
+    //       try {
+    //         const userData = await getUser()
+    //         setUser(user)
+    //         console.log(userData)
+    //       } catch (error) {
+    //         setUser(null)
+    //       }
+    //     }
     
-        checkUser()
-    }, [])
+    //     checkUser()
+    // }, [])
     async function handleOnSubmit(e: React.SyntheticEvent) {
         e.preventDefault();
-        const [currentdate, setCurrentdate] = useState(getCurrentDateString())
 
         const target = e.target as typeof e.target & {
           name: { value: string };
@@ -48,7 +46,7 @@ const Post = () => {
         }
         const results = await createItems({
           name: target.name.value,
-          author: user.name,
+          author: "None",
           description: target.description.value,
           date: new Date().toISOString()
         })
