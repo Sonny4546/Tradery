@@ -46,7 +46,7 @@ const Post = () => {
         }
         const results = await createItems({
           name: target.name.value,
-          author: {user.name}
+          author: {user.name},
           description: target.description.value,
           date: new Date(setCurrentdate(getCurrentDateString())).toISOString()
         })
