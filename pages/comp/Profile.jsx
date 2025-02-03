@@ -43,7 +43,7 @@ const Profile = () => {
                 <div class="inputprofile">
                     <Image src="holder.js/171x180" roundedCircle />
                 </div>
-                {user && (
+                {user ? (
                 <div className="container">
                     <div class="mb-3">
                         <p>{user.name}</p>
@@ -52,8 +52,7 @@ const Profile = () => {
                         <p>PROFILE SUMMARY</p>
                     </div>
                 </div>
-                )}
-                {!user && (
+                ) : (
                 <div className="container">
                     <div class="mb-3">
                         <p>PLACEHOLDER JOHN DOE</p>

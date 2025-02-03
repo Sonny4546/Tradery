@@ -5,6 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { useAuth } from '../lib/AuthHook';
 import { useLocation } from 'react-router-dom';
 import { createItems } from '../lib/Items';
+import { client, account, getUser } from "../lib/appwrite";
 
 function getCurrentDateString() {
     const date = new Date().getDate() //current date
@@ -20,7 +21,7 @@ function getCurrentDateString() {
 const Post = () => {
     const { session } = useAuth();
     const [, navigate] = useLocation();
-    const [user, setUser] = useState(null)
+    const [user, setUser] = useState(undefined)
     useEffect(() => {
         const checkUser = async () => {
           try {
@@ -28,7 +29,8 @@ const Post = () => {
             setUser(user)
             console.log(userData)
           } catch (error) {
-            setUser(null)
+            console.log(error)
+            setUser(user)
           }
         }
     
@@ -48,7 +50,7 @@ const Post = () => {
           name: target.name.value,
           author: user.name,
           description: target.description.value,
-          date: new Date(setCurrentdate(getCurrentDateString())).toISOString()
+          date: new Date().toISOString()
         })
         navigate(`/event/${results.items.$id}`);
       }
