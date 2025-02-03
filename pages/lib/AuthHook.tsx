@@ -36,9 +36,9 @@ export function useAuthState() {
       }, [])
     
     async function logOut() {
-        await account.deleteSession('current')
+        // await account.deleteSession('current')
         console.log("account deleted!");
-        setSession(undefined);
+        // setSession(undefined);
     }
 
     async function logIn() {
