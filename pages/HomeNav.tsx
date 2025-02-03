@@ -19,8 +19,8 @@ const HomeNav = ({ children }: HomeNavProps) => {
   const { session } = useAuth();
   
   async function logoutHandle() {
-    await account.deleteSession('current');
-    console.log("account deleted!");
+    await account.deleteSession('67a0ad5325d5570555db');
+    console.log("deleted!");
     // setSession(undefined);
   }
   return (
