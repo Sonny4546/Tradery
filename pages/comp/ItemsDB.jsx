@@ -5,12 +5,12 @@ import { useNavigate } from 'react-router-dom';
 
 const Items = () => {
     const { session } = useAuth(); 
-    useEffect(() => {
-        if (!session) {
-            const navigate = useNavigate()
-            return navigate('https://sonny4546.github.io/Tradery/')
-          }
-    }, []);
+    // useEffect(() => {
+    //     if (!session) {
+    //         const navigate = useNavigate()
+    //         return navigate('https://sonny4546.github.io/Tradery/')
+    //       }
+    // }, []);
     return(
         <>
         <h1>ITEMS</h1>

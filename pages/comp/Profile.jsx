@@ -28,27 +28,41 @@ const Profile = () => {
         )
     }
 
-    useEffect(() => {
-        if (!session) {
-            const navigate = useNavigate()
-            return navigate('https://sonny4546.github.io/Tradery/')
-          }
-    }, []);
+    // useEffect(() => {
+    //     if (!session) {
+    //         const navigate = useNavigate()
+    //         return navigate('https://sonny4546.github.io/Tradery/')
+    //       }
+    // }, []);
     return(
         <>
         <div class="Main">
             <div class="container">
                 <h1>Profile</h1>
-                <Button class="submitbtn" as="input" type="Edit Profile" value="Edit Profile" onclick={sendtoEdit}/>
+                <Button class="editprf" type="Edit Profile" value="Edit Profile" onclick={sendtoEdit}/>
                 <div class="inputprofile">
                     <Image src="holder.js/171x180" roundedCircle />
                 </div>
-                <div class="mb-3">
-                    <p>NAME PLACEHOLDER</p>
+                {user && (
+                <div className="container">
+                    <div class="mb-3">
+                        <p>{user.name}</p>
+                    </div>
+                    <div class ="mb-3">
+                        <p>PROFILE SUMMARY</p>
+                    </div>
                 </div>
-                <div class ="mb-3">
-                    <p>PROFILE SUMMARY</p>
+                )}
+                {!user && (
+                <div className="container">
+                    <div class="mb-3">
+                        <p>PLACEHOLDER JOHN DOE</p>
+                    </div>
+                    <div class ="mb-3">
+                        <p>PROFILE SUMMARY</p>
+                    </div>
                 </div>
+                )}
             </div>
         </div>
         </>

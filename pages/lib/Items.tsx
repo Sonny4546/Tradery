@@ -1,5 +1,5 @@
 import React from 'react';
-import { Models, Query } from 'appwrite';
+import { Models, Query, ID } from 'appwrite';
 import { database } from './appwrite';
 import { TraderyItems } from './ItemsInterface';
 
@@ -15,6 +15,14 @@ export async function getItems() {
 export async function getItemsById(itemsId: string) {
     const document = await database.getDocument(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
                                                 import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, itemsId);
+    return {
+        items: mapDocumentToItem(document)
+    }
+}
+
+export async function createItems(item: Omit<TraderyItems, '$id'>) {
+    const document = await database.createDocument(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
+                                                import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, ID.unique(), item);
     return {
         items: mapDocumentToItem(document)
     }

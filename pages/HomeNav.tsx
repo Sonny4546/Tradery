@@ -18,11 +18,11 @@ interface HomeNavProps {
 const HomeNav = ({ children }: HomeNavProps) => {
   const { session, logOut } = useAuth();
   
-  useEffect(() => {
-    if (!session) {
-        <Redirect to="/" />
-      }
-}, []);
+//   useEffect(() => {
+//     if (!session) {
+//         <Redirect to="/" />
+//       }
+// }, []);
 
   async function logoutHandle() {
     await logOut()

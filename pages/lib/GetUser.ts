@@ -2,6 +2,13 @@
 // import { client, account, getUser } from "./appwrite";
 
 // export async function User() {
-    
-//     return user
+//   const checkUser = async () => {
+//     try {
+//       const userData = await getUser()
+//       setUser(user)
+//       console.log(userData)
+//     } catch (error) {
+//       setUser(null)
+//     }
+//   }
 // };

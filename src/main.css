@@ -225,6 +225,13 @@ body {
   right: 10px;
 }
 
+.editprf {
+  float: right;
+  position: relative;
+  bottom: 70px;
+  right: 10px;
+}
+
 /*User Dashboard*/
 
 /* Whole Top Box*/
