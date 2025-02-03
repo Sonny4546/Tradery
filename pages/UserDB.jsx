@@ -4,10 +4,6 @@ import { NavLink, Outlet } from 'react-router-dom'
 import { useAuth } from './lib/AuthHook'
 
 export default function UserDB() {
-    const { NoSessionCheck } = useAuth();
-    useEffect(() => {
-        NoSessionCheck();
-    }, []);
     return (
         <>
         <div class="uWholeBox"> 
