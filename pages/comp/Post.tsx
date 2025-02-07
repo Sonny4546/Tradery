@@ -32,10 +32,9 @@ const Post = () => {
         }
 
         const form = e.currentTarget as HTMLFormElement;
-        const formData = new FormData(form);
     
-        const name = formData.get("name") as string | null;
-        const description = formData.get("description") as string | null;
+        const name = form.get("name") as string | null;
+        const description = form.get("description") as string | null;
     
         if (!name || !description) {
             alert("Please fill in all required fields.");
