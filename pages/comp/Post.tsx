@@ -21,56 +21,59 @@ function getCurrentDateString() {
 const Post = () => {
     const { session } = useAuth();
     const { navigate } = useLocation();
-    const [user, setUser] = useState(null)
-    // useEffect(() => {
-    //     const checkUser = async () => {
-    //       try {
-    //         const userData = await getUser()
-    //         setUser(user)
-    //         console.log(userData)
-    //       } catch (error) {
-    //         setUser(null)
-    //       }
-    //     }
-    
-    //     checkUser()
-    // }, [])
-    async function handleOnSubmit(e: React.SyntheticEvent) {
-        e.preventDefault();
-
-        const target = e.target as typeof e.target & {
-          name: { value: string };
-          author: { value: string };
-          description: { value: string };
-          date: { value: string };
+    const [user, setUser] = useState<User | undefined>(undefined);
+    useEffect(() => {
+        const checkUser = async () => {
+          try {
+            const userData = await getUser()
+            setUser(user)
+            console.log(userData)
+          } catch (error) {
+            setUser(undefined)
+          }
         }
+    
+        checkUser()
+    }, []);
+    const handleOnSubmit = async (e: React.SyntheticEvent) => {
+        e.preventDefault();
+        
+        const form = e.currentTarget as HTMLFormElement;
+        const formData = new FormData(form);
+    
+        const name = formData.get("name") as string;
+        const description = formData.get("description") as string;
+    
         const results = await createItems({
-          name: target.name.value,
-          author: "None",
-          description: target.description.value,
-          date: new Date().toISOString()
-        })
+            name,
+            author: user?.name || "Unknown",
+            description,
+            date: new Date().toISOString()
+        });
+    
         navigate(`/event/${results.items.$id}`);
-      }
+    };    
     return(
         <>
         <div className="Main">
             <div className="container">
                 <h1>Post Item</h1>
-                <div className="uploader">
-                    <Form.Group controlId="formFileLg" className="mb-3">
-                        <Form.Label>Import Image</Form.Label>
-                        <Form.Control type="file" size="lg" accept=".png, .jpg" />
+                <form onSubmit={handleOnSubmit}>
+                    <div className="uploader">
+                        <Form.Group controlId="formFileLg" className="mb-3">
+                            <Form.Label>Import Image</Form.Label>
+                            <Form.Control type="file" size="lg" accept=".png, .jpg" />
+                        </Form.Group>
+                    </div>
+                    <div className="mb-3">
+                        <Form.Control id="name" type="text" placeholder="Name" required/>
+                    </div>
+                    <Form.Group className="mb-3" controlId="Description.ControlTextarea1">
+                        <Form.Label>Item Description</Form.Label>
+                        <Form.Control rows={4} id="description" placeholder="Description" required/>
                     </Form.Group>
-                </div>
-                <div className="mb-3">
-                    <Form.Control id="name" type="text" placeholder="Name"/>
-                </div>
-                <Form.Group className="mb-3" controlId="Description.ControlTextarea1">
-                    <Form.Label>Item Description</Form.Label>
-                    <textarea className="form-control" rows={4} id="description"></textarea>
-                </Form.Group>
-                <Button className="submitbtn" as="input" type="submit" value="Submit" onClick={handleOnSubmit} />
+                    <Button className="submitbtn" type="submit">Submit</Button>
+                </form>
             </div>
         </div>
         </>
