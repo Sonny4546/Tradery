@@ -3,9 +3,9 @@ import Form from 'react-bootstrap/Form';
 import { useEffect, useState } from "react";
 import Button from 'react-bootstrap/Button';
 import { useAuth } from '../lib/AuthHook';
-import { useLocation } from 'react-router-dom';
 import { createItems } from '../lib/Items';
 import { client, account, getUser } from "../lib/appwrite";
+import { useNavigate } from 'react-router-dom';
 
 function getCurrentDateString() {
     const date = new Date().getDate() //current date
@@ -20,7 +20,7 @@ function getCurrentDateString() {
 
 const Post = () => {
     const { session } = useAuth();
-    const { navigate } = useLocation();
+    const navigate = useNavigate();
     const [user, setUser] = useState<User | undefined>(undefined);
     useEffect(() => {
         const checkUser = async () => {
@@ -38,6 +38,11 @@ const Post = () => {
     const handleOnSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault();
         
+        if (!user) {
+            console.log("User data is still loading. Please wait.");
+            return;
+        }
+
         const form = e.currentTarget as HTMLFormElement;
         const formData = new FormData(form);
     
@@ -52,12 +57,12 @@ const Post = () => {
         try {
             const results = await createItems({
                 name,
-                author: user?.name || "Unknown",
+                author: user?.name,
                 description,
                 date: new Date().toISOString()
             });
     
-            navigate(`/event/${results.items.$id}`);
+            navigate(`/Item/${results.items.$id}`);
         } catch (error) {
             console.error("Error creating item:", error);
         }
