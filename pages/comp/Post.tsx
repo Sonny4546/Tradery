@@ -23,7 +23,7 @@ function getCurrentDateString() {
 const Post = () => {
     const { session } = useAuth();
     const navigate = useNavigate();
-    const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    const handleOnSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault();
         const user = await fetchUserData();
         if (!user) {
