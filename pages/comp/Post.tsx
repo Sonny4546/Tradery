@@ -6,6 +6,8 @@ import { useAuth } from '../lib/AuthHook';
 import { createItems } from '../lib/Items';
 import { client, account, getUser } from "../lib/appwrite";
 import { useNavigate } from 'react-router-dom';
+import { TraderyUser } from '../lib/GetUser';
+import { fetchUserData } from '../lib/User';
 
 function getCurrentDateString() {
     const date = new Date().getDate() //current date
@@ -21,23 +23,9 @@ function getCurrentDateString() {
 const Post = () => {
     const { session } = useAuth();
     const navigate = useNavigate();
-    const [user, setUser] = useState<User | undefined>(undefined);
-    useEffect(() => {
-        const checkUser = async () => {
-          try {
-            const userData = await getUser()
-            setUser(user)
-            console.log(userData)
-          } catch (error) {
-            setUser(undefined)
-          }
-        }
-    
-        checkUser()
-    }, []);
     const handleOnSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault();
-        
+        const user = await fetchUserData();
         if (!user) {
             console.log("User data is still loading. Please wait.");
             return;
@@ -57,7 +45,7 @@ const Post = () => {
         try {
             const results = await createItems({
                 name,
-                author: user?.name,
+                author: user.name,
                 description,
                 date: new Date().toISOString()
             });
