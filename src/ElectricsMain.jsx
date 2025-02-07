@@ -37,8 +37,11 @@ const main = createHashRouter([
     errorElement: <ErrorPage />,
     children: [
       {path: "/Dashboard/Post", element: <Post />},
-      {path: "/Dashboard/Profile", element: <Profile />},
-      {path: "/Dashboard/Profile/Edit", element: <EditProfile />},
+      {path: "/Dashboard/Profile", element: <Profile />, 
+        children: [
+          {path: "/Dashboard/Profile/Edit", element: <EditProfile />}
+        ]
+      },
       {path: "/Dashboard/Items", element: <Items />},
       {path: "/Dashboard/Requests", element: <Requests />},
       {path: "/Dashboard/Messages", element: <Messages />},

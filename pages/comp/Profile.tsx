@@ -11,13 +11,14 @@ const Profile = () => {
     const [user, setUser] = useState<TraderyUser | undefined>()
     useEffect(() => {
         const checkUser = async () => {
-          try {
-            const userData = await getUser()
-            setUser(userData)
-            console.log(userData)
-          } catch (error) {
-            setUser(undefined)
-          }
+            try {
+                const userData = await getUser();
+                console.log("User Data: ", userData);
+                setUser(userData);
+            } catch (error) {
+                console.error("Error fetching user: ", error);
+                setUser(undefined);
+            }
         }
     
         checkUser()

@@ -31,7 +31,7 @@ const Post = () => {
             return;
         }
 
-        const form = e.currentTarget;
+        const form = e.target as HTMLFormElement;
         const formData = new FormData(form);
     
         const name = formData.get("name") as string | null;
