@@ -41,17 +41,26 @@ const Post = () => {
         const form = e.currentTarget as HTMLFormElement;
         const formData = new FormData(form);
     
-        const name = formData.get("name") as string;
-        const description = formData.get("description") as string;
+        const name = formData.get("name") as string | null;
+        const description = formData.get("description") as string | null;
     
-        const results = await createItems({
-            name,
-            author: user?.name || "Unknown",
-            description,
-            date: new Date().toISOString()
-        });
+        if (!name || !description) {
+            alert("Please fill in all required fields.");
+            return;
+        }
     
-        navigate(`/event/${results.items.$id}`);
+        try {
+            const results = await createItems({
+                name,
+                author: user?.name || "Unknown",
+                description,
+                date: new Date().toISOString()
+            });
+    
+            navigate(`/event/${results.items.$id}`);
+        } catch (error) {
+            console.error("Error creating item:", error);
+        }
     };    
     return(
         <>
@@ -66,11 +75,11 @@ const Post = () => {
                         </Form.Group>
                     </div>
                     <div className="mb-3">
-                        <Form.Control id="name" type="text" placeholder="Name" required/>
+                        <Form.Control id="name" name="name" type="text" placeholder="Name" required/>
                     </div>
                     <Form.Group className="mb-3" controlId="Description.ControlTextarea1">
                         <Form.Label>Item Description</Form.Label>
-                        <Form.Control rows={4} id="description" placeholder="Description" required/>
+                        <Form.Control rows={4} id="description" name="description" placeholder="Description" required/>
                     </Form.Group>
                     <Button className="submitbtn" type="submit">Submit</Button>
                 </form>
