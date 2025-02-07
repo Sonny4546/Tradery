@@ -10,7 +10,7 @@ export default function LoginPage() {
 
   if (session) {
     return (
-      <Redirect to="#/Home" />
+      <Redirect to="https://sonny4546.github.io/Tradery/#/Home" />
     )
   }
 

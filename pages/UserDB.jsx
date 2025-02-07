@@ -4,6 +4,12 @@ import { NavLink, Outlet } from 'react-router-dom'
 import { useAuth } from './lib/AuthHook'
 
 export default function UserDB() {
+    const { session } = useAuth();
+    if (!session) {
+        return (
+          <Redirect to="https://sonny4546.github.io/Tradery/" />
+        )
+    }
     return (
         <>
         <div class="uWholeBox"> 

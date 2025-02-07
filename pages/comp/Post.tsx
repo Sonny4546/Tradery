@@ -31,21 +31,16 @@ const Post = () => {
             return;
         }
 
-        const form = e.currentTarget as HTMLFormElement;
-    
-        const name = form.get("name") as string | null;
-        const description = form.get("description") as string | null;
-    
-        if (!name || !description) {
-            alert("Please fill in all required fields.");
-            return;
+        const target = e.target as typeof e.target & {
+            name: { value: string };
+            description: { value: string };
         }
     
         try {
             const results = await createItems({
-                name,
+                name: target.name.value,
                 author: user.name,
-                description,
+                description: target.description.value,
                 date: new Date().toISOString()
             });
     
