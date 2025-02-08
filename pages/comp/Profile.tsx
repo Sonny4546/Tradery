@@ -50,7 +50,7 @@ const Profile = () => {
                 ) : (
                     <div className="container">
                         <div className="mb-3">
-                            <p>PLACEHOLDER JOHN DOE</p>
+                            <p></p>
                         </div>
                         <div className="mb-3">
                             <p>PROFILE SUMMARY</p>

@@ -62,6 +62,7 @@ const Post = () => {
             const results = await createItems({
                 name: target.name.value,
                 author: user.name,
+                authorID: user.$id,
                 description: target.description.value,
                 date: new Date().toISOString(),
                 imageHeight: image?.height ?? 100,
