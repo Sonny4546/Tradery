@@ -80,8 +80,8 @@ html {
 
 .clear-btn {
   position: absolute;
-  right: 75px;
-  top: 0px;
+  right: 110px;
+  top: 17px;
   background-color: transparent;
   border-color: transparent;
   --bs-btn-close-focus-shadow: transparent;
