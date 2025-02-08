@@ -1,5 +1,5 @@
 import '../src/main.css'
-import { Col, Row, Nav, Navbar, NavDropdown, Container, Alert, AlertHeading } from 'react-bootstrap';
+import { Col, Row, Nav, Navbar, NavDropdown, Container, Alert, CloseButton, AlertHeading } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'wouter';
 
@@ -23,6 +23,16 @@ const HomePage = () => {
     })();
   }, []);
 
+  const handleItems = async () => {
+    try {
+      const { items } = await getItems();
+      setItems(items)
+      console.log(items);
+    } catch (error) {
+        console.error("No Items :/", error);
+    }
+  }
+
   const handleSearch = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     const target = e.target as typeof e.target & {
@@ -43,6 +53,7 @@ const HomePage = () => {
             <div className="searchinput">
               <form className="search" onSubmit={handleSearch}>
                   <input id="ItemSearch" name="ItemSearch" placeholder="Search for Items..." required></input>
+                  <CloseButton onclick={handleItems}/>
                   <button type="submit">Search</button>
               </form>
             </div>
@@ -54,8 +65,8 @@ const HomePage = () => {
                         const imageUrl = item.imageFileId && getPreviewImageById(item.imageFileId)
                         const image = {
                           url: imageUrl,
-                          height: item?.imageHeight,
-                          width: item?.imageWidth,
+                          height: item.imageHeight,
+                          width: item.imageWidth,
                         };
                         return (
                             <Col xs={12} md={3} key={item.$id} style={{ paddingBottom: '20px' }}>
