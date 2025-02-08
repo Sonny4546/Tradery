@@ -55,8 +55,8 @@ function mapDocumentToItem(document: Models.Document) {
         date: document.date,
         description: document.description,
         imageFileId: document.imageFileId,
-        imageHeight: document.imageHeight ?? 150,
-        imageWidth: document.imageWidth ?? 100
+        imageHeight: document.imageHeight,
+        imageWidth: document.imageWidth
     }
     return items;
 }

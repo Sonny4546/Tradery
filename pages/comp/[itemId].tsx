@@ -38,10 +38,14 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                     </div>
                     <div className="itemimg">
                     {image?.url ?? (
-                        <img style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto' }} 
-                        width={image.width}
-                        height={image.height}
-                        src={image.url}></img>
+                        <Carousel controls={false}>
+                            <Carousel.Item>
+                                <img style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto' }} 
+                                width={image.width}
+                                height={image.height}
+                                src={String(image.url)}></img>
+                            </Carousel.Item>
+                        </Carousel>
                     )}
                     </div>
                     <div className="description">

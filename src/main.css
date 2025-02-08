@@ -77,6 +77,15 @@ html {
   }
 }
 
+.clear-btn {
+  position: absolute;
+  right: 75px;
+  top: 0px;
+  background-color: transparent;
+  border-color: transparent;
+  --bs-btn-close-focus-shadow: transparent;
+}
+
 /*Error Page*/
 .error {
 	font-family: "Poppins";
@@ -188,6 +197,10 @@ body {
 
 .items {
   padding-top: 50px;
+}
+
+.itemLink {
+  color: transparent;
 }
 
 .itemcontent {
