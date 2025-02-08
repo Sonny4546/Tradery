@@ -29,7 +29,7 @@ const HomePage = () => {
       ItemSearch: { value: string };
     }
     try {
-      const { items } = await getItemsbySearch(ItemSearch: target.ItemSearch.value);
+      const { items } = await getItemsbySearch(target.ItemSearch.value);
       setItems(items)
       console.log(items);
     } catch (error) {
