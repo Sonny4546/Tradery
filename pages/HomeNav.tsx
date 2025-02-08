@@ -17,11 +17,6 @@ interface HomeNavProps {
 
 const HomeNav = ({ children }: HomeNavProps) => {
   const { session, logOut } = useAuth();
-  if (!session) {
-    return (
-      <Redirect to="https://sonny4546.github.io/Tradery/" />
-    )
-  }
 
   async function logoutHandle() {
     await logOut()

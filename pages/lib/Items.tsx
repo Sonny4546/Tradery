@@ -34,7 +34,10 @@ function mapDocumentToItem(document: Models.Document) {
         name: document.name,
         author: document.author,
         date: document.date,
-        description: document.description
+        description: document.description,
+        imageFileId: document.imageFileId,
+        imageHeight: document.imageHeight ?? 100,
+        imageWidth: document.imageWidth ?? 100
     }
     return items;
 }

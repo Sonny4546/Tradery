@@ -8,21 +8,37 @@ import { client, account, getUser } from "../lib/appwrite";
 import { useNavigate } from 'react-router-dom';
 import { TraderyUser } from '../lib/GetUser';
 import { fetchUserData } from '../lib/User';
+import { uploadFile } from '../lib/storage'
 
-function getCurrentDateString() {
-    const date = new Date().getDate() //current date
-    const month = new Date().getMonth() + 1 //current month
-    const year = new Date().getFullYear() //current year
-    const hours = new Date().getHours() //current hours
-    const min = new Date().getMinutes() //current minutes
-    const sec = new Date().getSeconds() //current seconds
-
-    return date + '/' + month + '/' + year + '    ' +  hours + ':' + min + ':' + sec
+interface TraderyImage {
+    height: number;
+    file: File;
+    width: number;
 }
 
 const Post = () => {
     const { session } = useAuth();
     const navigate = useNavigate();
+    const [image, setImage] = useState<TraderyImage>();
+
+    function handleOnChange(e: React.FormEvent<HTMLFormElement>) {
+        const target = e.target as HTMLInputElement & {
+            files: FileList;
+        }
+
+        const img = new Image();
+
+        img.onload = function(){
+            setImage({
+                height: img.height,
+                file: target.files[0],
+                width: img.width
+            })
+        }
+
+        img.src = URL.createObjectURL(target.files[0])
+    }
+
     const handleOnSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault();
         const user = await fetchUserData();
@@ -35,13 +51,22 @@ const Post = () => {
             name: { value: string };
             description: { value: string };
         }
+        
+        let file;
     
+        if ( image?.file ) {
+        file = await uploadFile(image.file);
+        }
+
         try {
             const results = await createItems({
                 name: target.name.value,
                 author: user.name,
                 description: target.description.value,
-                date: new Date().toISOString()
+                date: new Date().toISOString(),
+                imageHeight: image?.height ?? 100,
+                imageFileId: file?.$id,
+                imageWidth: image?.width ?? 100
             });
     
             navigate(`/Item/${results.items.$id}`);
@@ -58,7 +83,7 @@ const Post = () => {
                     <div className="uploader">
                         <Form.Group controlId="formFileLg" className="mb-3">
                             <Form.Label>Import Image</Form.Label>
-                            <Form.Control type="file" size="lg" accept=".png, .jpg" />
+                            <Form.Control type="file" size="lg" accept=".png, .jpg" onChange={handleOnChange} />
                         </Form.Group>
                     </div>
                     <div className="mb-3">

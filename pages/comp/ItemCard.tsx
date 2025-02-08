@@ -6,7 +6,6 @@ interface ItemCardProps {
     name: string;
     date: string;
     image?: {
-        alt: string;
         height: number;
         url: string;
         width: number;
@@ -19,10 +18,9 @@ const ItemCard = ({ name, date, author, image }: ItemCardProps) => {
         <Card className="itemcontent" style={{ width: '100%' }}>
                 {image?.url && (
                 <Card.Img variant="top"
-                    width={image.width}
-                    height={image.height}
+                    width={image.width && (100)}
+                    height={image.height && (100)}
                     src={image.url}
-                    alt={image.alt}
                 />
                 )}
                 <Card.Body>

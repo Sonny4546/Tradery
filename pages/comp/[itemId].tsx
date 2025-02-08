@@ -4,11 +4,18 @@ import Carousel from 'react-bootstrap/Carousel';
 import { useParams } from "react-router-dom";
 
 import { getItemsById } from "../lib/Items";
+import { getPreviewImageById } from "../lib/storage"
 import { TraderyItems } from "../lib/ItemsInterface";
 import HomeNav from "../HomeNav";
 
 export default function ItemContent({ params = useParams() }: { params: { itemsId: string}}) {
     const [items, setItems] = useState<TraderyItems | undefined>();
+    const imageUrl = items?.imageFileId && getPreviewImageById(items.imageFileId)
+    const image = {
+      url: imageUrl,
+      height: items?.imageHeight,
+      width: items?.imageWidth,
+    };
     useEffect(() => {
         (async function run() {
             const { items } = await getItemsById(params.itemsId);
@@ -32,7 +39,12 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                     <div className="itemimg">
                         <Carousel controls={false}>
                             <Carousel.Item>
-                                <img style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto' }} src="https://raw.githubusercontent.com/Sonny4546/OurFavoriteArtist/2b20d35e16c25397593d98943c14072b56aa9cbb/images/about.jpg"></img>
+                                {image?.url ?? (
+                                <img style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto' }} 
+                                width={image.width}
+                                height={image.height}
+                                src={image.url}/>
+                                )}
                             </Carousel.Item>
                         </Carousel>
                     </div>

@@ -7,13 +7,6 @@ import { Redirect } from 'wouter';
 export default function LoginPage() {
   const { session } = useAuth();
   const { logIn } = useAuth();
-
-  if (session) {
-    return (
-      <Redirect to="https://sonny4546.github.io/Tradery/#/Home" />
-    )
-  }
-
   async function loginHandle() {
     await logIn();
   }

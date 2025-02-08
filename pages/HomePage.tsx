@@ -5,6 +5,7 @@ import { Link } from 'wouter';
 
 import { useAuth } from './lib/AuthHook';
 import { TraderyItems } from './lib/ItemsInterface';
+import { getPreviewImageById } from "./lib/storage";
 import { getItems } from './lib/Items';
 import ItemCard from './comp/ItemCard';
 import HomeNav from './HomeNav';
@@ -12,7 +13,7 @@ import HomeNav from './HomeNav';
 
 const HomePage = () => {
   const [items, setItems] = useState<Array<TraderyItems> | undefined>();
-
+   
   useEffect(() => {
     (async function run() {
       const { items } = await getItems();
@@ -34,24 +35,29 @@ const HomePage = () => {
               <Row>
                 {Array.isArray(items) && items.length > 0 && (
                 <>
-                    {items.map((items) => {
-                    return (
-                        <Col xs={12} md={3} style={{ paddingBottom: '20px' }}>
-                            <a className="itemLink" href={`#/Item/${items.$id}`}>
-                            <ItemCard
-                                // image={{
-                                //   alt: '',
-                                //   height: items.imageHeight,
-                                //   url: items.imageUrl,
-                                //   width: items.imageWidth
-                                // }}
-                                name={items.name}
-                                date={items.date}
-                                author={items.author}
-                            />
-                            </a>
-                        </Col>
-                    )
+                    {items.map((item) => {
+                        const imageUrl = item.imageFileId && getPreviewImageById(item.imageFileId)
+                        const image = {
+                          url: imageUrl,
+                          height: item?.imageHeight,
+                          width: item?.imageWidth,
+                        };
+                        return (
+                            <Col xs={12} md={3} key={item.$id} style={{ paddingBottom: '20px' }}>
+                                <a className="itemLink" href={`#/Item/${item.$id}`}>
+                                    <ItemCard
+                                        image={{
+                                          height: image.height,
+                                          url: image.url,
+                                          width: image.width
+                                        }}
+                                        name={item.name}
+                                        date={item.date}
+                                        author={item.author}
+                                    />
+                                </a>
+                            </Col>
+                        );
                     })}
                 </>
                 )}
