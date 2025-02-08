@@ -84,7 +84,7 @@ const Post = () => {
                     <div className="uploader">
                         <Form.Group controlId="formFileLg" className="mb-3">
                             <Form.Label>Import Image</Form.Label>
-                            <Form.Control type="file" size="lg" accept=".png, .jpg" onChange={handleOnChange} />
+                            <Form.Control type="file" size="lg" accept=".png, .jpg" onChange={handleOnChange} required/>
                         </Form.Group>
                     </div>
                     <div className="mb-3">

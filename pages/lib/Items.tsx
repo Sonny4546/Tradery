@@ -12,6 +12,15 @@ export async function getItems() {
     }
 }
 
+export async function getItemsbySearch(ItemSearch: string) {
+    const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
+                                                    import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, 
+                                                    [Query.orderDesc('date'),Query.contains('name', ItemSearch),]);
+    return{
+        items: documents.map(mapDocumentToItem)
+    }
+}
+
 export async function getItemsbyUser(userId: string) {
     const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
                                                     import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, 
@@ -46,7 +55,7 @@ function mapDocumentToItem(document: Models.Document) {
         date: document.date,
         description: document.description,
         imageFileId: document.imageFileId,
-        imageHeight: document.imageHeight ?? 100,
+        imageHeight: document.imageHeight ?? 150,
         imageWidth: document.imageWidth ?? 100
     }
     return items;

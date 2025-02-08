@@ -7,6 +7,7 @@ import { useAuth } from './lib/AuthHook';
 import { TraderyItems } from './lib/ItemsInterface';
 import { getPreviewImageById } from "./lib/storage";
 import { getItems } from './lib/Items';
+import { getItemsbySearch } from './lib/Items';
 import ItemCard from './comp/ItemCard';
 import HomeNav from './HomeNav';
 
@@ -21,15 +22,22 @@ const HomePage = () => {
       console.log(items);
     })();
   }, []);
+
+  const handleSearch = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    const { items } = await getItemsbySearch();
+    setItems(items)
+    console.log(items);
+  }
   return (
     <HomeNav>
       <div className="home">
         <div className="container" id="pagewrap">
             <div className="searchinput">
-                <form className="search">
-                    <input name="keyword" placeholder="Search for Items..."></input>
-                    <button>Search</button>
-                </form>
+              <form className="search" onSubmit={handleSearch}>
+                  <input name="keyword" placeholder="Search for Items..."></input>
+                  <button type="submit">Search</button>
+              </form>
             </div>
             <div className="items container">
               <Row>
