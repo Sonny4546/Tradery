@@ -64,17 +64,18 @@ html {
     border-radius: 10px;
     border-color: crimson;
   }
-  button {
-    background-color: var(--bs-primary);
-    border-color: transparent;
-    color: white;
-    border-radius: 5px;
-    position: absolute;
-    height: 50px;
-    width: 100px;
-    right: 5px;
-    top: 5px;
-  }
+}
+
+.submit-btn {
+  background-color: var(--bs-primary);
+  border-color: transparent;
+  color: white;
+  border-radius: 5px;
+  position: absolute;
+  height: 50px;
+  width: 100px;
+  right: 5px;
+  top: 5px;
 }
 
 .clear-btn {

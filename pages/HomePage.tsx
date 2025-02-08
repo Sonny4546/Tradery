@@ -54,7 +54,7 @@ const HomePage = () => {
               <form className="search" onSubmit={handleSearch}>
                   <input id="ItemSearch" name="ItemSearch" placeholder="Search for Items..." required></input>
                   <CloseButton className="clear-btn" onclick={handleItems}/>
-                  <button type="submit">Search</button>
+                  <button className="submit-btn" type="submit">Search</button>
               </form>
             </div>
             <div className="items container">
