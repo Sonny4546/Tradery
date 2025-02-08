@@ -25,9 +25,16 @@ const HomePage = () => {
 
   const handleSearch = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    const { items } = await getItemsbySearch();
-    setItems(items)
-    console.log(items);
+    const target = e.target as typeof e.target & {
+      ItemSearch: { value: string };
+    }
+    try {
+      const { items } = await getItemsbySearch(ItemSearch: target.ItemSearch.value);
+      setItems(items)
+      console.log(items);
+    } catch (error) {
+        console.error("Error finding Item:", error);
+    }
   }
   return (
     <HomeNav>
@@ -35,7 +42,7 @@ const HomePage = () => {
         <div className="container" id="pagewrap">
             <div className="searchinput">
               <form className="search" onSubmit={handleSearch}>
-                  <input name="keyword" placeholder="Search for Items..."></input>
+                  <input id="ItemSearch" name="ItemSearch" placeholder="Search for Items..." required></input>
                   <button type="submit">Search</button>
               </form>
             </div>
