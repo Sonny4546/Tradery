@@ -46,6 +46,14 @@ export async function createItems(item: Omit<TraderyItems, '$id'>) {
     }
 }
 
+export async function addRequest(itemsId: string, item: Omit<TraderyItems, '$id, author, authorID, description, date, imageHeight, imageWidth, imageFileId'>){
+    const document = await database.updateDocument(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
+                                                import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, itemsId, item);
+    return {
+        items: mapDocumentToItem(document)
+    }
+}
+
 function mapDocumentToItem(document: Models.Document) {
     const items: TraderyItems = {
         $id: document.$id,
@@ -56,7 +64,8 @@ function mapDocumentToItem(document: Models.Document) {
         description: document.description,
         imageFileId: document.imageFileId,
         imageHeight: document.imageHeight,
-        imageWidth: document.imageWidth
+        imageWidth: document.imageWidth,
+        requests: document.requests
     }
     return items;
 }

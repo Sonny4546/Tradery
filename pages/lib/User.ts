@@ -1,6 +1,7 @@
 import { Models } from 'appwrite';
 import { getUser } from "../lib/appwrite";
 import { TraderyUser } from './GetUser';
+import { useState } from 'react';
 
 export async function fetchUserData() {
     const user = await getUser();
@@ -18,4 +19,15 @@ function mapUserToItem(user: Models.User<Models.Preferences>): TraderyUser {
         name: user.name,
         $id: user.$id
     };
+}
+
+export const [user, setUser] = useState<TraderyUser | undefined>()
+
+export const checkUser = async () => {
+    try {
+        const userData = await getUser();
+        setUser(userData);
+    } catch (error) {
+        setUser(undefined);
+    }
 }

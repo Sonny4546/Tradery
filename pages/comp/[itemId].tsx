@@ -3,13 +3,17 @@ import { Button } from "react-bootstrap";
 import Carousel from 'react-bootstrap/Carousel';
 import { useParams } from "react-router-dom";
 
-import { getItemsById } from "../lib/Items";
+import { getItems, getItemsById } from "../lib/Items";
 import { getPreviewImageById } from "../lib/storage"
 import { TraderyItems } from "../lib/ItemsInterface";
 import HomeNav from "../HomeNav";
+import { fetchUserData } from '../lib/User';
+import { addRequest } from "../lib/Items";
+import { useNavigate } from 'react-router-dom';
 
 export default function ItemContent({ params = useParams() }: { params: { itemsId: string}}) {
     const [items, setItems] = useState<TraderyItems | undefined>();
+    const navigate = useNavigate();
     const imageUrl = items?.imageFileId && getPreviewImageById(items.imageFileId)
     const image = {
       url: imageUrl,
@@ -23,6 +27,37 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             // console.log(items);
         })();
     }, [params.itemsId]);
+
+    // async function handleOnTrade() {
+    //     const [request, setRequest] = useState<TraderyItems | undefined>();
+    //     const user = await fetchUserData();
+    //     if (!user) {
+    //         console.log("User data is still loading. Please wait.");
+    //         return;
+    //     }
+    //     const { requests } = await getItems()
+    //     setRequest(request)
+    //     let request = await 
+    //     request.push(user?.$id)
+    //     try {
+    //         const results = await addRequest(params.itemsId,{
+    //             requests: request,
+    //             imageFileId: "",
+    //             imageHeight: 0,
+    //             $id: "",
+    //             name: "",
+    //             author: "",
+    //             authorID: "",
+    //             date: "",
+    //             description: "",
+    //             imageWidth: 0
+    //         });
+    
+    //         navigate(`/Item/${results.items.$id}`);
+    //     } catch (error) {
+    //         console.error("Error creating item:", error);
+    //     }
+    // }
     return (
         <HomeNav>
             <div className="container">
@@ -40,8 +75,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                         <Carousel controls={false}>
                             <Carousel.Item>
                             {image?.url ?? (
-                                <img style={{ display: 'block', marginLeft: 'auto', marginRight: 'auto' }} 
-                                width={image.width}
+                                <img width={image.width}
                                 height={image.height}
                                 src={String(image.url)}></img>
                             )}
