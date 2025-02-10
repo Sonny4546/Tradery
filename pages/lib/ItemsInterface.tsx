@@ -8,5 +8,4 @@ export interface TraderyItems {
     imageFileId: string;
     imageHeight: number;
     imageWidth: number;
-    requests: Array<string> | null;
 }

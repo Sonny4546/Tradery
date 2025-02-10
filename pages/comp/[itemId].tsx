@@ -13,7 +13,6 @@ import { useNavigate } from 'react-router-dom';
 
 export default function ItemContent({ params = useParams() }: { params: { itemsId: string}}) {
     const [items, setItems] = useState<TraderyItems | undefined>();
-    const navigate = useNavigate();
     const imageUrl = items?.imageFileId && getPreviewImageById(items.imageFileId)
     const image = {
       url: imageUrl,

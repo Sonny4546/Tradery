@@ -65,7 +65,6 @@ function mapDocumentToItem(document: Models.Document) {
         imageFileId: document.imageFileId,
         imageHeight: document.imageHeight,
         imageWidth: document.imageWidth,
-        requests: document.requests
     }
     return items;
 }

@@ -20,14 +20,3 @@ function mapUserToItem(user: Models.User<Models.Preferences>): TraderyUser {
         $id: user.$id
     };
 }
-
-export const [user, setUser] = useState<TraderyUser | undefined>()
-
-export const checkUser = async () => {
-    try {
-        const userData = await getUser();
-        setUser(userData);
-    } catch (error) {
-        setUser(undefined);
-    }
-}

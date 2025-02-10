@@ -67,8 +67,7 @@ const Post = () => {
                 date: new Date().toISOString(),
                 imageHeight: image?.height ?? 100,
                 imageFileId: file?.$id,
-                imageWidth: image?.width ?? 100,
-                requests: null
+                imageWidth: image?.width ?? 100
             });
     
             navigate(`/Item/${results.items.$id}`);
