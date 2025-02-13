@@ -50,7 +50,7 @@ const HomePage = () => {
             <div className="searchinput">
               <form className="search" onSubmit={handleSearch}>
                   <input id="ItemSearch" name="ItemSearch" placeholder="Search for Items..." required></input>
-                    {IsHidden && (
+                    {isHidden && (
                       <CloseButton className="clear-btn" onClick={handleHomeItems}/>
                     )}
                   <button className="submit-btn" type="submit">Search</button>
