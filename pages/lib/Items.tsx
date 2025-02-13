@@ -24,7 +24,7 @@ export async function getItemsbySearch(ItemSearch: string) {
 export async function getItemsbyUser(userId: string) {
     const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
                                                     import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, 
-                                                    [Query.contains('authorID', userId),]);
+                                                    [Query.contains('authorID', userId),Query.orderDesc('date')]);
     return{
         items: documents.map(mapDocumentToItem)
     }
@@ -65,6 +65,7 @@ function mapDocumentToItem(document: Models.Document) {
         imageFileId: document.imageFileId,
         imageHeight: document.imageHeight,
         imageWidth: document.imageWidth,
+        isApproved: false,
     }
     return items;
 }

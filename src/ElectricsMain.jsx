@@ -16,6 +16,7 @@ import Items from "../pages/comp/ItemsDB";
 import Requests from "../pages/comp/Requests";
 import ItemContent from "../pages/comp/[itemId]"
 import EditProfile from "../pages/comp/EditProfile"
+import AdminPage from "../pages/Admin"
 import { AuthProvider, useAuth } from "../pages/lib/AuthHook";
 import { RouterProvider, HashRouter, createHashRouter, Route, Router, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 
@@ -23,6 +24,10 @@ const main = createHashRouter([
   {
     path: "/", element: <LoginPage />,
     errorElement: <ErrorPage />,
+  },
+  {
+    path: "/Admin", element: <AdminPage />,
+    errorElement: <ErrorPage />
   },
   {
     path: "/Home", element: <HomePage />,
