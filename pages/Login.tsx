@@ -11,10 +11,10 @@ export default function LoginPage() {
   function checkbx(event: React.ChangeEvent<HTMLInputElement>) {
     switch (event.target.checked) {
       case true:
-        setIsChecked(true); // Hide button
+        setIsChecked(true);
         break;
       case false:
-        setIsChecked(false); // Show button
+        setIsChecked(false);
         break;
       default:
         break;
@@ -32,8 +32,8 @@ export default function LoginPage() {
       </div>
       <p className="LoginWord"> USER LOGIN </p>
       <div className="google-button">
-        {!isChecked && (
-          <Button className="login" variant="primary" size="lg" id="btn" onClick={loginHandle}>Login with Google</Button>
+        {isChecked && (
+          <Button className="login" variant="primary" size="lg" id="btn" style={{margin: 0}} onClick={loginHandle}>Login with Google</Button>
         )}
       </div>
       <div>
