@@ -15,20 +15,7 @@ import HomeNav from './HomeNav';
 
 const HomePage = () => {
   const [items, setItems] = useState<Array<TraderyItems> | undefined>();
-  const [isChecked, setIsChecked] = useState(false);
-
-  function searchform(event: React.ChangeEvent<HTMLInputElement>) {
-    switch (event.target.checked) {
-      case true:
-        setIsChecked(true);
-        break;
-      case false:
-        setIsChecked(false);
-        break;
-      default:
-        break;
-    }
-  }
+  const [isHidden, setIsHidden] = useState(false);
    
   useEffect(() => {
     (async function run() {
@@ -38,12 +25,13 @@ const HomePage = () => {
     })();
   }, []);
 
-  function handleItems() {
+  function handleHomeItems() {
     window.location.reload();
   }
 
   const handleSearch = async (e: React.SyntheticEvent) => {
     e.preventDefault();
+    setIsHidden(prevState => !prevState);
     const target = e.target as typeof e.target & {
       ItemSearch: { value: string };
     }
@@ -62,8 +50,8 @@ const HomePage = () => {
             <div className="searchinput">
               <form className="search" onSubmit={handleSearch}>
                   <input id="ItemSearch" name="ItemSearch" placeholder="Search for Items..." required></input>
-                    {isChecked && (
-                      <CloseButton className="clear-btn" onclick={handleItems}/>
+                    {IsHidden && (
+                      <CloseButton className="clear-btn" onClick={handleHomeItems}/>
                     )}
                   <button className="submit-btn" type="submit">Search</button>
               </form>

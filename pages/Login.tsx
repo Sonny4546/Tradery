@@ -6,6 +6,9 @@ import { Redirect } from 'wouter';
 
 export default function LoginPage() {
   const { session } = useAuth();
+  if (session) {
+    <Redirect to="https://sonny4546.github.io/Tradery/#/Home" />
+  }
   const [isChecked, setIsChecked] = useState(false);
 
   function checkbx(event: React.ChangeEvent<HTMLInputElement>) {

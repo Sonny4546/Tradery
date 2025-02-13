@@ -13,6 +13,21 @@ import { useNavigate } from 'react-router-dom';
 
 export default function ItemContent({ params = useParams() }: { params: { itemsId: string}}) {
     const [items, setItems] = useState<TraderyItems | undefined>();
+    const [isAuthor, setIsAuthor] = useState(true);
+
+    function handleHomeItems() {
+        switch (event.target.checked) {
+            case true:
+            setIsChecked(true);
+            break;
+            case false:
+            setIsChecked(false);
+            break;
+            default:
+            break;
+        }
+    }
+
     const imageUrl = items?.imageFileId && getPreviewImageById(items.imageFileId)
     const image = {
       url: imageUrl,
@@ -68,7 +83,12 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                         <div>Date Posted: { new Date(items.date).toLocaleString('en-US', { month: 'long', day: 'numeric' }) }</div>
                     </div>
                     <div className="Tradecont">
-                        <Button className="Tradereq" variant="primary">Request a Trade</Button>
+                        {isAuthor && (
+                            <Button className="Tradereq" variant="primary">Delete Item</Button>
+                        )}
+                        {!isAuthor && (
+                            <Button className="Tradereq" variant="primary">Request a Trade</Button>
+                        )}
                     </div>
                     <div className="itemimg">
                         <Carousel controls={false}>
@@ -76,7 +96,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                             {image?.url ?? (
                                 <img width={image.width}
                                 height={image.height}
-                                src={(image.url)}></img>
+                                src={imageUrl}></img>
                             )}
                             </Carousel.Item>
                         </Carousel>
