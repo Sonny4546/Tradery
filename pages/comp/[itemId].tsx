@@ -15,17 +15,9 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
     const [items, setItems] = useState<TraderyItems | undefined>();
     const [isAuthor, setIsAuthor] = useState(true);
 
-    function handleHomeItems() {
-        switch (event.target.checked) {
-            case true:
-            setIsChecked(true);
-            break;
-            case false:
-            setIsChecked(false);
-            break;
-            default:
-            break;
-        }
+    async function handleButton() {
+        const user = await fetchUserData()
+        if(user.$id = )
     }
 
     const imageUrl = items?.imageFileId && getPreviewImageById(items.imageFileId)
