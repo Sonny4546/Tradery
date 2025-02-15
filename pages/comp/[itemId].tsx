@@ -17,8 +17,8 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
 
     async function handleButton() {
         const user = await fetchUserData()
-        if(user.$id = )
-    }
+    //     if(user.$id = )
+    // }
 
     const imageUrl = items?.imageFileId && getPreviewImageById(items.imageFileId)
     const image = {
