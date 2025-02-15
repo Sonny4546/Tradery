@@ -27,8 +27,8 @@ const HomeNav = ({ children }: HomeNavProps) => {
     )
   }
   const [, navigate] = useLocation();
-  if (session) {
-    navigate(`/Home`);
+  if (!session) {
+    navigate(`Tradery/`);
   }
 
   const [user, setUser] = useState<TraderyUser | undefined>()

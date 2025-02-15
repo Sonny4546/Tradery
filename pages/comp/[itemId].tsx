@@ -15,7 +15,7 @@ import { useLocation } from "wouter";
 export default function ItemContent({ params = useParams() }: { params: { itemsId: string}}) {
     const [items, setItems] = useState<TraderyItems | undefined>();
     const [, navigate] = useLocation();
-    const [isAuthor, setIsAuthor] = useState(true);
+    const [isAuthor, setIsAuthor] = useState<boolean>();
     const imageUrl = items?.imageFileId && getPreviewImageById(items.imageFileId)
     const image = {
       url: imageUrl,
@@ -81,10 +81,10 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                         <div>Date Posted: { new Date(items.date).toLocaleString('en-US', { month: 'long', day: 'numeric' }) }</div>
                     </div>
                     <div className="Tradecont">
-                        {isAuthor && (
+                        {isAuthor == true && (
                             <Button className="Tradereq" variant="primary" onClick={handleDeleteItem}>Delete Item</Button>
                         )}
-                        {!isAuthor && (
+                        {isAuthor == false && (
                             <Button className="Tradereq" variant="primary">Request a Trade</Button>
                         )}
                     </div>
@@ -94,7 +94,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                             {image?.url ?? (
                                 <img width={image.width}
                                 height={image.height}
-                                src={String(image.url)}></img>
+                                src={String(image.url) && "./images/favicon"}></img>
                             )}
                             </Carousel.Item>
                         </Carousel>

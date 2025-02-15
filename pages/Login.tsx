@@ -8,7 +8,7 @@ export default function LoginPage() {
   const { session } = useAuth();
   const [, navigate] = useLocation();
   if (session) {
-    navigate(`/Home`);
+    navigate(`Tradery/#/Home`);
   }
   const [isChecked, setIsChecked] = useState(false);
 
