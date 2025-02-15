@@ -14,8 +14,8 @@ import { useLocation } from "wouter";
 
 export default function ItemContent({ params = useParams() }: { params: { itemsId: string}}) {
     const [items, setItems] = useState<TraderyItems | undefined>();
-    const [, navigate] = useLocation();
-    const [isAuthor, setIsAuthor] = useState<boolean>();
+    const navigate = useNavigate();
+    const [isAuthor, setIsAuthor] = useState(false);
     const imageUrl = items?.imageFileId && getPreviewImageById(items.imageFileId)
     const image = {
       url: imageUrl,
@@ -29,7 +29,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             const user = await fetchUserData()
             const userId = user?.$id
             if(userId == items?.$id) {
-                setIsAuthor(false)
+                setIsAuthor(true)
             }
         })();
     }, [params.itemsId]);

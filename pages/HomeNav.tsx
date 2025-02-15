@@ -26,7 +26,7 @@ const HomeNav = ({ children }: HomeNavProps) => {
       <Redirect to="/" />
     )
   }
-  const [, navigate] = useLocation();
+  const navigate = useNavigate();
   if (!session) {
     navigate(`Tradery/`);
   }

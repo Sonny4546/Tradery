@@ -18,41 +18,32 @@ import ItemContent from "../pages/comp/[itemId]"
 import EditProfile from "../pages/comp/EditProfile"
 import AdminPage from "../pages/Admin"
 import { AuthProvider, useAuth } from "../pages/lib/AuthHook";
-import { RouterProvider, HashRouter, createHashRouter, Route, Router, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 
-const main = createHashRouter([
-  {
-    path: "/", element: <LoginPage />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/Admin", element: <AdminPage />,
-    errorElement: <ErrorPage />
-  },
-  {
-    path: "/Home", element: <HomePage />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/Item/:itemsId", element: <ItemContent />,
-    errorElement: <ErrorPage />,
-  },
-  {
-    path: "/Dashboard", element: <DBPage />,
-    errorElement: <ErrorPage />,
-    children: [
-      {path: "/Dashboard/Post", element: <Post />},
-      {path: "/Dashboard/Profile", element: <Profile />, 
-        children: [
-          {path: "/Dashboard/Profile/Edit", element: <EditProfile />}
-        ]
-      },
-      {path: "/Dashboard/Items", element: <Items />},
-      {path: "/Dashboard/Requests", element: <Requests />},
-      {path: "/Dashboard/Messages", element: <Messages />},
-    ]
-  },
-]);
+const main = () => {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<LoginPage />} />
+        <Route path="/Admin" element={<AdminPage />} />
+        <Route path="/Home" element={<HomePage />} />
+        <Route path="/Item/:itemsId" element={<ItemContent />} />
+        <Route path="/Dashboard" element={<DBPage />}>
+          <Route path="Post" element={<Post />} />
+          <Route path="Profile" element={<Profile />}>
+            <Route path="Edit" element={<EditProfile />} />
+          </Route>
+          <Route path="Items" element={<Items />} />
+          <Route path="Requests" element={<Requests />} />
+          <Route path="Messages" element={<Messages />} />
+        </Route>
+        {/* Error Handling: If an unknown route is accessed */}
+        <Route path="*" element={<ErrorPage />} />
+      </Routes>
+    </Router>
+  );
+};
+
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
