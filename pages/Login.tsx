@@ -2,12 +2,13 @@ import '../src/main.css'
 import React, {useState} from 'react'
 import Button from 'react-bootstrap/Button';
 import { useAuth } from './lib/AuthHook';
-import { Redirect } from 'wouter';
+import { Redirect, useLocation } from 'wouter';
 
 export default function LoginPage() {
   const { session } = useAuth();
+  const [, navigate] = useLocation();
   if (session) {
-    <Redirect to="https://sonny4546.github.io/Tradery/#/Home" />
+    navigate(`/Home`);
   }
   const [isChecked, setIsChecked] = useState(false);
 

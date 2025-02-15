@@ -3,22 +3,19 @@ import { Button } from "react-bootstrap";
 import Carousel from 'react-bootstrap/Carousel';
 import { useParams } from "react-router-dom";
 
-import { getItems, getItemsById } from "../lib/Items";
+import { getItems, getItemsById, deleteItemById } from "../lib/Items";
 import { getPreviewImageById } from "../lib/storage"
 import { TraderyItems } from "../lib/ItemsInterface";
 import HomeNav from "../HomeNav";
 import { fetchUserData } from '../lib/User';
 import { addRequest } from "../lib/Items";
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from "wouter";
 
 export default function ItemContent({ params = useParams() }: { params: { itemsId: string}}) {
     const [items, setItems] = useState<TraderyItems | undefined>();
+    const [, navigate] = useLocation();
     const [isAuthor, setIsAuthor] = useState(true);
-
-    async function handleButton() {
-        const user = await fetchUserData()
-        // if(user.$id = )
-    }
     const imageUrl = items?.imageFileId && getPreviewImageById(items.imageFileId)
     const image = {
       url: imageUrl,
@@ -29,7 +26,11 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
         (async function run() {
             const { items } = await getItemsById(params.itemsId);
             setItems(items);
-            // console.log(items);
+            const user = await fetchUserData()
+            const userId = user?.$id
+            if(userId == items?.$id) {
+                setIsAuthor(false)
+            }
         })();
     }, [params.itemsId]);
 
@@ -63,6 +64,12 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
     //         console.error("Error creating item:", error);
     //     }
     // }
+
+    async function handleDeleteItem() {
+        if (!items?.$id) return;
+        await deleteItemById(items.$id);
+        navigate('/');
+    }
     return (
         <HomeNav>
             <div className="container">
@@ -75,7 +82,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                     </div>
                     <div className="Tradecont">
                         {isAuthor && (
-                            <Button className="Tradereq" variant="primary">Delete Item</Button>
+                            <Button className="Tradereq" variant="primary" onClick={handleDeleteItem}>Delete Item</Button>
                         )}
                         {!isAuthor && (
                             <Button className="Tradereq" variant="primary">Request a Trade</Button>
@@ -87,7 +94,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                             {image?.url ?? (
                                 <img width={image.width}
                                 height={image.height}
-                                src={imageUrl}></img>
+                                src={String(image.url)}></img>
                             )}
                             </Carousel.Item>
                         </Carousel>

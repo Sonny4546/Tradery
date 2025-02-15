@@ -2,7 +2,7 @@ import '../src/main.css'
 import { Col, Row, Nav, Navbar, NavDropdown, Container, Alert } from 'react-bootstrap';
 import React, { ReactNode, useEffect, useState } from 'react'
 import { Outlet } from 'react-router-dom'
-import { Link } from 'wouter';
+import { useLocation } from 'wouter';
 
 import { useAuth } from './lib/AuthHook';
 import { Redirect } from 'wouter';
@@ -10,6 +10,8 @@ import { TraderyItems } from './lib/ItemsInterface';
 import { getItems } from './lib/Items';
 import ItemCard from './comp/ItemCard';
 import { useNavigate } from 'react-router-dom';
+import { TraderyUser } from './lib/GetUser';
+import { getUser } from "./lib/appwrite";
 
 interface HomeNavProps {
   children?: ReactNode;
@@ -24,6 +26,26 @@ const HomeNav = ({ children }: HomeNavProps) => {
       <Redirect to="/" />
     )
   }
+  const [, navigate] = useLocation();
+  if (session) {
+    navigate(`/Home`);
+  }
+
+  const [user, setUser] = useState<TraderyUser | undefined>()
+    useEffect(() => {
+        const checkUser = async () => {
+            try {
+                const userData = await getUser();
+                console.log("User Data: ", userData);
+                setUser(userData);
+            } catch (error) {
+                console.error("Error fetching user: ", error);
+                setUser(undefined);
+            }
+        }
+    
+        checkUser()
+    }, [])
   return (
     <>
     <div className="body" >
@@ -44,7 +66,7 @@ const HomeNav = ({ children }: HomeNavProps) => {
             <Row>
               <Nav className="me-auto">
                 <Nav.Link href="#/Dashboard/Messages#view-messages">Messages</Nav.Link>
-                <NavDropdown title="User" id="basic-nav-dropdown" align="end">
+                <NavDropdown title={String(user?.name) ?? "User"} id="basic-nav-dropdown" align="end">
                   <NavDropdown.Item href="#/Dashboard/Profile">User Dashboard</NavDropdown.Item>
                   <NavDropdown.Divider />
                   { session && (

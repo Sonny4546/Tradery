@@ -21,23 +21,22 @@ const Post = () => {
     const navigate = useNavigate();
     const [image, setImage] = useState<TraderyImage>();
 
-    function handleOnChange(e: React.FormEvent<HTMLFormElement>) {
-        const target = e.target as HTMLInputElement & {
-            files: FileList;
-        }
-
+    function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+        if (!e.target.files || e.target.files.length === 0) return;
+    
+        const file = e.target.files[0];
         const img = new Image();
-
-        img.onload = function(){
+    
+        img.onload = function () {
             setImage({
                 height: img.height,
-                file: target.files[0],
+                file: file,
                 width: img.width
-            })
-        }
-
-        img.src = URL.createObjectURL(target.files[0])
-    }
+            });
+        };
+    
+        img.src = URL.createObjectURL(file);
+    }    
 
     const handleOnSubmit = async (e: React.SyntheticEvent) => {
         e.preventDefault();
@@ -47,7 +46,7 @@ const Post = () => {
             return;
         }
 
-        const target = e.target as typeof e.target & {
+        const target = e.currentTarget as typeof e.currentTarget & {
             name: { value: string };
             description: { value: string };
         }
@@ -93,7 +92,7 @@ const Post = () => {
                     </div>
                     <Form.Group className="mb-3" controlId="Description.ControlTextarea1">
                         <Form.Label>Item Description</Form.Label>
-                        <Form.Control rows={4} id="description" name="description" placeholder="Description" required/>
+                        <Form.Control rows={4} as="textarea" id="description" name="description" placeholder="Description" required/>
                     </Form.Group>
                     <Button className="submitbtn" type="submit">Submit</Button>
                 </form>

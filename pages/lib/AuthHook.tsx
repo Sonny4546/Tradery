@@ -7,6 +7,7 @@ interface TraderyAuthContext {
     session?: Models.Session;
     logIn: Function;
     logOut: Function;
+    logInAdmin: Function;
 }
 
 export const AuthContext = createContext<TraderyAuthContext | undefined>(undefined)
@@ -45,6 +46,16 @@ export function useAuthState() {
       }
     }
 
+    async function logInAdmin(email: string, password: string) {
+      try {
+        await account.createEmailPasswordSession(
+          email, password
+        )
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
     async function logOut() {
       await DeleteSession();
       setSession(undefined);
@@ -52,7 +63,8 @@ export function useAuthState() {
     return{
         session,
         logOut,
-        logIn
+        logIn,
+        logInAdmin
     }
 }
 

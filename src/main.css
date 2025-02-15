@@ -494,7 +494,7 @@ body {
   font-size: inherit;
 }
 
-.btn {
+.admin-btn {
   display: block;
   cursor: pointer;
   border: none;
@@ -508,7 +508,7 @@ body {
   width: 100%;
 }
 
-.btn:hover {
+.admin-btn:hover {
   background-color: #fff;
   color: #000;
 }
@@ -519,7 +519,7 @@ body {
   padding: 2em;
 }
 
-input {
+form div input {
   background: #fff;
   border: 1px solid #000;
   padding: 1rem;

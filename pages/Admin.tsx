@@ -1,19 +1,27 @@
 import '../src/main.css'
-import React from 'react'
+import { Models } from 'appwrite';
+import React, {useState, useEffect} from 'react'
 import Button from 'react-bootstrap/Button';
 import { useAuth } from './lib/AuthHook';
+import { getCurrentSession} from "./lib/appwrite";
 import { Redirect } from 'wouter';
+import Form from 'react-bootstrap/Form';
 
 export default function Register() {
+  const handleAdminLogin = async (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    const target = e.target as typeof e.target & {
+      email: { value: string };
+      password: { value: string };
+    }
+    const {session, logInAdmin} = useAuth();
+    await logInAdmin(target.email.value, target.password.value)
+    console.log("pressed")
+  }
   return (
     <div className="RegAdminContainer">
       <div className="login-register-container">
-        <form>
-          <div className="form-field-wrapper">
-            <label>Name:</label>
-            <input required type="text" name="name" placeholder="Enter name..."/>
-          </div>
-
+        <form onSubmit={handleAdminLogin}>
           <div className="form-field-wrapper">
             <label>Email:</label>
             <input required type="email" name="email" placeholder="Enter email..."/>
@@ -21,21 +29,14 @@ export default function Register() {
 
           <div className="form-field-wrapper">
             <label>Password:</label>
-            <input type="password" name="password1" placeholder="Enter password..."/>
+            <Form.Control type="password" name="password" placeholder="Enter password..."/>
           </div>
 
           <div className="form-field-wrapper">
-            <label>Confirm Password:</label>
-            <input type="password" name="password2" placeholder="Confirm password..."/>
-          </div>
-
-          <div className="form-field-wrapper">
-            <Button type="submit" className="btn btn-dark w-100">Register</Button>
+            <Button type="submit" className="admin-btn btn-dark w-100">Log-In</Button>
           </div>
 
         </form>
-
-      <p>Already have an account?</p>
     </div>
   </div>
   )

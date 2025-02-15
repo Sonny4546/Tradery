@@ -2,13 +2,14 @@ import React from 'react'
 import { useEffect, useState } from "react";
 import { useAuth } from '../lib/AuthHook';
 import { client, account, getUser } from "../lib/appwrite";
-import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'wouter';
 import { Image, Button, Form } from 'react-bootstrap';
 import { TraderyUser } from '../lib/GetUser';
 
 const Profile = () => { 
     const { session } = useAuth();
     const [user, setUser] = useState<TraderyUser | undefined>()
+    const [, navigate] = useLocation();
     useEffect(() => {
         const checkUser = async () => {
             try {
@@ -25,7 +26,7 @@ const Profile = () => {
     }, [])
 
     const sendtoEdit = () => {
-        useNavigate("/Dashboard/Profile/Edit");
+        navigate(`/Dashboard/Profile/Edit`);
     };
 
     return (

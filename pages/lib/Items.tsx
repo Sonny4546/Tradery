@@ -2,6 +2,7 @@ import React from 'react';
 import { Models, Query, ID } from 'appwrite';
 import { database } from './appwrite';
 import { TraderyItems } from './ItemsInterface';
+import { deleteFileById } from './storage';
 
 export async function getItems() {
     const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
@@ -24,18 +25,25 @@ export async function getItemsbySearch(ItemSearch: string) {
 export async function getItemsbyUser(userId: string) {
     const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
                                                     import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, 
-                                                    [Query.contains('authorID', userId),Query.orderDesc('date')]);
+                                                    [Query.contains('authorID', userId), Query.orderDesc('date')]);
     return{
         items: documents.map(mapDocumentToItem)
     }
 }
 
-export async function getItemsById(itemsId: string) {
+export async function getItemsById(itemsId: TraderyItems['$id']) {
     const document = await database.getDocument(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
                                                 import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, itemsId);
     return {
         items: mapDocumentToItem(document)
     }
+}
+
+export async function deleteItemById(itemId: TraderyItems['$id']) {
+    const { items } = await getItemsById(itemId);
+    await deleteFileById(items.imageFileId);
+    await database.deleteDocument(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
+                                import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, itemId);
 }
 
 export async function createItems(item: Omit<TraderyItems, '$id'>) {
