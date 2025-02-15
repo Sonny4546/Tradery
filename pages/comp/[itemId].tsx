@@ -101,4 +101,4 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             </div>
         </HomeNav>
     )
-}
+// }
