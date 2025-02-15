@@ -30,7 +30,7 @@ export default function Register() {
           </div>
 
           <div className="form-field-wrapper">
-            <input type="submit" value="Register" class="btn"/>
+            <input type="submit" value="Register" className="btn"/>
           </div>
 
         </form>
