@@ -505,7 +505,7 @@ body {
   border: 1px solid #000;
   text-decoration: none;
   line-height: normal;
-  width: 635px;
+  width: 100%;
 }
 
 .btn:hover {
