@@ -18,7 +18,7 @@ import ItemContent from "../pages/comp/[itemId]"
 import EditProfile from "../pages/comp/EditProfile"
 import AdminPage from "../pages/Admin"
 import { AuthProvider, useAuth } from "../pages/lib/AuthHook";
-import { HashRouter as Routes, Router, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 
 const MainRouter = () => {
   return (
