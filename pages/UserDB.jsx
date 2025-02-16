@@ -2,9 +2,14 @@ import '../src/main.css'
 import React, { useEffect } from 'react'
 import { NavLink, Outlet } from 'react-router-dom'
 import { useAuth } from './lib/AuthHook'
+import { useNavigate } from 'react-router-dom';
 
 export default function UserDB() {
     const { session } = useAuth();
+    const navigate = useNavigate();
+    if (!session) {
+        navigate(`/`);
+    }
     return (
         <>
         <div class="uWholeBox"> 
