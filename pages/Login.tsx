@@ -32,8 +32,8 @@ export default function LoginPage() {
   }
   const { logIn } = useAuth();
   async function loginHandle() {
-    await logIn();
     try {
+      await logIn();
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
