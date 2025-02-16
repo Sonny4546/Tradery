@@ -18,11 +18,13 @@ import ItemContent from "../pages/comp/[itemId]"
 import EditProfile from "../pages/comp/EditProfile"
 import AdminPage from "../pages/Admin"
 import { AuthProvider, useAuth } from "../pages/lib/AuthHook";
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Routes } from "react-router-dom";
+import { Router, Route } from "wouter";
+import { useHashLocation } from "wouter/use-hash-location";
 
 const MainRouter = () => {
   return (
-    <Router>
+    <Router hook={useHashLocation}>
       <Routes>
         <Route path="/" element={<LoginPage />} />
         <Route path="/Admin" element={<AdminPage />} />
@@ -37,7 +39,6 @@ const MainRouter = () => {
           <Route path="Requests" element={<Requests />} />
           <Route path="Messages" element={<Messages />} />
         </Route>
-        {/* Error Handling: If an unknown route is accessed */}
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </Router>

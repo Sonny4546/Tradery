@@ -94,7 +94,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                             {image?.url ?? (
                                 <img width={image.width}
                                 height={image.height}
-                                src={String(image.url) && "./images/favicon"}></img>
+                                src={String(image.url) && "./images/favicon"}/>
                             )}
                             </Carousel.Item>
                         </Carousel>
