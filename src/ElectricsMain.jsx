@@ -18,14 +18,13 @@ import ItemContent from "../pages/comp/[itemId]"
 import EditProfile from "../pages/comp/EditProfile"
 import AdminPage from "../pages/Admin"
 import { AuthProvider, useAuth } from "../pages/lib/AuthHook";
-// import { HashRouter as Routes } from "react-router-dom";
-import { Router as WouterRouter, Router, Route, Routes } from "wouter";
+import { HashRouter as Routes } from "react-router-dom";
+import { Router as WouterRouter, Router, Route } from "wouter";
 import { useHashLocation } from "wouter/use-hash-location";
 
 const MainRouter = () => {
   return (
     <Router hook={useHashLocation}>
-      <Routes>
       <WouterRouter >
         <Route path="/" element={<LoginPage />} />
         <Route path="/Admin" element={<AdminPage />} />
@@ -42,7 +41,6 @@ const MainRouter = () => {
         </Route>
         <Route path="*" element={<ErrorPage />} />
       </WouterRouter>
-      </Routes>
     </Router>
   );
 };
