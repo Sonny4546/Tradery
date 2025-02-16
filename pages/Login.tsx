@@ -57,11 +57,6 @@ export default function LoginPage() {
     console.error("Login error:", error);
   }
 }
-
-      
-    
-
-  
   return (
     <>
     <div className="logincontainer">
