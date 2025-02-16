@@ -4,11 +4,6 @@ import Button from 'react-bootstrap/Button';
 import { useAuth } from './lib/AuthHook';
 import { useNavigate } from 'react-router-dom';
 
-import { auth, db } from "./lib/firebase";
-import { doc, setDoc, getDoc } from "firebase/firestore";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-
-
 export default function LoginPage() {
   const { session } = useAuth();
   const navigate = useNavigate();
@@ -32,30 +27,7 @@ export default function LoginPage() {
   }
   const { logIn } = useAuth();
   async function loginHandle() {
-    try {
       await logIn();
-    const provider = new GoogleAuthProvider();
-    const result = await signInWithPopup(auth, provider);
-    const user = result.user;
-
-    const userRef = doc(db, "users", user.uid);
-    const userSnap = await getDoc(userRef);
-
-    if (!userSnap.exists()) {
-      await setDoc(userRef, {
-        id: user.uid,
-        email: user.email,
-        username: user.displayName || "New User",
-        createdAt: new Date(),
-        blocked: [],
-      });
-      await setDoc(doc(db, "userchats", user.uid), {
-        chats: [],
-      });
-    }
-  } catch (error) {
-    console.error("Login error:", error);
-  }
 }
   return (
     <>
