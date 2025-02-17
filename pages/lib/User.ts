@@ -1,5 +1,5 @@
 import { Models } from 'appwrite';
-import { getUser } from "../lib/appwrite";
+import { getUser, teams } from "../lib/appwrite";
 import { TraderyUser } from './GetUser';
 import { useState } from 'react';
 
@@ -19,4 +19,11 @@ function mapUserToItem(user: Models.User<Models.Preferences>): TraderyUser {
         name: user.name,
         $id: user.$id
     };
+}
+
+export async function getTeams() {
+    const data = await teams.list();
+    return {
+      teams: data.teams
+    }
 }

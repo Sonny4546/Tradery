@@ -31,6 +31,15 @@ export async function getItemsbyUser(userId: string) {
     }
 }
 
+export async function getItemsbyApproval(approved: boolean) {
+    const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
+                                                    import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, 
+                                                    [Query.contains('isApproved', approved.toString()), Query.orderDesc('date')]);
+    return{
+        items: documents.map(mapDocumentToItem)
+    }
+}
+
 export async function getItemsById(itemsId: TraderyItems['$id']) {
     const document = await database.getDocument(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
                                                 import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, itemsId);

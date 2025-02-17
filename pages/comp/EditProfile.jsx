@@ -5,14 +5,9 @@ import Form from 'react-bootstrap/Form';
 import { useAuth } from '../lib/AuthHook';
 import { useNavigate } from 'react-router-dom';
 
-const Profile = () => { 
+const EditProfile = () => { 
     const { session } = useAuth();
-    // useEffect(() => {
-    //     if (!session) {
-    //         const navigate = useNavigate()
-    //         return navigate('https://sonny4546.github.io/Tradery/')
-    //       }
-    // }, []);
+    
     return(
         <>
         <div class="Main">
@@ -35,4 +30,4 @@ const Profile = () => {
         </>
     )
 }
-export default Profile
+export default EditProfile

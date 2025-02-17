@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Account, Client, OAuthProvider, Storage, Databases } from 'appwrite'
+import { Account, Client, OAuthProvider, Storage, Databases, Teams } from 'appwrite'
 
 export const client = new Client()
 client
@@ -10,6 +10,7 @@ export { OAuthProvider }
 export const storage = new Storage(client);
 export const account = new Account(client);
 export const database = new Databases(client);
+export const teams = new Teams(client)
 
 export async function getCurrentSession() {
   const session = await account.getSession('current');
@@ -28,5 +29,4 @@ export const getUser = async () => {
 
 export async function DeleteSession() {
   await account.deleteSession('current');
-  console.log("account session deleted!")
 }

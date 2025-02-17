@@ -2,9 +2,11 @@ import React, { createContext, ReactNode, useContext, useState, useEffect } from
 import { getCurrentSession, DeleteSession, OAuthProvider, account } from "./appwrite";
 import { Models } from "appwrite";
 import { useNavigate } from 'react-router'
+import { getTeams } from "./User";
 
 interface TraderyAuthContext {
     session?: Models.Session;
+    isAdmin?: boolean;
     logIn: Function;
     logOut: Function;
     logInAdmin: Function;
@@ -27,6 +29,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
 export function useAuthState() {
     const [session, setSession] = useState<Models.Session>();
+    const [isAdmin, setIsAdmin] = useState<boolean>();
 
     useEffect(() => {
         (async function run() {
@@ -34,7 +37,16 @@ export function useAuthState() {
           setSession(data.session);
         })();
       }, [])
-
+    
+    useEffect(() => {
+        if ( !session?.$id ) return;
+        (async function run() {
+          const { teams } = await getTeams();
+          const isAdmin = !!teams.find(team => team.$id === import.meta.env.VITE_APPWRITE_TEAM_ADMIN_ID)
+          setIsAdmin(isAdmin);
+        })();
+      }, [session?.$id])
+    
     async function logIn() {
       try {
         await account.createOAuth2Session(
@@ -62,6 +74,7 @@ export function useAuthState() {
     }
     return{
         session,
+        isAdmin,
         logOut,
         logIn,
         logInAdmin

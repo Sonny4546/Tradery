@@ -26,7 +26,7 @@ const Profile = () => {
     }, [])
 
     const sendtoEdit = () => {
-        navigate(`/Dashboard/Profile/Edit`);
+        navigate(`Tradery/#/Dashboard/Profile/Edit`);
     };
 
     return (

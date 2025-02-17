@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Alert } from "react-bootstrap";
 import Carousel from 'react-bootstrap/Carousel';
 import { useParams } from "react-router-dom";
 
@@ -11,11 +11,13 @@ import { fetchUserData } from '../lib/User';
 import { addRequest } from "../lib/Items";
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from "wouter";
+import { useAuth } from "../lib/AuthHook";
 
 export default function ItemContent({ params = useParams() }: { params: { itemsId: string}}) {
     const [items, setItems] = useState<TraderyItems | undefined>();
     const navigate = useNavigate();
     const [isAuthor, setIsAuthor] = useState(false);
+    const {isAdmin} = useAuth();
     const imageUrl = items?.imageFileId && getPreviewImageById(items.imageFileId)
     const image = {
       url: imageUrl,
@@ -28,8 +30,8 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             setItems(items);
             const user = await fetchUserData()
             const userId = user?.$id
-            if(userId == items?.$id) {
-                setIsAuthor(true)
+            if (userId === items?.authorID) {
+                setIsAuthor(true);
             }
         })();
     }, [params.itemsId]);
@@ -75,27 +77,38 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             <div className="container">
                 {items && (
                 <>
+                    {!items.isApproved && (
+                    <Alert key='warning' variant='warning'>
+                        Post is waiting to be approved by the moderators.
+                    </Alert>
+                    )}
                     <div className="itemheading">
                         <div><h1>{items.name}</h1></div>
                         <div>By: {items.author}</div>
                         <div>Date Posted: { new Date(items.date).toLocaleString('en-US', { month: 'long', day: 'numeric' }) }</div>
                     </div>
-                    <div className="Tradecont">
-                        {isAuthor == true && (
+                    {!isAdmin && (
+                        <div className="Tradecont">
+                            {isAuthor == true && (
+                                <Button className="Tradereq" variant="primary" onClick={handleDeleteItem}>Delete Item</Button>
+                            )}
+                            {isAuthor == false && (
+                                <Button className="Tradereq" variant="primary">Request a Trade</Button>
+                            )}
+                        </div>
+                    )}
+                    {isAdmin && (
+                        <div className="Tradecont">
                             <Button className="Tradereq" variant="primary" onClick={handleDeleteItem}>Delete Item</Button>
-                        )}
-                        {isAuthor == false && (
-                            <Button className="Tradereq" variant="primary">Request a Trade</Button>
-                        )}
-                    </div>
+                            <Button className="Tradereq" variant="primary">Approve Item</Button>
+                        </div>
+                    )}
                     <div className="itemimg">
                         <Carousel controls={false}>
                             <Carousel.Item>
-                            {image?.url ?? (
                                 <img width={image.width}
                                 height={image.height}
-                                src={String(image.url) && "./images/favicon"}/>
-                            )}
+                                src={image.url ? String(image.url) : "./images/favicon"}/>
                             </Carousel.Item>
                         </Carousel>
                     </div>

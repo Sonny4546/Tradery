@@ -15,14 +15,21 @@ interface ItemCardProps {
 
 const ItemCard = ({ name, date, author, image }: ItemCardProps) => {
     return (
-        <Card className="itemcontent" style={{ width: '100%' }}>
+        <Card className="itemcontent" style={{ width: '100%', height: '100%' }}>
+            <div style={{ height: '200px', overflow: 'hidden' }}>
                 {image?.url && (
-                <Card.Img variant="top"
-                    width={image.width && (100)}
-                    height={image.height && (100)}
-                    src={image.url}
-                />
+                <>
+                <Card.Img className="Card-Image" variant="top"
+                        width={image.width && (100)}
+                        height={image.height && (100)}
+                        src={image.url} />
+                <img className="Card-ImageBG"
+                        width={image.width && (100)}
+                        height={image.height && (100)}
+                        src={image.url} ></img>
+                </>
                 )}
+            </div>
                 <Card.Body>
                     <Card.Title>{ name }</Card.Title>
                     <Card.Text>
