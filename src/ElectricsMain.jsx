@@ -15,7 +15,6 @@ import Post from "../pages/comp/Post";
 import Items from "../pages/comp/ItemsDB";
 import Requests from "../pages/comp/Requests";
 import ItemContent from "../pages/comp/[itemId]"
-import EditProfile from "../pages/comp/EditProfile"
 import AdminPage from "../pages/Admin"
 import { AuthProvider, useAuth } from "../pages/lib/AuthHook";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
@@ -30,9 +29,7 @@ const MainRouter = () => {
         <Route path="/Item/:itemsId" element={<ItemContent />} />
         <Route path="/Dashboard" element={<DBPage />}>
           <Route path="Post" element={<Post />} />
-          <Route path="Profile" element={<Profile />}>
-            <Route path="Edit" element={<EditProfile />} />
-          </Route>
+          <Route path="Profile" element={<Profile />}/>
           <Route path="Items" element={<Items />} />
           <Route path="Requests" element={<Requests />} />
           <Route path="Messages" element={<Messages />} />

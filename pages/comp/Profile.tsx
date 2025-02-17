@@ -1,15 +1,14 @@
-import React from 'react'
-import { useEffect, useState } from "react";
-import { useAuth } from '../lib/AuthHook';
-import { client, account, getUser } from "../lib/appwrite";
-import { useLocation } from 'wouter';
-import { Image, Button, Form } from 'react-bootstrap';
-import { TraderyUser } from '../lib/GetUser';
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../lib/AuthHook";
+import { getUser } from "../lib/appwrite";
+import { useLocation } from "wouter";
+import { Image, Button, Form } from "react-bootstrap";
+import { TraderyUser } from "../lib/GetUser";
 
-const Profile = () => { 
-    const { session } = useAuth();
-    const [user, setUser] = useState<TraderyUser | undefined>()
-    const [, navigate] = useLocation();
+const Profile = () => {
+    const [user, setUser] = useState<TraderyUser | undefined>();
+    const [isEditing, setIsEditing] = useState(false);
+
     useEffect(() => {
         const checkUser = async () => {
             try {
@@ -20,43 +19,78 @@ const Profile = () => {
                 console.error("Error fetching user: ", error);
                 setUser(undefined);
             }
-        }
-    
-        checkUser()
-    }, [])
+        };
 
-    const sendtoEdit = () => {
-        navigate(`Tradery/#/Dashboard/Profile/Edit`);
+        checkUser();
+    }, []);
+
+    const handleEditProfile = () => {
+        setIsEditing(true);
+    };
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        // Add API call to update user profile here
+        setIsEditing(false); // Switch back to profile view
     };
 
     return (
         <div className="Main">
             <div className="container">
-                <h1>Profile</h1>
-                <Button className="editprf btn btn-primary mb-3" onClick={sendtoEdit}>
-                    Edit Profile
-                </Button>
-                <div className="inputprofile">
-                    <Image src="https://raw.githubusercontent.com/Sonny4546/OurFavoriteArtist/2b20d35e16c25397593d98943c14072b56aa9cbb/images/about.jpg" roundedCircle width={180} height={180} />
-                </div>
-                {user ? (
-                    <div className="container">
-                        <div className="mb-3">
-                            <p>{user.name}</p>
-                        </div>
-                        <div className="mb-3">
-                            <p>PROFILE SUMMARY</p>
-                        </div>
-                    </div>
+                {isEditing ? (
+                    <>
+                        <h1>Edit Profile</h1>
+                        <form onSubmit={handleSubmit}>
+                            <div className="inputprofile">
+                                <input type="file" accept=".png, .jpg" />
+                                <p>Upload an image: accepts jpg and png only</p>
+                            </div>
+                            <div className="mb-3">
+                                <Form.Control type="text" placeholder="Name" defaultValue={user?.name} />
+                            </div>
+                            <Form.Group className="mb-3" controlId="Description.ControlTextarea1">
+                                <Form.Label>Profile Summary</Form.Label>
+                                <Form.Control as="textarea" rows={2} defaultValue="PROFILE SUMMARY" />
+                            </Form.Group>
+                            <Button className="submitbtn" type="submit">
+                                Submit
+                            </Button>
+                        </form>
+                    </>
                 ) : (
-                    <div className="container">
-                        <div className="mb-3">
-                            <p></p>
+                    <>
+                        <h1>Profile</h1>
+                        <Button className="editprf btn btn-primary mb-3" onClick={handleEditProfile}>
+                            Edit Profile
+                        </Button>
+                        <div className="inputprofile">
+                            <Image
+                                src="https://raw.githubusercontent.com/Sonny4546/OurFavoriteArtist/2b20d35e16c25397593d98943c14072b56aa9cbb/images/about.jpg"
+                                roundedCircle
+                                width={180}
+                                height={180}
+                            />
                         </div>
-                        <div className="mb-3">
-                            <p>PROFILE SUMMARY</p>
-                        </div>
-                    </div>
+                        {user ? (
+                            <div className="container">
+                                <div className="mb-3">
+                                    <p>{user.name}</p>
+                                </div>
+                                <div className="mb-3">
+                                    <p>PROFILE SUMMARY</p>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="container">
+                                <div className="mb-3">
+                                    <p></p>
+                                </div>
+                                <div className="mb-3">
+                                    <p>PROFILE SUMMARY</p>
+                                </div>
+                            </div>
+                        )}
+                    </>
                 )}
             </div>
         </div>

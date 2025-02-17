@@ -106,7 +106,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                     <div className="itemimg">
                         <Carousel controls={false}>
                             <Carousel.Item>
-                                <img width={image.width}
+                                <img className="thumbnail" width={image.width}
                                 height={image.height}
                                 src={image.url ? String(image.url) : "./images/favicon"}/>
                             </Carousel.Item>
