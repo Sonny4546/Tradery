@@ -54,7 +54,6 @@ const Post = () => {
             const user = await fetchUserData();
             if (!user) {
                 console.log("User data is still loading. Please wait.");
-                setLoading(false);
                 return;
             }
     
@@ -81,12 +80,12 @@ const Post = () => {
                     imageFileId: file?.$id,
                     imageHeight: image?.height,
                     imageWidth: image?.width,
-                    name: "",
-                    author: "",
-                    authorID: "",
-                    date: "",
-                    description: "",
-                    isApproved: false,
+                    name,
+                    description,
+                    author: user.name,
+                    authorID: user.$id,
+                    date: new Date().toISOString(),
+                    isApproved: false
                 });
     
                 console.log("Image uploaded successfully:", file.$id);
