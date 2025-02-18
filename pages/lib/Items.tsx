@@ -7,7 +7,7 @@ import { deleteFileById } from './storage';
 export async function getItems() {
     const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
                                                     import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, 
-                                                    [Query.orderDesc('date'),]);
+                                                    [Query.orderDesc('date'), Query.equal('isApproved', true)]);
     return{
         items: documents.map(mapDocumentToItem)
     }
@@ -31,10 +31,10 @@ export async function getItemsbyUser(userId: string) {
     }
 }
 
-export async function getItemsbyApproval(approved: boolean) {
+export async function getItemsbyApproval() {
     const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
                                                     import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, 
-                                                    [Query.contains('isApproved', approved.toString()), Query.orderDesc('date')]);
+                                                    [Query.equal('isApproved', false), Query.orderDesc('date')]);
     return{
         items: documents.map(mapDocumentToItem)
     }
@@ -63,6 +63,14 @@ export async function createItems(item: Omit<TraderyItems, '$id'>) {
     }
 }
 
+export async function updateItem(itemsId: string, item: Omit<TraderyItems, '$id'>){
+    const document = await database.updateDocument(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
+                                                import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, itemsId, item);
+    return {
+        items: mapDocumentToItem(document)
+    }
+}
+
 export async function addRequest(itemsId: string, item: Omit<TraderyItems, '$id, author, authorID, description, date, imageHeight, imageWidth, imageFileId'>){
     const document = await database.updateDocument(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
                                                 import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, itemsId, item);
@@ -83,6 +91,7 @@ function mapDocumentToItem(document: Models.Document) {
         imageHeight: document.imageHeight,
         imageWidth: document.imageWidth,
         isApproved: false,
+        requests: document.requests,
     }
     return items;
 }

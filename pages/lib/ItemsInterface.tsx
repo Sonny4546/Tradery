@@ -9,4 +9,5 @@ export interface TraderyItems {
     imageHeight: number;
     imageWidth: number;
     isApproved: boolean;
+    requests?: string[];
 }

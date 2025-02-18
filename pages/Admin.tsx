@@ -34,7 +34,7 @@ export default function Register() {
             console.log("User data is still loading. Please wait.");
             return;
         }
-        const { items } = await getItemsbyApproval(false);
+        const { items } = await getItemsbyApproval();
         setItems(items)
         console.log(items);
         })();
@@ -99,8 +99,7 @@ export default function Register() {
                         {Array.isArray(items) && items.length === 0 && (
                             <Container>
                                 <Alert key='warning' variant='warning'>
-                                No Items are currently posted, 
-                                <Alert.Link href="#/Dashboard/Post">You can start by posting here</Alert.Link>.
+                                No Items are waiting to be approved yet.
                                 </Alert>
                             </Container>
                         )}

@@ -36,36 +36,51 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
         })();
     }, [params.itemsId]);
 
-    // async function handleOnTrade() {
-    //     const [request, setRequest] = useState<TraderyItems | undefined>();
-    //     const user = await fetchUserData();
-    //     if (!user) {
-    //         console.log("User data is still loading. Please wait.");
-    //         return;
-    //     }
-    //     const { requests } = await getItems()
-    //     setRequest(request)
-    //     let request = await 
-    //     request.push(user?.$id)
-    //     try {
-    //         const results = await addRequest(params.itemsId,{
-    //             requests: request,
-    //             imageFileId: "",
-    //             imageHeight: 0,
-    //             $id: "",
-    //             name: "",
-    //             author: "",
-    //             authorID: "",
-    //             date: "",
-    //             description: "",
-    //             imageWidth: 0
-    //         });
+    async function handleOnTrade() {
+        if (!items) return;
+        
+        const user = await fetchUserData();
+        if (!user) {
+            console.log("User data is still loading. Please wait.");
+            return;
+        }
     
-    //         navigate(`/Item/${results.items.$id}`);
-    //     } catch (error) {
-    //         console.error("Error creating item:", error);
-    //     }
-    // }
+        try {
+            // Fetch existing requests or initialize an empty array
+            const currentRequests = items.requests ?? [];
+            
+            // Avoid duplicate requests
+            if (currentRequests.includes(user.$id)) {
+                console.log("User has already requested this trade.");
+                return;
+            }
+    
+            // Add the user ID to the requests array
+            const updatedRequests = [...currentRequests, user.$id];
+    
+            // Update the item in Appwrite
+            const updatedItem = await addRequest(params.itemsId, {
+                requests: updatedRequests,
+                authorID: "",
+                date: "",
+                isApproved: false,
+                $id: "",
+                name: "",
+                author: "",
+                description: "",
+                imageFileId: "",
+                imageHeight: 0,
+                imageWidth: 0
+            });
+    
+            console.log("Trade request successful:", updatedItem);
+            
+            // Optionally, navigate or refresh the page
+            navigate(`/Item/${params.itemsId}`);
+        } catch (error) {
+            console.error("Error requesting trade:", error);
+        }
+    }
 
     async function handleDeleteItem() {
         if (!items?.$id) return;
@@ -93,7 +108,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                                 <Button className="Tradereq" variant="primary" onClick={handleDeleteItem}>Delete Item</Button>
                             )}
                             {isAuthor == false && (
-                                <Button className="Tradereq" variant="primary">Request a Trade</Button>
+                                <Button className="Tradereq" variant="primary" onClick={handleOnTrade}>Request a Trade</Button>
                             )}
                         </div>
                     )}
