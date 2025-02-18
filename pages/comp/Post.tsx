@@ -36,43 +36,47 @@ const Post = () => {
         img.src = URL.createObjectURL(file);
     }
 
-    const handleOnSubmit = async (e: React.SyntheticEvent) => {
+    const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setLoading(true); // 🔹 Show overlay
-
-        const user = await fetchUserData();
-        if (!user) {
-            console.log("User data is still loading. Please wait.");
+        setLoading(true); // Show overlay
+    
+        const formData = new FormData(e.currentTarget);
+        const name = formData.get("name") as string;
+        const description = formData.get("description") as string;
+    
+        if (!name || !description) {
+            alert("Please fill in all fields.");
+            setLoading(false);
             return;
         }
-
-        const target = e.currentTarget as typeof e.currentTarget & {
-            name: { value: string };
-            description: { value: string };
-        };
-
+    
         try {
-            // ✅ Step 1: Create item first (without image)
+            const user = await fetchUserData();
+            if (!user) {
+                console.log("User data is still loading. Please wait.");
+                setLoading(false);
+                return;
+            }
+    
+            // Create item without image first
             const results = await createItems({
-                name: target.name.value,
+                name,
                 author: user.name,
                 authorID: user.$id,
-                description: target.description.value,
+                description,
                 date: new Date().toISOString(),
                 imageHeight: image?.height ?? 100,
                 imageFileId: "",
                 imageWidth: image?.width ?? 100,
                 isApproved: false,
             });
-
+    
             console.log("Item created successfully:", results.items);
-
-            // ✅ Step 2: If item creation was successful, upload the image
+    
             if (image?.file) {
                 console.log("Uploading image...");
                 const file = await uploadFile(image.file);
-
-                // ✅ Step 3: Update the item with the uploaded image ID
+    
                 await updateItem(results.items.$id, {
                     imageFileId: file?.$id,
                     imageHeight: image?.height,
@@ -82,21 +86,20 @@ const Post = () => {
                     authorID: "",
                     date: "",
                     description: "",
-                    isApproved: false
+                    isApproved: false,
                 });
-
+    
                 console.log("Image uploaded successfully:", file.$id);
             }
-
-            // ✅ Step 4: Navigate to item page after everything succeeds
+    
             navigate(`/Item/${results.items.$id}`);
         } catch (error) {
             console.error("Error creating item:", error);
             alert("Failed to create item. Please try again.");
         } finally {
-            setLoading(false); // 🔹 Hide overlay
+            setLoading(false); // Hide overlay
         }
-    };
+    };    
 
     return (
         <>
