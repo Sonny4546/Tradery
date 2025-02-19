@@ -22,7 +22,7 @@ export default function Register() {
       password: { value: string };
     }
     await logInAdmin(target.email.value, target.password.value)
-    console.log("pressed")
+    window.location.reload();
   }
 
   const [items, setItems] = useState<Array<TraderyItems> | undefined>();
@@ -65,6 +65,7 @@ export default function Register() {
         )}
         {isAdmin && (
         <div className="home">
+          <h1>UNAPPROVED ITEMS</h1>
             <div className="container" id="pagewrap">
                 <div className="items container">
                     <Row>

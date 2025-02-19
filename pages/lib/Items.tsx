@@ -101,7 +101,7 @@ function mapDocumentToItem(document: Models.Document) {
         imageWidth: document.imageWidth,
         isApproved: false,
         requests: document.requests,
-        category: document.itemCategory
+        itemCategory: document.itemCategory
     }
     return items;
 }

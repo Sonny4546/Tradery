@@ -72,7 +72,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                 imageFileId: items.imageFileId,
                 imageHeight: items.imageHeight,
                 imageWidth: items.imageWidth,
-                category: items.category,
+                itemCategory: items.itemCategory,
             });
     
             console.log("Trade request successful:", updatedItem);
@@ -125,7 +125,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                 imageFileId: items.imageFileId,
                 imageHeight: items.imageHeight,
                 imageWidth: items.imageWidth,
-                category: items.category,
+                itemCategory: items.itemCategory,
             });
     
             console.log("Approved Post: ", updatedItem);
@@ -171,7 +171,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                 imageFileId: items.imageFileId,
                 imageHeight: items.imageHeight,
                 imageWidth: items.imageWidth,
-                category: items.category,
+                itemCategory: items.itemCategory,
             });
     
             console.log("Trade request removed:", updatedItem);
@@ -188,7 +188,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                 {items && (
                 <>
                     {!items.isApproved && (
-                    <Alert key='warning' variant='warning'>
+                    <Alert key='warning' variant='warning' style={{ margin: '20px', }}>
                         Post is waiting to be approved by the moderators.
                     </Alert>
                     )}

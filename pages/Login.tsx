@@ -40,6 +40,9 @@ export default function LoginPage() {
         {isChecked && (
           <Button className="login" variant="primary" size="lg" id="btn" style={{margin: 0}} onClick={loginHandle}>Login with Google</Button>
         )}
+        {!isChecked && (
+          <Button className="login" variant="primary" size="lg" id="btn" style={{margin: 0}} disabled>Login with Google</Button>
+        )}
       </div>
       <div>
         <p className="Use">By using this website, you confirm that you are a member of the University of the East and agree to use only a valid UE email address (@ue.edu.ph) for registration and access.</p>

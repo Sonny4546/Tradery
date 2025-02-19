@@ -44,9 +44,9 @@ const Post = () => {
         const formData = new FormData(e.currentTarget);
         const name = formData.get("name") as string;
         const description = formData.get("description") as string;
-        const category = formData.get("category") as string;
+        const itemCategory = formData.get("itemCategory") as string;
     
-        if (!name || !description || !category) {
+        if (!name || !description || !itemCategory) {
             alert("Please fill in all fields.");
             setLoading(false);
             return;
@@ -70,7 +70,7 @@ const Post = () => {
                 imageFileId: "",
                 imageWidth: image?.width ?? 100,
                 isApproved: false,
-                category,
+                itemCategory,
             });
     
             console.log("Item created successfully:", results.items);
@@ -89,7 +89,7 @@ const Post = () => {
                     authorID: user.$id,
                     date: new Date().toISOString(),
                     isApproved: false,
-                    category,
+                    itemCategory,
                 });
     
                 console.log("Image uploaded successfully:", file.$id);
@@ -132,8 +132,8 @@ const Post = () => {
                         </div>
                         <div className="mb-3">
                             <FloatingLabel controlId="floatingSelect" label="Category">
-                                <Form.Select id="category" name="category" size="lg" required>
-                                    <option>Select a category...</option>
+                                <Form.Select id="itemCategory" name="itemCategory" size="lg" required>
+                                    <option value="" disabled>Select a Category...</option>
                                     <option value="a">School Supplies</option>
                                     <option value="b">Clothing</option>
                                     <option value="c">Entertainment/Hobbies</option>

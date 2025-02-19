@@ -191,6 +191,9 @@ body {
   margin: 0px;
   position: relative;
   z-index: 10;
+  .dropdown-item {
+    pointer-events: none;
+  }
 }
 
 .logout-btn:active .dropdown-item{
@@ -210,8 +213,15 @@ body {
   margin-left: auto;
   margin-right: auto;
   width: 50%;
-  top: 10px;
+  margin-top: 20px;
   position: relative;
+}
+
+.categories {
+  position: relative;
+  margin: 10px;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 .items {

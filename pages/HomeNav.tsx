@@ -30,7 +30,6 @@ const HomeNav = ({ children }: HomeNavProps) => {
   if (!session) {
     navigate(`/`);
   }
-
   const [user, setUser] = useState<TraderyUser | undefined>()
     useEffect(() => {
         const checkUser = async () => {
