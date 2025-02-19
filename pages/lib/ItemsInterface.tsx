@@ -10,4 +10,5 @@ export interface TraderyItems {
     imageWidth: number;
     isApproved: boolean;
     requests?: string[];
+    category: string;
 }

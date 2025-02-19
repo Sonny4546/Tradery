@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import { useAuth } from "../lib/AuthHook";
 import { createItems, updateItem } from "../lib/Items";
 import { fetchUserData } from "../lib/User";
@@ -17,7 +18,7 @@ const Post = () => {
     const { session } = useAuth();
     const navigate = useNavigate();
     const [image, setImage] = useState<TraderyImage>();
-    const [loading, setLoading] = useState(false); // 🔹 Controls overlay visibility
+    const [loading, setLoading] = useState(false); // Controls overlay visibility
 
     function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
         if (!e.target.files || e.target.files.length === 0) return;
@@ -43,8 +44,9 @@ const Post = () => {
         const formData = new FormData(e.currentTarget);
         const name = formData.get("name") as string;
         const description = formData.get("description") as string;
+        const category = formData.get("category") as string;
     
-        if (!name || !description) {
+        if (!name || !description || !category) {
             alert("Please fill in all fields.");
             setLoading(false);
             return;
@@ -68,6 +70,7 @@ const Post = () => {
                 imageFileId: "",
                 imageWidth: image?.width ?? 100,
                 isApproved: false,
+                category,
             });
     
             console.log("Item created successfully:", results.items);
@@ -85,7 +88,8 @@ const Post = () => {
                     author: user.name,
                     authorID: user.$id,
                     date: new Date().toISOString(),
-                    isApproved: false
+                    isApproved: false,
+                    category,
                 });
     
                 console.log("Image uploaded successfully:", file.$id);
@@ -102,7 +106,6 @@ const Post = () => {
 
     return (
         <>
-            {/* 🔹 Overlay for loading state */}
             {loading && (
                 <div className="overlay">
                     <div className="overlay-content">
@@ -126,6 +129,19 @@ const Post = () => {
                                     required
                                 />
                             </Form.Group>
+                        </div>
+                        <div className="mb-3">
+                            <FloatingLabel controlId="floatingSelect" label="Category">
+                                <Form.Select id="category" name="category" size="lg" required>
+                                    <option>Select a category...</option>
+                                    <option value="a">School Supplies</option>
+                                    <option value="b">Clothing</option>
+                                    <option value="c">Entertainment/Hobbies</option>
+                                    <option value="d">Gaming/Technology</option>
+                                    <option value="e">Accesories</option>
+                                    <option value="f">Miscellaneous</option>
+                                </Form.Select>
+                            </FloatingLabel>
                         </div>
                         <div className="mb-3">
                             <Form.Control id="name" name="name" type="text" placeholder="Name" required />

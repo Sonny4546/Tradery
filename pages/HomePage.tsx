@@ -1,12 +1,12 @@
 import '../src/main.css'
-import { Col, Row, Nav, Navbar, NavDropdown, Container, Alert, CloseButton, AlertHeading } from 'react-bootstrap';
+import { Col, Row, Nav, Navbar, NavDropdown, Container, Alert, CloseButton, AlertHeading, Button } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'wouter';
 
 import { useAuth } from './lib/AuthHook';
 import { TraderyItems } from './lib/ItemsInterface';
 import { getPreviewImageById } from "./lib/storage";
-import { getItems } from './lib/Items';
+import { getItems, getItemsbyCategory } from './lib/Items';
 import { getItemsbySearch } from './lib/Items';
 import ItemCard from './comp/ItemCard';
 import HomeNav from './HomeNav';
@@ -43,6 +43,12 @@ const HomePage = () => {
         console.error("Error finding Item:", error);
     }
   }
+  
+  async function handleCategory(category: string) {
+    const { items } = await getItemsbyCategory(category);
+    setItems(items);
+    console.log(items);
+  }
   return (
     <HomeNav>
       <div className="home">
@@ -55,6 +61,15 @@ const HomePage = () => {
                     )}
                   <button className="submit-btn" type="submit">Search</button>
               </form>
+            </div>
+            <div className="categories">
+              <Button variant="outline-danger">Clear Filter</Button>
+              <Button variant="outline-primary" onClick={() => handleCategory("a")}>School Supplies</Button>
+              <Button variant="outline-secondary" onClick={() => handleCategory("b")}>Clothing</Button>
+              <Button variant="outline-success" onClick={() => handleCategory("c")}>Entertainment/Hobbies</Button>
+              <Button variant="outline-warning" onClick={() => handleCategory("d")}>Gaming/Technology</Button>
+              <Button variant="outline-info" onClick={() => handleCategory("e")}>Accessories</Button>
+              <Button variant="outline-dark" onClick={() => handleCategory("f")}>Miscellaneous</Button>
             </div>
             <div className="items container">
               <Row>
@@ -89,7 +104,7 @@ const HomePage = () => {
                 {Array.isArray(items) && items.length === 0 && (
                 <Container>
                     <Alert key='warning' variant='warning'>
-                    No Items are currently posted, 
+                    No Items are currently posted, &nbsp;
                     <Alert.Link href="#/Dashboard/Post">You can start by posting here</Alert.Link>.
                     </Alert>
                 </Container>

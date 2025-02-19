@@ -5,7 +5,7 @@ import { TraderyItems } from './ItemsInterface';
 import { deleteFileById } from './storage';
 
 export async function getItems() {
-    const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
+    const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
                                                     import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, 
                                                     [Query.orderDesc('date'), Query.equal('isApproved', true)]);
     return{
@@ -14,7 +14,7 @@ export async function getItems() {
 }
 
 export async function getItemsbySearch(ItemSearch: string) {
-    const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
+    const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
                                                     import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, 
                                                     [Query.orderDesc('date'),Query.contains('name', ItemSearch),]);
     return{
@@ -22,8 +22,17 @@ export async function getItemsbySearch(ItemSearch: string) {
     }
 }
 
+export async function getItemsbyCategory(category: string) {
+    const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
+                                                    import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, 
+                                                    [Query.orderDesc('date'),Query.contains('itemCategory', category),]);
+    return{
+        items: documents.map(mapDocumentToItem)
+    }
+}
+
 export async function getItemsbyUser(userId: string) {
-    const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
+    const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
                                                     import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, 
                                                     [Query.contains('authorID', userId), Query.orderDesc('date')]);
     return{
@@ -32,7 +41,7 @@ export async function getItemsbyUser(userId: string) {
 }
 
 export async function getItemsbyApproval() {
-    const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
+    const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
                                                     import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, 
                                                     [Query.equal('isApproved', false), Query.orderDesc('date')]);
     return{
@@ -41,7 +50,7 @@ export async function getItemsbyApproval() {
 }
 
 export async function getItemsById(itemsId: TraderyItems['$id']) {
-    const document = await database.getDocument(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
+    const document = await database.getDocument(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
                                                 import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, itemsId);
     return {
         items: mapDocumentToItem(document)
@@ -51,12 +60,12 @@ export async function getItemsById(itemsId: TraderyItems['$id']) {
 export async function deleteItemById(itemId: TraderyItems['$id']) {
     const { items } = await getItemsById(itemId);
     await deleteFileById(items.imageFileId);
-    await database.deleteDocument(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
+    await database.deleteDocument(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
                                 import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, itemId);
 }
 
 export async function createItems(item: Omit<TraderyItems, '$id'>) {
-    const document = await database.createDocument(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
+    const document = await database.createDocument(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
                                                 import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, ID.unique(), item);
     return {
         items: mapDocumentToItem(document)
@@ -64,7 +73,7 @@ export async function createItems(item: Omit<TraderyItems, '$id'>) {
 }
 
 export async function updateItem(itemsId: string, item: Omit<TraderyItems, '$id'>){
-    const document = await database.updateDocument(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
+    const document = await database.updateDocument(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
                                                 import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, itemsId, item);
     return {
         items: mapDocumentToItem(document)
@@ -72,7 +81,7 @@ export async function updateItem(itemsId: string, item: Omit<TraderyItems, '$id'
 }
 
 export async function addRequest(itemsId: string, item: Omit<TraderyItems, '$id, author, authorID, description, date, imageHeight, imageWidth, imageFileId'>){
-    const document = await database.updateDocument(import.meta.env.VITE_APPWRITE_DATABASE_ITEM_ID, 
+    const document = await database.updateDocument(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
                                                 import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, itemsId, item);
     return {
         items: mapDocumentToItem(document)
@@ -92,6 +101,7 @@ function mapDocumentToItem(document: Models.Document) {
         imageWidth: document.imageWidth,
         isApproved: false,
         requests: document.requests,
+        category: document.itemCategory
     }
     return items;
 }

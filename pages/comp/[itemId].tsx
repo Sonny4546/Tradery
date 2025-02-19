@@ -17,6 +17,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
     const [items, setItems] = useState<TraderyItems | undefined>();
     const navigate = useNavigate();
     const [isAuthor, setIsAuthor] = useState(false);
+    const [isRequesting, setRequest] = useState(false);
     const {isAdmin} = useAuth();
     const imageUrl = items?.imageFileId && getPreviewImageById(items.imageFileId)
     const image = {
@@ -51,7 +52,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             
             // Avoid duplicate requests
             if (currentRequests.includes(user.$id)) {
-                console.log("User has already requested this trade.");
+                setRequest(true)
                 return;
             }
     
@@ -61,16 +62,17 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             // Update the item in Appwrite
             const updatedItem = await addRequest(params.itemsId, {
                 requests: updatedRequests,
-                authorID: "",
-                date: "",
+                authorID: items.authorID,
+                date: items.date,
                 isApproved: false,
-                $id: "",
-                name: "",
-                author: "",
-                description: "",
-                imageFileId: "",
-                imageHeight: 0,
-                imageWidth: 0
+                $id: items.$id,
+                name: items.name,
+                author: items.author,
+                description: items.description,
+                imageFileId: items.imageFileId,
+                imageHeight: items.imageHeight,
+                imageWidth: items.imageWidth,
+                category: items.category,
             });
     
             console.log("Trade request successful:", updatedItem);
@@ -86,6 +88,99 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
         if (!items?.$id) return;
         await deleteItemById(items.$id);
         navigate('/');
+    }
+
+    async function handleApprove() {
+        if (!items) return;
+        
+        const user = await fetchUserData();
+        if (!user) {
+            console.log("User data is still loading. Please wait.");
+            return;
+        }
+    
+        try {
+            // Fetch existing requests or initialize an empty array
+            const currentRequests = items.requests ?? [];
+            
+            // Avoid duplicate requests
+            if (currentRequests.includes(user.$id)) {
+                setRequest(true)
+                return;
+            }
+    
+            // Add the user ID to the requests array
+            const updatedRequests = [...currentRequests];
+    
+            // Update the item in Appwrite
+            const updatedItem = await addRequest(params.itemsId, {
+                requests: updatedRequests,
+                authorID: items.authorID,
+                date: items.date,
+                isApproved: true,
+                $id: items.$id,
+                name: items.name,
+                author: items.author,
+                description: items.description,
+                imageFileId: items.imageFileId,
+                imageHeight: items.imageHeight,
+                imageWidth: items.imageWidth,
+                category: items.category,
+            });
+    
+            console.log("Approved Post: ", updatedItem);
+            
+            // Optionally, navigate or refresh the page
+            navigate(`/Item/${params.itemsId}`);
+        } catch (error) {
+            console.error("Error approving post:", error);
+        }
+    }
+
+    async function handleOnTradeRemove() {
+        if (!items) return;
+        
+        const user = await fetchUserData();
+        if (!user) {
+            console.log("User data is still loading. Please wait.");
+            return;
+        }
+    
+        try {
+            // Fetch existing requests or initialize an empty array
+            const currentRequests = items.requests ?? [];
+            
+            // Avoid duplicate requests
+            if (currentRequests.includes(user.$id)) {
+                setRequest(false)
+                return;
+            }
+    
+            const updatedRequests = currentRequests.filter(id => id !== user.$id);
+    
+            // Update the item in Appwrite
+            const updatedItem = await addRequest(params.itemsId, {
+                requests: updatedRequests,
+                authorID: items.authorID,
+                date: items.date,
+                isApproved: items.isApproved,
+                $id: items.$id,
+                name: items.name,
+                author: items.author,
+                description: items.description,
+                imageFileId: items.imageFileId,
+                imageHeight: items.imageHeight,
+                imageWidth: items.imageWidth,
+                category: items.category,
+            });
+    
+            console.log("Trade request removed:", updatedItem);
+            
+            // Optionally, navigate or refresh the page
+            navigate(`/Item/${params.itemsId}`);
+        } catch (error) {
+            console.error("Error removing requesting:", error);
+        }
     }
     return (
         <HomeNav>
@@ -108,18 +203,25 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                                 <Button className="Tradereq" variant="primary" onClick={handleDeleteItem}>Delete Item</Button>
                             )}
                             {isAuthor == false && (
+                                <>
+                                {isRequesting == false && (
                                 <Button className="Tradereq" variant="primary" onClick={handleOnTrade}>Request a Trade</Button>
+                                )}
+                                {isRequesting == true && (
+                                <Button className="Tradereq" variant="primary" onClick={handleOnTradeRemove}>Remove Request</Button>
+                                )}
+                                </>
                             )}
                         </div>
                     )}
                     {isAdmin && (
                         <div className="Tradecont">
                             <Button className="Tradereq" variant="primary" onClick={handleDeleteItem}>Delete Item</Button>
-                            <Button className="Tradereq" variant="primary">Approve Item</Button>
+                            <Button className="Tradereq" variant="primary" onClick={handleApprove}>Approve Item</Button>
                         </div>
                     )}
                     <div className="itemimg">
-                        <Carousel controls={false}>
+                        <Carousel className="image-carousel" controls={false}>
                             <Carousel.Item>
                                 <img className="thumbnail" width={image.width}
                                 height={image.height}

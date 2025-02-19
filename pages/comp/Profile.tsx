@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../lib/AuthHook";
-import { getUser } from "../lib/appwrite";
+import { getUser, getUserPrefs } from "../lib/appwrite";
 import { useLocation } from "wouter";
 import { Image, Button, Form } from "react-bootstrap";
 import { TraderyUser } from "../lib/GetUser";
@@ -8,6 +8,7 @@ import { TraderyUser } from "../lib/GetUser";
 const Profile = () => {
     const [user, setUser] = useState<TraderyUser | undefined>();
     const [isEditing, setIsEditing] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         const checkUser = async () => {
@@ -28,13 +29,28 @@ const Profile = () => {
         setIsEditing(true);
     };
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        // Add API call to update user profile here
+        setLoading(true);
+        try {
+            await getUserPrefs();
+            setLoading(false);
+        } catch {
+            console.log("failed to get preferences");
+        }
+        
         setIsEditing(false); // Switch back to profile view
     };
 
     return (
+        <>
+        {loading && (
+            <div className="overlay">
+                <div className="overlay-content">
+                    <p>Please wait... Updating User Profile</p>
+                </div>
+            </div>
+        )}
         <div className="Main">
             <div className="container">
                 {isEditing ? (
@@ -94,6 +110,7 @@ const Profile = () => {
                 )}
             </div>
         </div>
+        </>
     );
 };
 

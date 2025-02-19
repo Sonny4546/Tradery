@@ -66,12 +66,12 @@ const HomeNav = ({ children }: HomeNavProps) => {
             <Row>
               <Nav className="me-auto">
                 <Nav.Link href="#/Dashboard/Messages#view-messages">Messages</Nav.Link>
-                <NavDropdown title={String(user?.name) ?? "User"} id="basic-nav-dropdown" align="end">
+                <NavDropdown title={String(user?.name) || "User"} id="basic-nav-dropdown" align="end">
                   <NavDropdown.Item href="#/Dashboard/Profile">User Dashboard</NavDropdown.Item>
                   <NavDropdown.Divider />
                   { session && (
                     <button onClick={logoutHandle} className="logout-btn">
-                      <NavDropdown.Item href="/Tradery">
+                      <NavDropdown.Item className="logout-nav" href="/Tradery">
                         Logout
                       </NavDropdown.Item>
                     </button>

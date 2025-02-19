@@ -31,3 +31,8 @@ export async function DeleteSession() {
   await account.deleteSession('current');
   console.log("log out");
 }
+
+export async function getUserPrefs() {
+  const data = await account.getPrefs();
+  console.log(data);
+}
