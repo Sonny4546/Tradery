@@ -64,7 +64,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                 requests: updatedRequests,
                 authorID: items.authorID,
                 date: items.date,
-                isApproved: false,
+                isApproved: items.isApproved,
                 $id: items.$id,
                 name: items.name,
                 author: items.author,

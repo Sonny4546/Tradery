@@ -16,7 +16,7 @@ export async function getItems() {
 export async function getItemsbySearch(ItemSearch: string) {
     const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
                                                     import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, 
-                                                    [Query.orderDesc('date'),Query.contains('name', ItemSearch),]);
+                                                    [Query.orderDesc('date'),Query.contains('name', ItemSearch), Query.equal('isApproved', true)]);
     return{
         items: documents.map(mapDocumentToItem)
     }
@@ -25,7 +25,7 @@ export async function getItemsbySearch(ItemSearch: string) {
 export async function getItemsbyCategory(category: string) {
     const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
                                                     import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, 
-                                                    [Query.orderDesc('date'),Query.contains('itemCategory', category),]);
+                                                    [Query.orderDesc('date'),Query.contains('itemCategory', category), Query.equal('isApproved', true)]);
     return{
         items: documents.map(mapDocumentToItem)
     }

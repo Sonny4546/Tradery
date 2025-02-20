@@ -11,3 +11,7 @@ export async function deleteFileById(fileId: string) {
 export function getPreviewImageById(fileId: string) {
   return storage.getFilePreview(import.meta.env.VITE_APPWRITE_STORAGE_ITEM_ID, fileId)
 }
+export async function uploadUserFile(userId: string, file: File) {
+  const data = await storage.createFile(import.meta.env.VITE_APPWRITE_STORAGE_USER_ID, userId, file)
+  return data;
+}

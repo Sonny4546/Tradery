@@ -63,7 +63,7 @@ const HomePage = () => {
               </form>
             </div>
             <div className="categories">
-              <Button variant="outline-danger">Clear Filter</Button>
+              <Button variant="outline-danger" onClick={handleHomeItems}>Clear Filter</Button>
               <Button variant="outline-primary" onClick={() => handleCategory("a")}>School Supplies</Button>
               <Button variant="outline-secondary" onClick={() => handleCategory("b")}>Clothing</Button>
               <Button variant="outline-success" onClick={() => handleCategory("c")}>Entertainment/Hobbies</Button>
