@@ -274,9 +274,25 @@ body {
 }
 
 .image-carousel {
-  width: 100%;
-  max-height: 300px !important;
+  max-height: 300px; /* Ensures the carousel does not exceed 300px */
+  display: flex;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
+}
+
+.image-carousel .carousel-item {
+  text-align: center;
+}
+
+.image-carousel img {
+  max-height: 300px; /* Maximum height */
+  max-width: 100%; /* Ensures it resizes to fit width */
+  width: auto;
+  height: auto;
+  object-fit: contain; /* Ensures the image scales without being cropped */
+  display: block;
+  margin: auto;
 }
 
 .thumbnail {

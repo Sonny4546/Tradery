@@ -1,10 +1,10 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import './main.css'
 import './bs-mdf.css'
 import 'bootstrap'
 import 'react-bootstrap'
+import './main.css'
 import LoginPage from "../pages/Login";
 import HomePage from "../pages/HomePage";
 import ErrorPage from "../pages/Error";

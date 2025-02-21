@@ -34,6 +34,8 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             if (userId === items?.authorID) {
                 setIsAuthor(true);
             }
+            if (!user) return;
+            setRequest(items.requests?.includes(user.$id) ?? false);
         })();
     }, [params.itemsId]);
 
@@ -61,24 +63,14 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
     
             // Update the item in Appwrite
             const updatedItem = await addRequest(params.itemsId, {
+                ...items,
                 requests: updatedRequests,
-                authorID: items.authorID,
-                date: items.date,
-                isApproved: items.isApproved,
-                $id: items.$id,
-                name: items.name,
-                author: items.author,
-                description: items.description,
-                imageFileId: items.imageFileId,
-                imageHeight: items.imageHeight,
-                imageWidth: items.imageWidth,
-                itemCategory: items.itemCategory,
             });
     
             console.log("Trade request successful:", updatedItem);
             
-            // Optionally, navigate or refresh the page
-            navigate(`/Item/${params.itemsId}`);
+            setItems((prevItems) => prevItems ? { ...prevItems, requests: updatedRequests } : prevItems);
+            setRequest(true);
         } catch (error) {
             console.error("Error requesting trade:", error);
         }
@@ -100,38 +92,18 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
         }
     
         try {
-            // Fetch existing requests or initialize an empty array
-            const currentRequests = items.requests ?? [];
-            
-            // Avoid duplicate requests
-            if (currentRequests.includes(user.$id)) {
-                setRequest(true)
-                return;
-            }
-    
-            // Add the user ID to the requests array
-            const updatedRequests = [...currentRequests];
-    
-            // Update the item in Appwrite
+            // Update in Appwrite
             const updatedItem = await addRequest(params.itemsId, {
-                requests: updatedRequests,
-                authorID: items.authorID,
-                date: items.date,
+                ...items,
                 isApproved: true,
-                $id: items.$id,
-                name: items.name,
-                author: items.author,
-                description: items.description,
-                imageFileId: items.imageFileId,
-                imageHeight: items.imageHeight,
-                imageWidth: items.imageWidth,
-                itemCategory: items.itemCategory,
             });
     
             console.log("Approved Post: ", updatedItem);
+    
+            // ✅ Update the local state so the alert disappears immediately
+            setItems((prevItems) => prevItems ? { ...prevItems, isApproved: true } : prevItems);
             
-            // Optionally, navigate or refresh the page
-            navigate(`/Item/${params.itemsId}`);
+            navigate(`/Admin`);
         } catch (error) {
             console.error("Error approving post:", error);
         }
@@ -139,7 +111,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
 
     async function handleOnTradeRemove() {
         if (!items) return;
-        
+    
         const user = await fetchUserData();
         if (!user) {
             console.log("User data is still loading. Please wait.");
@@ -147,41 +119,28 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
         }
     
         try {
-            // Fetch existing requests or initialize an empty array
             const currentRequests = items.requests ?? [];
-            
-            // Avoid duplicate requests
-            if (currentRequests.includes(user.$id)) {
-                setRequest(false)
+            if (!currentRequests.includes(user.$id)) {
+                setRequest(false);
                 return;
             }
     
             const updatedRequests = currentRequests.filter(id => id !== user.$id);
     
-            // Update the item in Appwrite
             const updatedItem = await addRequest(params.itemsId, {
+                ...items,
                 requests: updatedRequests,
-                authorID: items.authorID,
-                date: items.date,
-                isApproved: items.isApproved,
-                $id: items.$id,
-                name: items.name,
-                author: items.author,
-                description: items.description,
-                imageFileId: items.imageFileId,
-                imageHeight: items.imageHeight,
-                imageWidth: items.imageWidth,
-                itemCategory: items.itemCategory,
             });
     
             console.log("Trade request removed:", updatedItem);
-            
-            // Optionally, navigate or refresh the page
-            navigate(`/Item/${params.itemsId}`);
+    
+            // ✅ Update local state so the button updates immediately
+            setItems((prevItems) => prevItems ? { ...prevItems, requests: updatedRequests } : prevItems);
+            setRequest(false);
         } catch (error) {
-            console.error("Error removing requesting:", error);
+            console.error("Error removing request:", error);
         }
-    }
+    }    
     return (
         <HomeNav>
             <div className="container">
@@ -204,12 +163,15 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                             )}
                             {isAuthor == false && (
                                 <>
-                                {isRequesting == false && (
-                                <Button className="Tradereq" variant="primary" onClick={handleOnTrade}>Request a Trade</Button>
-                                )}
-                                {isRequesting == true && (
-                                <Button className="Tradereq" variant="primary" onClick={handleOnTradeRemove}>Remove Request</Button>
-                                )}
+                                    {isRequesting ? (
+                                        <Button className="Tradereq" variant="danger" onClick={handleOnTradeRemove}>
+                                            Remove Trade Request
+                                        </Button>
+                                    ) : (
+                                        <Button className="Tradereq" variant="primary" onClick={handleOnTrade}>
+                                            Request a Trade
+                                        </Button>
+                                    )}
                                 </>
                             )}
                         </div>
@@ -223,9 +185,11 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                     <div className="itemimg">
                         <Carousel className="image-carousel" controls={false}>
                             <Carousel.Item>
-                                <img className="thumbnail" width={image.width}
-                                height={image.height}
-                                src={image.url ? String(image.url) : "./images/favicon"}/>
+                                <img 
+                                    className="thumbnail"
+                                    src={image.url ? String(image.url) : "./images/favicon"}
+                                    alt="Item"
+                                />
                             </Carousel.Item>
                         </Carousel>
                     </div>

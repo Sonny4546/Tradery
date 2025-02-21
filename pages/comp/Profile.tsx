@@ -75,7 +75,7 @@ const Profile = () => {
             }
             const {userdb} = await getUserDataById(user.$id)
             if (!userdb) {
-                const result = await createProfileData(user.$id, {
+                await createProfileData(user.$id, {
                     profileImageId: "",
                     profileSummary,
                     profileImageWidth: image?.height ?? 100,
@@ -83,19 +83,21 @@ const Profile = () => {
                     profileName,
                 });
             }
-            if (image?.file) {
-                console.log("Uploading image...");
-                const file = await uploadUserFile(user.$id, image.file);
-    
-                await updateUserData(user.$id, {
-                    profileImageId: file?.$id,
-                    profileSummary,
-                    profileImageWidth: image?.height ?? 100,
-                    profileImageHeight: image?.height ?? 100,
-                    profileName,
-                });
-    
-                console.log("Image uploaded successfully:", file.$id);
+            else {
+                if (image?.file) {
+                    console.log("Uploading image...");
+                    const file = await uploadUserFile(user.$id, image.file);
+        
+                    await updateUserData(user.$id, {
+                        profileImageId: file?.$id,
+                        profileSummary,
+                        profileImageWidth: image?.height ?? 100,
+                        profileImageHeight: image?.height ?? 100,
+                        profileName,
+                    });
+        
+                    console.log("Image uploaded successfully:", file.$id);
+                }
             }
             setLoading(false);
         } catch {
