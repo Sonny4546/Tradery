@@ -5,8 +5,8 @@ import { useLocation } from "wouter";
 import { Image, Button, Form } from "react-bootstrap";
 import { TraderyUser } from "../lib/GetUser";
 import { fetchUserData } from "../lib/User";
-import { createProfileData, getUserDataById, updateUserData } from "../lib/UserProfile";
-import { uploadUserFile } from "../lib/storage";
+import { createProfileData, getUserDataById, TraderyProfiles, updateUserData } from "../lib/UserProfile";
+import { getProfilePreviewImageById, uploadUserFile } from "../lib/storage";
 
 interface TraderyProfileImage {
     height: number;
@@ -16,16 +16,29 @@ interface TraderyProfileImage {
 
 const Profile = () => {
     const [user, setUser] = useState<TraderyUser | undefined>();
+    const [userdb, setUserdb] = useState<any>();
     const [isEditing, setIsEditing] = useState(false);
     const [image, setImage] = useState<TraderyProfileImage>();
+    const [previewImage, setPreviewImage] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const imageUrl = userdb?.profileImageId && getProfilePreviewImageById(userdb.profileImageId)
+    const profile = {
+      url: imageUrl,
+      height: userdb?.profileImageHeight,
+      width: userdb?.profileImageWidth,
+    };
 
     useEffect(() => {
         const checkUser = async () => {
             try {
                 const userData = await getUser();
-                console.log("User Data: ", userData);
                 setUser(userData);
+
+                if (userData) {
+                    const {userdb} = await getUserDataById(userData.$id);
+                    setUserdb(userdb);
+                    setPreviewImage(userdb?.profileImageId ? getProfilePreviewImageById(userdb.profileImageId) : null);
+                }
             } catch (error) {
                 console.error("Error fetching user: ", error);
                 setUser(undefined);
@@ -35,16 +48,14 @@ const Profile = () => {
         checkUser();
     }, []);
 
-    const handleEditProfile = () => {
-        setIsEditing(true);
-    };
+    const handleEditProfile = () => setIsEditing(true);
 
-    function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files || e.target.files.length === 0) return;
-    
+
         const file = e.target.files[0];
         const img = document.createElement("img");
-    
+
         img.onload = function () {
             setImage({
                 height: img.height,
@@ -52,59 +63,63 @@ const Profile = () => {
                 width: img.width,
             });
         };
-    
+
         img.src = URL.createObjectURL(file);
-    }    
+
+        // Update the preview image
+        const newPreviewUrl = URL.createObjectURL(file);
+        setPreviewImage(newPreviewUrl);
+
+        // Prevent memory leaks by revoking the old Blob URL
+        return () => URL.revokeObjectURL(newPreviewUrl);
+    };   
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        setLoading(true);
+
         const formData = new FormData(e.currentTarget);
         const profileName = formData.get("display-name") as string;
         const profileSummary = formData.get("summary") as string;
+
         if (!profileName || !profileSummary) {
             alert("Please fill in all fields.");
             setLoading(false);
             return;
         }
-        setLoading(true);
+
         try {
-            const user = await fetchUserData();
-            if (!user) {
-                console.log("User data is still loading. Please wait.");
-                return;
-            }
-            const {userdb} = await getUserDataById(user.$id)
-            if (!userdb) {
-                await createProfileData(user.$id, {
-                    profileImageId: "",
-                    profileSummary,
-                    profileImageWidth: image?.height ?? 100,
-                    profileImageHeight: image?.height ?? 100,
-                    profileName,
-                });
-            }
-            else {
-                if (image?.file) {
-                    console.log("Uploading image...");
-                    const file = await uploadUserFile(user.$id, image.file);
-        
-                    await updateUserData(user.$id, {
-                        profileImageId: file?.$id,
-                        profileSummary,
-                        profileImageWidth: image?.height ?? 100,
-                        profileImageHeight: image?.height ?? 100,
-                        profileName,
-                    });
-        
+            let profileImageId = userdb?.profileImageId || "default";
+            if (!user) return;
+            if (image?.file) {
+                console.log("Uploading image...");
+                const file = await uploadUserFile(user.$id, image.file);
+                if (file?.$id) {
+                    profileImageId = file.$id;
                     console.log("Image uploaded successfully:", file.$id);
                 }
             }
+
+            await updateUserData(user.$id, {
+                profileImageId,
+                profileSummary,
+                profileImageWidth: image?.width ?? 100,
+                profileImageHeight: image?.height ?? 100,
+                profileName,
+            });
+
+            setUserdb((prev) => ({
+                ...prev,
+                profileName,
+                profileSummary,
+                profileImageId,
+            }));
+        } catch (error) {
+            console.error("Failed to update profile:", error);
+        } finally {
             setLoading(false);
-        } catch {
-            console.log("failed to get preferences");
+            setIsEditing(false);
         }
-        
-        setIsEditing(false); // Switch back to profile view
     };
 
     return (
@@ -124,14 +139,20 @@ const Profile = () => {
                         <form onSubmit={handleSubmit}>
                             <div className="inputprofile">
                                 <input type="file" accept=".png, .jpg" onChange={handleOnChange} required/>
+                                    <Image
+                                        src={previewImage || "https://cloud.appwrite.io/v1/storage/buckets/67932f8600176cf1dfdc/files/default/view?project=678ba12f001dce105c6a&mode=admin"}
+                                        roundedCircle
+                                        width={180}
+                                        height={180}
+                                    />
                                 <p>Upload an image: accepts jpg and png only</p>
                             </div>
                             <div className="mb-3">
-                                <Form.Control type="text" id="display-name" name="display-name" placeholder="Name" defaultValue={user?.name}/>
+                                <Form.Control type="text" id="display-name" name="display-name" placeholder="Name" defaultValue={userdb?.profileName || user?.name}/>
                             </div>
                             <Form.Group className="mb-3" controlId="Description.ControlTextarea1">
                                 <Form.Label>Profile Summary</Form.Label>
-                                <Form.Control as="textarea" id="summary" name="summary" rows={2} defaultValue="PROFILE SUMMARY" />
+                                <Form.Control as="textarea" id="summary" name="summary" rows={2} defaultValue={userdb?.profileSummary || "PROFILE SUMMARY"} />
                             </Form.Group>
                             <Button className="submitbtn" type="submit">
                                 Submit
@@ -144,33 +165,22 @@ const Profile = () => {
                         <Button className="editprf btn btn-primary mb-3" onClick={handleEditProfile}>
                             Edit Profile
                         </Button>
-                        <div className="inputprofile">
-                            <Image
-                                src="https://raw.githubusercontent.com/Sonny4546/OurFavoriteArtist/2b20d35e16c25397593d98943c14072b56aa9cbb/images/about.jpg"
-                                roundedCircle
-                                width={180}
-                                height={180}
-                            />
-                        </div>
-                        {user ? (
+                            <div className="inputprofile">
+                                <Image
+                                    src={userdb?.profileImageId ? getProfilePreviewImageById(userdb.profileImageId) : "https://cloud.appwrite.io/v1/storage/buckets/67932f8600176cf1dfdc/files/default/view?project=678ba12f001dce105c6a&mode=admin"}
+                                    roundedCircle
+                                    width={180}
+                                    height={180}
+                                />
+                            </div>
                             <div className="container">
                                 <div className="mb-3">
-                                    <p>{user.name}</p>
+                                    <p>{userdb?.profileName || user?.name}</p>
                                 </div>
                                 <div className="mb-3">
-                                    <p>PROFILE SUMMARY</p>
+                                    <p>{userdb?.profileSummary || "PROFILE SUMMARY"}</p>
                                 </div>
                             </div>
-                        ) : (
-                            <div className="container">
-                                <div className="mb-3">
-                                    <p></p>
-                                </div>
-                                <div className="mb-3">
-                                    <p>PROFILE SUMMARY</p>
-                                </div>
-                            </div>
-                        )}
                     </>
                 )}
             </div>

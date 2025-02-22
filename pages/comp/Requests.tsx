@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../lib/AuthHook";
 import { useNavigate } from "react-router-dom";
+import { Accordion } from 'react-bootstrap';
 import { getItemsbyUser } from "../lib/Items";
 import { TraderyItems } from "../lib/ItemsInterface"; // Assuming TraderyItems interface is imported
 import { fetchUserData } from "../lib/User";
+import RequestCard from "./RequestCard";
 
 const Requests = () => {
     const [items, setItems] = useState<TraderyItems[]>([]);  // Store filtered items
@@ -30,13 +32,11 @@ const Requests = () => {
             <h1>Your Items with Requests</h1>
             {/* Render the filtered items */}
             {items.length > 0 ? (
-                items.map((item) => (
-                    <div key={item.$id} className="item-card">
-                        <h3>{item.name}</h3>
-                        <p>{item.description}</p>
-                        <p>Requests: {item.requests.length}</p>
-                    </div>
-                ))
+                <Accordion>
+                    {items.map((item) => (
+                        <RequestCard key={item.$id} name={item.name} userId={item.requests} />
+                    ))}
+                </Accordion>
             ) : (
                 <p>No items with requests found.</p>
             )}

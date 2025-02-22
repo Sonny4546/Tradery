@@ -47,7 +47,6 @@ html {
 }
 
 #pagewrap {
-  height: 92.5vh;
   margin: 0 auto;
   position: relative;
   /* background: rgb(90,0,0);
@@ -177,11 +176,6 @@ body {
   font-family: "Rubik", sans-serif;
 }
 
-.home {
-  overflow: hidden;
-  height: 200vh;
-}
-
 .logout-btn{
   width: 100%;
   border-color: transparent;
@@ -286,19 +280,13 @@ body {
 }
 
 .image-carousel img {
-  max-height: 300px; /* Maximum height */
+  max-height: 720px; /* Maximum height */
   max-width: 100%; /* Ensures it resizes to fit width */
   width: auto;
   height: auto;
   object-fit: contain; /* Ensures the image scales without being cropped */
   display: block;
   margin: auto;
-}
-
-.thumbnail {
-  margin-left: auto;
-  margin-right: auto;
-  display: block;
 }
 
 .itemData {
@@ -534,6 +522,10 @@ box-shadow: 0 0 20px 2px #2e7eff;
 }
 .container h1 {
   padding: 10px;
+}
+
+.itemCategory {
+  height: inherit;
 }
 
 /*edit profile page*/

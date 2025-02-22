@@ -132,7 +132,7 @@ const Post = () => {
                         </div>
                         <div className="mb-3">
                             <FloatingLabel controlId="floatingSelect" label="Category">
-                                <Form.Select id="itemCategory" name="itemCategory" size="lg" required>
+                                <Form.Select className="itemCategory" id="itemCategory" name="itemCategory" size="lg" required>
                                     <option value="" disabled>Select a Category...</option>
                                     <option value="a">School Supplies</option>
                                     <option value="b">Clothing</option>

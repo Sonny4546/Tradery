@@ -15,6 +15,7 @@ import Post from "../pages/comp/Post";
 import Items from "../pages/comp/ItemsDB";
 import Requests from "../pages/comp/Requests";
 import ItemContent from "../pages/comp/[itemId]"
+import UserContent from "../pages/comp/[profileId]"
 import AdminPage from "../pages/Admin"
 import { AuthProvider, useAuth } from "../pages/lib/AuthHook";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
@@ -35,6 +36,10 @@ const main = createHashRouter([
   },
   {
     path: "/Item/:itemsId", element: <ItemContent />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/User/:profileId", element: <UserContent />,
     errorElement: <ErrorPage />,
   },
   {

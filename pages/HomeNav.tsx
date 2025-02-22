@@ -20,16 +20,6 @@ interface HomeNavProps {
 const HomeNav = ({ children }: HomeNavProps) => {
   const { session, logOut } = useAuth();
 
-  async function logoutHandle() {
-    await logOut()
-    return (
-      <Redirect to="/" />
-    )
-  }
-  const navigate = useNavigate();
-  if (!session) {
-    navigate(`/`);
-  }
   const [user, setUser] = useState<TraderyUser | undefined>()
     useEffect(() => {
         const checkUser = async () => {
@@ -45,6 +35,16 @@ const HomeNav = ({ children }: HomeNavProps) => {
     
         checkUser()
     }, [])
+    async function logoutHandle() {
+      await logOut()
+      return (
+        <Redirect to="/" />
+      )
+    }
+    const navigate = useNavigate();
+    if (!session) {
+      navigate(`/`);
+    }
   return (
     <>
     <div className="body" >

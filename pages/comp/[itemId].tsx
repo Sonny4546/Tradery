@@ -64,12 +64,13 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             // Update the item in Appwrite
             const updatedItem = await addRequest(params.itemsId, {
                 ...items,
+                isApproved: true,
                 requests: updatedRequests,
             });
     
             console.log("Trade request successful:", updatedItem);
             
-            setItems((prevItems) => prevItems ? { ...prevItems, requests: updatedRequests } : prevItems);
+            setItems((prevItems) => prevItems ? { ...prevItems, isApproved: true, requests: updatedRequests } : prevItems);
             setRequest(true);
         } catch (error) {
             console.error("Error requesting trade:", error);
@@ -129,13 +130,14 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
     
             const updatedItem = await addRequest(params.itemsId, {
                 ...items,
+                isApproved: true,
                 requests: updatedRequests,
             });
     
             console.log("Trade request removed:", updatedItem);
     
             // ✅ Update local state so the button updates immediately
-            setItems((prevItems) => prevItems ? { ...prevItems, requests: updatedRequests } : prevItems);
+            setItems((prevItems) => prevItems ? { ...prevItems, isApproved: true, requests: updatedRequests } : prevItems);
             setRequest(false);
         } catch (error) {
             console.error("Error removing request:", error);
