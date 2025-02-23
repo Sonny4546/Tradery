@@ -8,7 +8,7 @@ import { fetchUserData } from "../lib/User";
 import { createProfileData, getUserDataById, TraderyProfiles, updateUserData } from "../lib/UserProfile";
 import { getProfilePreviewImageById, uploadUserFile } from "../lib/storage";
 
-interface TraderyProfileImage {
+export interface TraderyProfileImage {
     height: number;
     file: File;
     width: number;
@@ -78,10 +78,10 @@ const Profile = () => {
         setLoading(true);
     
         const formData = new FormData(e.currentTarget);
-        const profileName = formData.get("display-name") as string;
+        const displayName = formData.get("display-name") as string;
         const profileSummary = formData.get("summary") as string;
     
-        if (!profileName || !profileSummary) {
+        if (!displayName || !profileSummary) {
             alert("Please fill in all fields.");
             setLoading(false);
             return;
@@ -106,33 +106,20 @@ const Profile = () => {
                     console.log("Image uploaded successfully:", file.$id);
                 }
             }
-    
-            if (!userdb) {
-                // If no profile exists, create a new one
-                await createProfileData(user.$id, {
-                    profileImageId,
-                    profileSummary,
-                    profileImageWidth: image?.width ?? 100,
-                    profileImageHeight: image?.height ?? 100,
-                    profileName,
-                });
-                console.log("✅ New profile created.");
-            } else {
-                // Profile exists → Update it
-                await updateUserData(user.$id, {
-                    profileImageId,
-                    profileSummary,
-                    profileImageWidth: image?.width ?? 100,
-                    profileImageHeight: image?.height ?? 100,
-                    profileName,
-                });
-                console.log("✅ Profile updated.");
-            }
+            await updateUserData(user.$id, {
+                profileImageId,
+                profileSummary,
+                profileImageWidth: image?.width ?? 100,
+                profileImageHeight: image?.height ?? 100,
+                displayName,
+                defaultName: ""
+            });
+            console.log("✅ Profile updated.");
     
             // Update local state to reflect changes
             setUserdb((prev) => ({
                 ...prev,
-                profileName,
+                displayName,
                 profileSummary,
                 profileImageId,
             }));

@@ -6,9 +6,10 @@ import { deleteFileById } from './storage';
 
 export interface TraderyProfiles {
     $id: string;
-    profileName: string;
+    displayName?: string | null;
+    defaultName: string;
     profileImageId: string;
-    profileSummary: string;
+    profileSummary?: string | null;
     profileImageWidth: number;
     profileImageHeight: number;
 }
@@ -29,6 +30,15 @@ export async function getUserDataById(itemsId: TraderyProfiles['$id']) {
     }
 }
 
+export async function findUserDataById(userId: string) {
+    const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
+                                                import.meta.env.VITE_APPWRITE_COLLECTION_USER_ID
+                                                [Query.contains('authorID', userId)]);
+    return {
+        userdb: documents.map(mapDocumentToItem)
+    }
+}
+
 export async function updateUserData(userId: string, item: Omit<TraderyProfiles, '$id'>) {
     const document = await database.updateDocument(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
                                                 import.meta.env.VITE_APPWRITE_COLLECTION_USER_ID, userId, item);
@@ -38,13 +48,14 @@ export async function updateUserData(userId: string, item: Omit<TraderyProfiles,
 }
 
 function mapDocumentToItem(document: Models.Document) {
-    const items: TraderyProfiles = {
+    const userdb: TraderyProfiles = {
         $id: document.$id,
-        profileName: document.profileName,
+        displayName: document.displayName,
+        defaultName: document.defaultName,
         profileImageId: document.profileImageId,
         profileSummary: document.profileSummary,
         profileImageWidth: document.profileImageWidth,
         profileImageHeight: document.profileImageHeight,
     }
-    return items;
+    return userdb;
 }

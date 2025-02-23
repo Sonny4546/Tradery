@@ -5,8 +5,14 @@ import { useAuth } from './lib/AuthHook';
 import { useNavigate } from 'react-router-dom';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import { createProfileData, findUserDataById } from './lib/UserProfile';
+import { TraderyUser } from './lib/GetUser';
+import { getUser } from './lib/appwrite';
+import { TraderyProfileImage } from './comp/Profile';
 
 export default function LoginPage() {
+  const [user, setUser] = useState<TraderyUser | undefined>();
+  const [image, setImage] = useState<TraderyProfileImage>();
   const renderTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
       Please check the notice below to continue..
@@ -35,7 +41,24 @@ export default function LoginPage() {
   const { logIn } = useAuth();
   async function loginHandle() {
       await logIn();
-}
+      const userData = await getUser();
+      setUser(userData);
+      if (user) {
+        const userdb = await findUserDataById(user.$id);
+        if (!userdb) {       
+          await createProfileData(user.$id, {
+            profileImageId: "",
+            profileSummary: null,
+            profileImageWidth: image?.width ?? 100,
+            profileImageHeight: image?.height ?? 100,
+            displayName: null,
+            defaultName: user.name
+          });
+          console.log("✅ New profile created.");
+        }
+        return;
+      }
+  }
   return (
     <>
     <div className="logincontainer">
@@ -53,7 +76,7 @@ export default function LoginPage() {
           delay={{ show: 0, hide: 400 }}
           overlay={renderTooltip}
           >
-            <div className="login">
+            <div>
               <Button className="login" variant="primary" size="lg" id="btn" style={{margin: 0}} disabled>Login with Google</Button>
             </div>
           </OverlayTrigger>

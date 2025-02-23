@@ -34,8 +34,10 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             if (userId === items?.authorID) {
                 setIsAuthor(true);
             }
-            if (!user) return;
-            setRequest(items.requests?.includes(user.$id) ?? false);
+            if (user) {
+                setRequest(items.requests?.includes(user.$id) ?? false);
+            }
+            console.log("Fetched Item Data: ", items);
         })();
     }, [params.itemsId]);
 
@@ -85,7 +87,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
 
     async function handleApprove() {
         if (!items) return;
-        
+    
         const user = await fetchUserData();
         if (!user) {
             console.log("User data is still loading. Please wait.");
@@ -93,22 +95,23 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
         }
     
         try {
-            // Update in Appwrite
-            const updatedItem = await addRequest(params.itemsId, {
+            // Update item in Appwrite
+            await addRequest(params.itemsId, {
                 ...items,
                 isApproved: true,
             });
     
+            // 🔹 Fetch the updated item to ensure state reflects changes
+            const { items: updatedItem } = await getItemsById(params.itemsId);
             console.log("Approved Post: ", updatedItem);
     
-            // ✅ Update the local state so the alert disappears immediately
-            setItems((prevItems) => prevItems ? { ...prevItems, isApproved: true } : prevItems);
-            
+            setItems(updatedItem); // ✅ Update state
             navigate(`/Admin`);
         } catch (error) {
             console.error("Error approving post:", error);
         }
     }
+    
 
     async function handleOnTradeRemove() {
         if (!items) return;
@@ -148,13 +151,11 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             <div className="container">
                 {items && (
                 <>
-                    {!items.isApproved ? (
-                        <Alert key='warning' variant='warning' style={{ margin: '20px', }}>
-                            isApproved FALSE
-                        </Alert>
+                    {items?.isApproved ? (
+                        <></>
                     ) : (
-                        <Alert key='warning' variant='warning' style={{ margin: '20px', }}>
-                            isApproved TRUE
+                        <Alert key="warning" variant="warning" style={{ margin: '20px' }}>
+                            The item is waiting to be approved by the admin.
                         </Alert>
                     )}
                     <div className="itemheading">

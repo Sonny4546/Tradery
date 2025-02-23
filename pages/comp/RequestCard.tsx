@@ -23,19 +23,16 @@ const RequestCard = ({ name, image, userId }: ItemCardProps) => {
             const usersData = await Promise.all(
                 userId.map(async (id) => {
                     try {
-                        // Fetch user account name from Appwrite
-                        const userAccount = await fetchUserData();
-                        
                         // Fetch user display name from database
                         const { userdb } = await getUserDataById(id);
                         
                         return {
-                            displayName: userdb?.profileName || "Unknown User",
-                            appwriteName: userAccount?.name || "No Appwrite Name",
+                            displayName: userdb?.displayName || "Unknown User",
+                            appwriteName: userdb?.defaultName || "No Appwrite Name",
                         };
                     } catch (error) {
                         console.error("Error fetching user data:", error);
-                        return { displayName: "Error", appwriteName: "Error" };
+                        return { displayName: "Unknown User", appwriteName: "No Appwrite Name" };
                     }
                 })
             );

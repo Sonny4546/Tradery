@@ -221,12 +221,13 @@ body {
 }
 
 .items {
+  padding-top: 20px;
   padding-bottom: 50px;
 }
 
 .itemLabel {
-  position: relative;
-  top: 50px;
+  position: absolute;
+  padding-top: 20px;
   background: transparent;
   z-index: 10;
 }
@@ -399,7 +400,7 @@ body {
 	  -webkit-backdrop-filter: blur(2.6px);
 	  border: none;
     top: 0;
-    z-index: 1;
+    z-index: 10;
     margin-bottom: 0rem;
     li {
       display: inline;
