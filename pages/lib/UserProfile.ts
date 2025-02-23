@@ -31,11 +31,15 @@ export async function getUserDataById(itemsId: TraderyProfiles['$id']) {
 }
 
 export async function findUserDataById(userId: string) {
-    const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
-                                                import.meta.env.VITE_APPWRITE_COLLECTION_USER_ID
-                                                [Query.contains('authorID', userId)]);
-    return {
-        userdb: documents.map(mapDocumentToItem)
+    try {
+        const document = await database.getDocument(
+            import.meta.env.VITE_APPWRITE_DATABASE_ID, 
+            import.meta.env.VITE_APPWRITE_COLLECTION_USER_ID, 
+            userId
+        );
+        return !!document; // Returns true if document exists, false otherwise
+    } catch (error) {
+        return false; // Ensures function never throws an error
     }
 }
 

@@ -40,25 +40,27 @@ export default function LoginPage() {
   }
   const { logIn } = useAuth();
   async function loginHandle() {
-      await logIn();
-      const userData = await getUser();
-      setUser(userData);
-      if (user) {
-        const userdb = await findUserDataById(user.$id);
-        if (!userdb) {       
-          await createProfileData(user.$id, {
-            profileImageId: "",
-            profileSummary: null,
-            profileImageWidth: image?.width ?? 100,
-            profileImageHeight: image?.height ?? 100,
-            displayName: null,
-            defaultName: user.name
-          });
-          console.log("✅ New profile created.");
+    await logIn();
+    const userData = await getUser();
+    setUser(userData);
+    
+    if (userData) {
+        const userExists = await findUserDataById(userData.$id); // ✅ Now returns true/false
+        console.log("User Exists? ", userExists); // Debugging
+
+        if (!userExists) {       
+            await createProfileData(userData.$id, {
+                profileImageId: "",
+                profileSummary: null,
+                profileImageWidth: image?.width ?? 100,
+                profileImageHeight: image?.height ?? 100,
+                displayName: null,
+                defaultName: userData.name
+            });
+            console.log("✅ New profile created.");
         }
-        return;
-      }
-  }
+    }
+}
   return (
     <>
     <div className="logincontainer">
