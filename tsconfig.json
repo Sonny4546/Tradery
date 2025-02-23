@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "types": ["node", "estree", "json-schema"],
         "module": "ESNext",
         "moduleResolution": "Bundler",
         "target": "ES2022",
