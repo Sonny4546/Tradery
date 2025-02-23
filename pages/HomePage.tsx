@@ -24,7 +24,7 @@ const HomePage = () => {
     })();
   }, []);
 
-  function handleHomeItems() {
+  async function handleHomeItems() {
     const { items } = await getItems();
     setItems(items);
   }
