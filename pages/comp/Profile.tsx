@@ -94,11 +94,10 @@ const Profile = () => {
                 return;
             }
     
-            // Check if the user already has a profile
-            const { userdb } = await getUserDataById(user.$id);
+            let { userdb } = await getUserDataById(user.$id);
             let profileImageId = userdb?.profileImageId || "default";
     
-            // Upload the image if a new one is selected
+            // Upload new image if selected
             if (image?.file) {
                 console.log("Uploading image...");
                 const file = await uploadUserFile(user.$id, image.file);
@@ -109,7 +108,7 @@ const Profile = () => {
             }
     
             if (!userdb) {
-                // No profile exists → Create new profile
+                // If no profile exists, create a new one
                 await createProfileData(user.$id, {
                     profileImageId,
                     profileSummary,
@@ -117,9 +116,9 @@ const Profile = () => {
                     profileImageHeight: image?.height ?? 100,
                     profileName,
                 });
-                console.log("New profile created.");
+                console.log("✅ New profile created.");
             } else {
-                // Profile exists → Update profile
+                // Profile exists → Update it
                 await updateUserData(user.$id, {
                     profileImageId,
                     profileSummary,
@@ -127,7 +126,7 @@ const Profile = () => {
                     profileImageHeight: image?.height ?? 100,
                     profileName,
                 });
-                console.log("Profile updated.");
+                console.log("✅ Profile updated.");
             }
     
             // Update local state to reflect changes
@@ -137,13 +136,14 @@ const Profile = () => {
                 profileSummary,
                 profileImageId,
             }));
+    
         } catch (error) {
-            console.error("Failed to update profile:", error);
+            console.error("❌ Failed to update profile:", error);
         } finally {
             setLoading(false);
             setIsEditing(false);
         }
-    };    
+    };     
 
     return (
         <>

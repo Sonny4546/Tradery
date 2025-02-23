@@ -20,13 +20,13 @@ const HomePage = () => {
   useEffect(() => {
     (async function run() {
       const { items } = await getItems();
-      setItems(items)
-      console.log(items);
+      setItems(items);
     })();
   }, []);
 
   function handleHomeItems() {
-    window.location.reload();
+    const { items } = await getItems();
+    setItems(items);
   }
 
   const handleSearch = async (e: React.SyntheticEvent) => {
@@ -38,7 +38,6 @@ const HomePage = () => {
     try {
       const { items } = await getItemsbySearch(target.ItemSearch.value);
       setItems(items)
-      console.log(items);
     } catch (error) {
         console.error("Error finding Item:", error);
     }
@@ -78,7 +77,7 @@ const HomePage = () => {
                   <Accordion.Body>
                   <Row>
                     <Col sm={8} md={10} lg={12}>
-                      <Button variant="outline-danger">Clear Filter</Button>
+                      <Button variant="outline-danger" onClick={handleHomeItems}>Clear Filter</Button>
                       <Button variant="outline-primary" onClick={() => handleCategory("a")}>School Supplies</Button>
                       <Button variant="outline-secondary" onClick={() => handleCategory("b")}>Clothing</Button>
                       <Button variant="outline-success" onClick={() => handleCategory("c")}>Entertainment/Hobbies</Button>
@@ -106,7 +105,7 @@ const HomePage = () => {
                             <Col sm={12} md={6} lg={3} key={item.$id} style={{ paddingBottom: '20px' }}>
                                 <a className="itemLink" href={`#/Item/${item.$id}`}>
                                   <div className="itemLabel">
-                                    <span>{categoryMap[item.itemCategory] || "Uncategorized"}</span>
+                                    <span className="Label">{categoryMap[item.itemCategory] || "Uncategorized"}</span>
                                   </div>
                                     <ItemCard
                                         image={{

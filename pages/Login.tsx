@@ -50,9 +50,12 @@ export default function LoginPage() {
         {!isChecked && (
           <OverlayTrigger
           placement="right"
+          delay={{ show: 0, hide: 400 }}
           overlay={renderTooltip}
           >
-            <Button className="login" variant="primary" size="lg" id="btn" style={{margin: 0}} disabled>Login with Google</Button>
+            <div className="login">
+              <Button className="login" variant="primary" size="lg" id="btn" style={{margin: 0}} disabled>Login with Google</Button>
+            </div>
           </OverlayTrigger>
         )}
       </div>
