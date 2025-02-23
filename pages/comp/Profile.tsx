@@ -41,7 +41,6 @@ const Profile = () => {
                 }
             } catch (error) {
                 console.error("Error fetching user: ", error);
-                setUser(undefined);
             }
         };
 
@@ -77,20 +76,29 @@ const Profile = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
-
+    
         const formData = new FormData(e.currentTarget);
         const profileName = formData.get("display-name") as string;
         const profileSummary = formData.get("summary") as string;
-
+    
         if (!profileName || !profileSummary) {
             alert("Please fill in all fields.");
             setLoading(false);
             return;
         }
-
+    
         try {
+            if (!user) {
+                console.log("User data is still loading. Please wait.");
+                setLoading(false);
+                return;
+            }
+    
+            // Check if the user already has a profile
+            const { userdb } = await getUserDataById(user.$id);
             let profileImageId = userdb?.profileImageId || "default";
-            if (!user) return;
+    
+            // Upload the image if a new one is selected
             if (image?.file) {
                 console.log("Uploading image...");
                 const file = await uploadUserFile(user.$id, image.file);
@@ -99,15 +107,30 @@ const Profile = () => {
                     console.log("Image uploaded successfully:", file.$id);
                 }
             }
-
-            await updateUserData(user.$id, {
-                profileImageId,
-                profileSummary,
-                profileImageWidth: image?.width ?? 100,
-                profileImageHeight: image?.height ?? 100,
-                profileName,
-            });
-
+    
+            if (!userdb) {
+                // No profile exists → Create new profile
+                await createProfileData(user.$id, {
+                    profileImageId,
+                    profileSummary,
+                    profileImageWidth: image?.width ?? 100,
+                    profileImageHeight: image?.height ?? 100,
+                    profileName,
+                });
+                console.log("New profile created.");
+            } else {
+                // Profile exists → Update profile
+                await updateUserData(user.$id, {
+                    profileImageId,
+                    profileSummary,
+                    profileImageWidth: image?.width ?? 100,
+                    profileImageHeight: image?.height ?? 100,
+                    profileName,
+                });
+                console.log("Profile updated.");
+            }
+    
+            // Update local state to reflect changes
             setUserdb((prev) => ({
                 ...prev,
                 profileName,
@@ -120,7 +143,7 @@ const Profile = () => {
             setLoading(false);
             setIsEditing(false);
         }
-    };
+    };    
 
     return (
         <>
@@ -148,7 +171,7 @@ const Profile = () => {
                                 <p>Upload an image: accepts jpg and png only</p>
                             </div>
                             <div className="mb-3">
-                                <Form.Control type="text" id="display-name" name="display-name" placeholder="Name" defaultValue={userdb?.profileName || user?.name}/>
+                                <Form.Control type="text" id="display-name" name="display-name" placeholder="Name" autoComplete="off" defaultValue={userdb?.profileName || user?.name}/>
                             </div>
                             <Form.Group className="mb-3" controlId="Description.ControlTextarea1">
                                 <Form.Label>Profile Summary</Form.Label>
@@ -175,7 +198,8 @@ const Profile = () => {
                             </div>
                             <div className="container">
                                 <div className="mb-3">
-                                    <p>{userdb?.profileName || user?.name}</p>
+                                    <p>{userdb?.profileName}</p>
+                                    <p>{user?.name}</p>
                                 </div>
                                 <div className="mb-3">
                                     <p>{userdb?.profileSummary || "PROFILE SUMMARY"}</p>

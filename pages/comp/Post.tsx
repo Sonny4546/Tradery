@@ -117,7 +117,7 @@ const Post = () => {
             <div className="Main">
                 <div className="container">
                     <h1>Post Item</h1>
-                    <form onSubmit={handleOnSubmit}>
+                    <form onSubmit={handleOnSubmit} autoComplete="off">
                         <div className="uploader">
                             <Form.Group controlId="formFileLg" className="mb-3">
                                 <Form.Label>Import Image</Form.Label>
@@ -132,13 +132,13 @@ const Post = () => {
                         </div>
                         <div className="mb-3">
                             <FloatingLabel controlId="floatingSelect" label="Category">
-                                <Form.Select className="itemCategory" id="itemCategory" name="itemCategory" size="lg" required>
+                                <Form.Select className="itemCategory" id="itemCategory" name="itemCategory" required>
                                     <option value="" disabled>Select a Category...</option>
                                     <option value="a">School Supplies</option>
                                     <option value="b">Clothing</option>
                                     <option value="c">Entertainment/Hobbies</option>
                                     <option value="d">Gaming/Technology</option>
-                                    <option value="e">Accesories</option>
+                                    <option value="e">Accessories</option>
                                     <option value="f">Miscellaneous</option>
                                 </Form.Select>
                             </FloatingLabel>

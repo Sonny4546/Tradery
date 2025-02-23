@@ -44,7 +44,7 @@ export default function Register() {
       {!isAdmin && (
         <div className="RegAdminContainer">
           <div className="login-register-container">
-            <form onSubmit={handleAdminLogin}>
+            <form onSubmit={handleAdminLogin} autoComplete="off">
               <div className="form-field-wrapper">
                 <label>Email:</label>
                 <input required type="email" name="email" placeholder="Enter email..."/>
@@ -65,8 +65,8 @@ export default function Register() {
         )}
         {isAdmin && (
         <div className="home">
-          <h1>UNAPPROVED ITEMS</h1>
             <div className="container" id="pagewrap">
+              <h1>UNAPPROVED ITEMS</h1>
                 <div className="items container">
                     <Row>
                         {Array.isArray(items) && items.length > 0 && (

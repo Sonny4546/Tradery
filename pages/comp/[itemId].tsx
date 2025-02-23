@@ -148,9 +148,13 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             <div className="container">
                 {items && (
                 <>
-                    {items.isApproved == false && (
+                    {!items.isApproved ? (
                         <Alert key='warning' variant='warning' style={{ margin: '20px', }}>
-                            Post is waiting to be approved by the moderators.
+                            isApproved FALSE
+                        </Alert>
+                    ) : (
+                        <Alert key='warning' variant='warning' style={{ margin: '20px', }}>
+                            isApproved TRUE
                         </Alert>
                     )}
                     <div className="itemheading">
@@ -180,6 +184,15 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                     )}
                     {isAdmin && (
                         <div className="Tradecont">
+                            {isRequesting ? (
+                                <Button className="Tradereq" variant="danger" onClick={handleOnTradeRemove}>
+                                    Remove Trade Request
+                                </Button>
+                            ) : (
+                                <Button className="Tradereq" variant="primary" onClick={handleOnTrade}>
+                                    Request a Trade
+                                </Button>
+                            )}
                             <Button className="Tradereq" variant="primary" onClick={handleDeleteItem}>Delete Item</Button>
                             <Button className="Tradereq" variant="primary" onClick={handleApprove}>Approve Item</Button>
                         </div>

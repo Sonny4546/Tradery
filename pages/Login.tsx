@@ -3,8 +3,15 @@ import React, {useState} from 'react'
 import Button from 'react-bootstrap/Button';
 import { useAuth } from './lib/AuthHook';
 import { useNavigate } from 'react-router-dom';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 export default function LoginPage() {
+  const renderTooltip = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+      Please check the notice below to continue..
+    </Tooltip>
+  );
   const { session } = useAuth();
   const navigate = useNavigate();
   if (session) {
@@ -41,7 +48,12 @@ export default function LoginPage() {
           <Button className="login" variant="primary" size="lg" id="btn" style={{margin: 0}} onClick={loginHandle}>Login with Google</Button>
         )}
         {!isChecked && (
-          <Button className="login" variant="primary" size="lg" id="btn" style={{margin: 0}} disabled>Login with Google</Button>
+          <OverlayTrigger
+          placement="right"
+          overlay={renderTooltip}
+          >
+            <Button className="login" variant="primary" size="lg" id="btn" style={{margin: 0}} disabled>Login with Google</Button>
+          </OverlayTrigger>
         )}
       </div>
       <div>

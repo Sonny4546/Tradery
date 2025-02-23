@@ -1,5 +1,5 @@
 import '../src/main.css'
-import { Col, Row, Nav, Navbar, NavDropdown, Container, Alert, CloseButton, AlertHeading, Button } from 'react-bootstrap';
+import { Col, Row, Nav, Navbar, NavDropdown, Container, Alert, CloseButton, AlertHeading, Button, Accordion } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'wouter';
 
@@ -49,12 +49,21 @@ const HomePage = () => {
     setItems(items);
     console.log(items);
   }
+  // Define a mapping object for category names
+  const categoryMap: { [key: string]: string } = {
+    a: "School Supplies",
+    b: "Clothing",
+    c: "Entertainment/Hobbies",
+    d: "Gaming/Technology",
+    e: "Accessories",
+    f: "Miscellaneous"
+  };
   return (
     <HomeNav>
       <div className="home">
         <div className="container" id="pagewrap">
             <div className="searchinput">
-              <form className="search" onSubmit={handleSearch}>
+              <form className="search" onSubmit={handleSearch} autoComplete="off">
                   <input id="ItemSearch" name="ItemSearch" placeholder="Search for Items..." required></input>
                     {isHidden && (
                       <CloseButton className="clear-btn" onClick={handleHomeItems}/>
@@ -63,13 +72,24 @@ const HomePage = () => {
               </form>
             </div>
             <div className="categories">
-              <Button variant="outline-danger" onClick={handleHomeItems}>Clear Filter</Button>
-              <Button variant="outline-primary" onClick={() => handleCategory("a")}>School Supplies</Button>
-              <Button variant="outline-secondary" onClick={() => handleCategory("b")}>Clothing</Button>
-              <Button variant="outline-success" onClick={() => handleCategory("c")}>Entertainment/Hobbies</Button>
-              <Button variant="outline-warning" onClick={() => handleCategory("d")}>Gaming/Technology</Button>
-              <Button variant="outline-info" onClick={() => handleCategory("e")}>Accessories</Button>
-              <Button variant="outline-dark" onClick={() => handleCategory("f")}>Miscellaneous</Button>
+              <Accordion defaultActiveKey="0">
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>Filter by Categories</Accordion.Header>
+                  <Accordion.Body>
+                  <Row>
+                    <Col sm={8} md={10} lg={12}>
+                      <Button variant="outline-danger">Clear Filter</Button>
+                      <Button variant="outline-primary" onClick={() => handleCategory("a")}>School Supplies</Button>
+                      <Button variant="outline-secondary" onClick={() => handleCategory("b")}>Clothing</Button>
+                      <Button variant="outline-success" onClick={() => handleCategory("c")}>Entertainment/Hobbies</Button>
+                      <Button variant="outline-warning" onClick={() => handleCategory("d")}>Gaming/Technology</Button>
+                      <Button variant="outline-info" onClick={() => handleCategory("e")}>Accessories</Button>
+                      <Button variant="outline-dark" onClick={() => handleCategory("f")}>Miscellaneous</Button>
+                    </Col>
+                  </Row>
+                  </Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
             </div>
             <div className="items container">
               <Row>
@@ -83,8 +103,11 @@ const HomePage = () => {
                           width: item.imageWidth,
                         };
                         return (
-                            <Col xs={12} md={3} key={item.$id} style={{ paddingBottom: '20px' }}>
+                            <Col sm={12} md={6} lg={3} key={item.$id} style={{ paddingBottom: '20px' }}>
                                 <a className="itemLink" href={`#/Item/${item.$id}`}>
+                                  <div className="itemLabel">
+                                    <span>{categoryMap[item.itemCategory] || "Uncategorized"}</span>
+                                  </div>
                                     <ItemCard
                                         image={{
                                           height: image.height,

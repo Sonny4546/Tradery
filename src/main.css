@@ -172,6 +172,7 @@ body {
   margin: 0;
   padding: 0;
   background-color: rgb(255, 255, 255);
+  background-image: url(https://cloud.appwrite.io/v1/storage/buckets/678bac020031c1c3ad75/files/background/view?project=678ba12f001dce105c6a&mode=admin);
   vertical-align: baseline;
   font-family: "Rubik", sans-serif;
 }
@@ -224,6 +225,8 @@ body {
 
 .itemLink {
   color: transparent;
+  text-decoration: none;
+  -webkit-user-drag: none;
 }
 
 .itemcontent {
@@ -246,11 +249,13 @@ body {
   width: 100%;
   object-fit: contain;
   position: absolute;
+  pointer-events: none;
   z-index: 1;
 }
 
 .Card-ImageBG {
   height: inherit;
+  pointer-events: none;
   width: 100%;
   position: absolute;
   background-size: cover;
@@ -522,10 +527,6 @@ box-shadow: 0 0 20px 2px #2e7eff;
 }
 .container h1 {
   padding: 10px;
-}
-
-.itemCategory {
-  height: inherit;
 }
 
 /*edit profile page*/
