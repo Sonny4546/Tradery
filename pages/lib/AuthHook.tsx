@@ -3,6 +3,7 @@ import { getCurrentSession, DeleteSession, OAuthProvider, account } from "./appw
 import { Models } from "appwrite";
 import { useNavigate } from 'react-router'
 import { getTeams } from "./User";
+import {bothlogin} from "./firebase";
 
 interface TraderyAuthContext {
     session?: Models.Session;
@@ -48,7 +49,7 @@ export function useAuthState() {
       }, [session?.$id])
     
       async function logIn() {
-        
+        await bothlogin()
       }
       
 
