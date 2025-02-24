@@ -3,6 +3,7 @@ import { getCurrentSession, DeleteSession, OAuthProvider, account } from "./appw
 import { Models } from "appwrite";
 import { useNavigate } from 'react-router'
 import { getTeams } from "./User";
+import { firegoogle } from "./firebase";
 
 interface TraderyAuthContext {
     session?: Models.Session;
@@ -49,6 +50,7 @@ export function useAuthState() {
     
     async function logIn() {
       try {
+        await firegoogle();
         await account.createOAuth2Session(
           OAuthProvider.Google,
           'https://sonny4546.github.io/Tradery/#/Home',

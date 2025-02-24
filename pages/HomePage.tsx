@@ -10,17 +10,42 @@ import { getItems, getItemsbyCategory } from './lib/Items';
 import { getItemsbySearch } from './lib/Items';
 import ItemCard from './comp/ItemCard';
 import HomeNav from './HomeNav';
+import { createProfileData, findUserDataById } from './lib/UserProfile';
+import { TraderyUser } from './lib/GetUser';
+import { getUser } from './lib/appwrite';
+import { TraderyProfileImage } from './comp/Profile';
 
 
 
 const HomePage = () => {
   const [items, setItems] = useState<Array<TraderyItems> | undefined>();
   const [isHidden, setIsHidden] = useState(false);
+  const [user, setUser] = useState<TraderyUser | undefined>();
+  const [image, setImage] = useState<TraderyProfileImage>();
    
   useEffect(() => {
     (async function run() {
       const { items } = await getItems();
       setItems(items);
+      const userData = await getUser();
+      setUser(userData);
+      
+      if (userData) {
+          const userExists = await findUserDataById(userData.$id); // Now returns true/false
+          console.log("User Exists? ", userExists); // Debugging
+
+          if (!userExists) {       
+              await createProfileData(userData.$id, {
+                  profileImageId: "",
+                  profileSummary: null,
+                  profileImageWidth: image?.width ?? 100,
+                  profileImageHeight: image?.height ?? 100,
+                  displayName: null,
+                  defaultName: userData.name
+              });
+              console.log("New profile created.");
+          }
+      }
     })();
   }, []);
 
