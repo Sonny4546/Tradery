@@ -5,7 +5,7 @@ import { TraderyItems } from './ItemsInterface';
 import { deleteFileById } from './storage';
 
 export interface TraderyProfiles {
-    $id: string;
+    userid: string;
     displayName?: string | null;
     defaultName: string;
     profileImageId: string;
@@ -14,7 +14,7 @@ export interface TraderyProfiles {
     profileImageHeight: number;
 }
 
-export async function createProfileData(userId: string, item: Omit<TraderyProfiles, '$id'>) {
+export async function createProfileData(userId: string, item) {
     const document = await database.createDocument(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
                                                 import.meta.env.VITE_APPWRITE_COLLECTION_USER_ID, userId, item);
     return {
@@ -22,7 +22,7 @@ export async function createProfileData(userId: string, item: Omit<TraderyProfil
     }
 }
 
-export async function getUserDataById(itemsId: TraderyProfiles['$id']) {
+export async function getUserDataById(itemsId: TraderyProfiles['userid']) {
     const document = await database.getDocument(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
                                                 import.meta.env.VITE_APPWRITE_COLLECTION_USER_ID, itemsId);
     return {
@@ -43,7 +43,7 @@ export async function findUserDataById(userId: string) {
     }
 }
 
-export async function updateUserData(userId: string, item: Omit<TraderyProfiles, '$id'>) {
+export async function updateUserData(userId: string, item: Omit<TraderyProfiles, 'userid'>) {
     const document = await database.updateDocument(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
                                                 import.meta.env.VITE_APPWRITE_COLLECTION_USER_ID, userId, item);
     return {
@@ -53,7 +53,7 @@ export async function updateUserData(userId: string, item: Omit<TraderyProfiles,
 
 function mapDocumentToItem(document: Models.Document) {
     const userdb: TraderyProfiles = {
-        $id: document.$id,
+        userid: document.$id,
         displayName: document.displayName,
         defaultName: document.defaultName,
         profileImageId: document.profileImageId,

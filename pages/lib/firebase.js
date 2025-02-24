@@ -1,9 +1,7 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
-
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { getFirestore, doc, setDoc, getDoc } from "firebase/firestore";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getCurrentSession, DeleteSession, OAuthProvider, account } from "./appwrite";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_API_KEY,
@@ -16,31 +14,76 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 
-export const auth = getAuth(app)
-export const db = getFirestore(app)
+export const auth = getAuth()
+export const db = getFirestore()
 
-export async function firegoogle() {
+// export async function firegoogle() {
+//     try {
+//         const provider = new GoogleAuthProvider();
+//         const result = await signInWithPopup(auth, provider);
+//         const user = result.user;
+
+//         const userRef = doc(db, "users", user.uid);
+//         const userSnap = await getDoc(userRef);
+
+//         if (!userSnap.exists()) {
+//             await setDoc(userRef, {
+//                 id: user.uid,
+//                 email: user.email,
+//                 username: user.displayName || "New User",
+//                 createdAt: new Date(),
+//                 blocked: []
+//             });
+//             await setDoc(doc(db, "userchats", user.uid), {
+//                 chats: [],
+//             });
+//         }
+//         console.log("User logged in successfully.");
+//     } catch (error) {
+//         console.error("Error during Google sign-in:", error);
+//         alert(`Login failed: ${error.message}`);
+//     }
+// }skibidi
+
+export async function bothlogin(){
     try {
+        // Step 1: Log in with Firebase
         const provider = new GoogleAuthProvider();
         const result = await signInWithPopup(auth, provider);
         const user = result.user;
-
+    
+        if (!user) {
+          console.error("Firebase login failed.");
+          return;
+        }
+    
+        // Step 2: Store user in Firestore if not exists
         const userRef = doc(db, "users", user.uid);
         const userSnap = await getDoc(userRef);
-
+    
         if (!userSnap.exists()) {
-            await setDoc(userRef, {
-                id: user.uid,
-                email: user.email,
-                username: user.displayName || "New User",
-                createdAt: new Date(),
-                blocked: []
-            });
-            await setDoc(doc(db, "userchats", user.uid), {
-                chats: [],
-            });
+          await setDoc(userRef, {
+            id: user.uid,
+            email: user.email,
+            username: user.displayName || "New User",
+            createdAt: new Date(),
+            blocked: [],
+          });
+          await setDoc(doc(db, "userchats", user.uid), {
+            chats: [],
+          });
         }
-    }catch (error) {
-      console.error("Error during Google sign-in:", error);
-  }
-};
+    
+        // Step 3: Log in with Appwrite (OAuth session)
+        await account.createOAuth2Session(
+          OAuthProvider.Google,
+          "https://sonny4546.github.io/Tradery/#/Home",
+          "https://sonny4546.github.io/Tradery"
+        );
+    
+        console.log("Login successful with Firebase and Appwrite.");
+      } catch (error) {
+        console.error("Error during login:", error);
+        alert(`Login failed: ${error.message}`);
+      }
+}

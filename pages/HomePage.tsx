@@ -36,6 +36,7 @@ const HomePage = () => {
 
           if (!userExists) {       
               await createProfileData(userData.$id, {
+                  userId: userData.$id,
                   profileImageId: "",
                   profileSummary: null,
                   profileImageWidth: image?.width ?? 100,
