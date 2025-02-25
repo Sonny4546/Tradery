@@ -18,14 +18,24 @@ const Post = () => {
     const { session } = useAuth();
     const navigate = useNavigate();
     const [image, setImage] = useState<TraderyImage>();
-    const [loading, setLoading] = useState(false); // Controls overlay visibility
+    const [loading, setLoading] = useState(false);
+    const [name, setName] = useState("");
+    const [description, setDescription] = useState("");
+    const [error, setError] = useState<string | null>(null); // Store validation errors
 
     function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
         if (!e.target.files || e.target.files.length === 0) return;
 
         const file = e.target.files[0];
-        const img = new Image();
 
+        // ✅ Check image size limit (5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            setError("File size must be 5MB or less.");
+            return;
+        }
+        setError(null);
+
+        const img = new Image();
         img.onload = function () {
             setImage({
                 height: img.height,
@@ -33,36 +43,31 @@ const Post = () => {
                 width: img.width,
             });
         };
-
         img.src = URL.createObjectURL(file);
     }
 
     const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        setLoading(true); // Show overlay
+        setLoading(true);
     
         const formData = new FormData(e.currentTarget);
-        const name = formData.get("name") as string;
-        const description = formData.get("description") as string;
         const itemCategory = formData.get("itemCategory") as string;
-    
+
         if (!name || !description || !itemCategory) {
-            alert("Please fill in all fields.");
+            setError("Please fill in all fields.");
             setLoading(false);
             return;
         }
-    
+
         try {
             const user = await fetchUserData();
             if (!user) {
                 console.log("User data is still loading. Please wait.");
                 return;
             }
-    
-            // Create item without image first
+
             const results = await createItems({
                 name,
-                author: user.name,
                 authorID: user.$id,
                 description,
                 date: new Date().toISOString(),
@@ -72,37 +77,36 @@ const Post = () => {
                 isApproved: false,
                 itemCategory,
             });
-    
+
             console.log("Item created successfully:", results.items);
-    
+
             if (image?.file) {
                 console.log("Uploading image...");
                 const file = await uploadFile(image.file);
-    
+
                 await updateItem(results.items.$id, {
                     imageFileId: file?.$id,
                     imageHeight: image?.height,
                     imageWidth: image?.width,
                     name,
                     description,
-                    author: user.name,
                     authorID: user.$id,
                     date: new Date().toISOString(),
                     isApproved: false,
                     itemCategory,
                 });
-    
+
                 console.log("Image uploaded successfully:", file.$id);
             }
-    
+
             navigate(`/Item/${results.items.$id}`);
         } catch (error) {
             console.error("Error creating item:", error);
             alert("Failed to create item. Please try again.");
         } finally {
-            setLoading(false); // Hide overlay
+            setLoading(false);
         }
-    };    
+    };
 
     return (
         <>
@@ -117,10 +121,11 @@ const Post = () => {
             <div className="Main">
                 <div className="container">
                     <h1>Post Item</h1>
+                    {error && <p style={{ color: "red" }}>{error}</p>}
                     <form onSubmit={handleOnSubmit} autoComplete="off">
                         <div className="uploader">
                             <Form.Group controlId="formFileLg" className="mb-3">
-                                <Form.Label>Import Image</Form.Label>
+                                <Form.Label>Import Image (Max: 5MB)</Form.Label>
                                 <Form.Control
                                     type="file"
                                     size="lg"
@@ -144,11 +149,32 @@ const Post = () => {
                             </FloatingLabel>
                         </div>
                         <div className="mb-3">
-                            <Form.Control id="name" name="name" type="text" placeholder="Name" required />
+                            <Form.Control
+                                id="name"
+                                name="name"
+                                type="text"
+                                placeholder="Name"
+                                maxLength={40} // ✅ Limit to 40 characters
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                                required
+                            />
+                            <small>{name.length}/40</small>
                         </div>
                         <Form.Group className="mb-3" controlId="Description.ControlTextarea1">
                             <Form.Label>Item Description</Form.Label>
-                            <Form.Control rows={4} as="textarea" id="description" name="description" placeholder="Description" required />
+                            <Form.Control
+                                rows={4}
+                                as="textarea"
+                                id="description"
+                                name="description"
+                                placeholder="Description"
+                                maxLength={500} // ✅ Limit to 500 characters
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                required
+                            />
+                            <small>{description.length}/500</small>
                         </Form.Group>
                         <Button className="submitbtn" type="submit" disabled={loading}>
                             Submit

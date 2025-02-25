@@ -44,7 +44,7 @@ export default function UserContent({ params = useParams() }: { params: { userId
                         alt="Item"
                     />
                 </div>
-                <h1>{user?.profileName}</h1>
+                <h1>{user?.displayName}</h1>
                 <p>{data?.name}</p>
                 <p>{user?.profileSummary}</p>
             </div>

@@ -10,7 +10,7 @@ import { getItems, getItemsbyCategory } from './lib/Items';
 import { getItemsbySearch } from './lib/Items';
 import ItemCard from './comp/ItemCard';
 import HomeNav from './HomeNav';
-import { createProfileData, findUserDataById } from './lib/UserProfile';
+import { createProfileData, findUserDataById, getUserDataById, TraderyProfiles } from './lib/UserProfile';
 import { TraderyUser } from './lib/GetUser';
 import { getUser } from './lib/appwrite';
 import { TraderyProfileImage } from './comp/Profile';
@@ -21,6 +21,7 @@ const HomePage = () => {
   const [items, setItems] = useState<Array<TraderyItems> | undefined>();
   const [isHidden, setIsHidden] = useState(false);
   const [user, setUser] = useState<TraderyUser | undefined>();
+  const [author, setAuthor] = useState<TraderyProfiles | undefined>()
   const [image, setImage] = useState<TraderyProfileImage>();
    
   useEffect(() => {
@@ -127,6 +128,12 @@ const HomePage = () => {
                           height: item.imageHeight,
                           width: item.imageWidth,
                         };
+                        useEffect(() => {
+                          (async function run() {
+                            const {userdb} = await getUserDataById(item.authorID);
+                            setAuthor(userdb);
+                          })();
+                        }, [item.authorID]);
                         return (
                             <Col sm={12} md={6} lg={3} key={item.$id} style={{ paddingBottom: '20px' }}>
                                 <a className="itemLink" href={`#/Item/${item.$id}`}>
@@ -141,7 +148,7 @@ const HomePage = () => {
                                         }}
                                         name={item.name}
                                         date={item.date}
-                                        author={item.author}
+                                        author={author ? author.displayName || author.defaultName : "Unknown Author"}
                                     />
                                 </a>
                             </Col>
@@ -152,7 +159,7 @@ const HomePage = () => {
                 {Array.isArray(items) && items.length === 0 && (
                 <Container>
                     <Alert key='warning' variant='warning'>
-                    No Items are currently posted, &nbsp;
+                    No Items are currently posted,&nbsp;
                     <Alert.Link href="#/Dashboard/Post">You can start by posting here</Alert.Link>.
                     </Alert>
                 </Container>

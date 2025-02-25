@@ -92,7 +92,6 @@ function mapDocumentToItem(document: Models.Document) {
     const items: TraderyItems = {
         $id: document.$id,
         name: document.name,
-        author: document.author,
         authorID: document.authorID,
         date: document.date,
         description: document.description,

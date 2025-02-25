@@ -6,7 +6,7 @@ import { Image, Button, Form } from "react-bootstrap";
 import { TraderyUser } from "../lib/GetUser";
 import { fetchUserData } from "../lib/User";
 import { createProfileData, getUserDataById, TraderyProfiles, updateUserData } from "../lib/UserProfile";
-import { getProfilePreviewImageById, uploadUserFile } from "../lib/storage";
+import { deleteFileById, getProfilePreviewImageById, uploadUserFile } from "../lib/storage";
 
 export interface TraderyProfileImage {
     height: number;
@@ -96,7 +96,9 @@ const Profile = () => {
     
             let { userdb } = await getUserDataById(user.$id);
             let profileImageId = userdb?.profileImageId || "default";
-    
+            if (profileImageId) {
+                await deleteFileById(profileImageId)
+            }
             // Upload new image if selected
             if (image?.file) {
                 console.log("Uploading image...");
@@ -185,11 +187,11 @@ const Profile = () => {
                             </div>
                             <div className="container">
                                 <div className="mb-3">
-                                    <p>{userdb?.profileName}</p>
+                                    <p>{userdb?.displayName}</p>
                                     <p>{user?.name}</p>
                                 </div>
                                 <div className="mb-3">
-                                    <p>{userdb?.profileSummary || "PROFILE SUMMARY"}</p>
+                                    <p>{userdb?.profileSummary ?? "No profile description provided"}</p>
                                 </div>
                             </div>
                     </>

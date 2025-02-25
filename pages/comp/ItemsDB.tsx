@@ -8,10 +8,12 @@ import { getPreviewImageById } from "../lib/storage";
 import { getItemsbyUser } from '../lib/Items';
 import ItemCard from '../comp/ItemCard';
 import { fetchUserData } from '../lib/User';
+import { getUserDataById, TraderyProfiles } from '../lib/UserProfile';
 
 
 const Items = () => {
     const [items, setItems] = useState<Array<TraderyItems> | undefined>();
+    const [author, setAuthor] = useState<TraderyProfiles>();
 
     useEffect(() => {
         (async function run() {
@@ -40,6 +42,13 @@ const Items = () => {
                                     height: item?.imageHeight,
                                     width: item?.imageWidth,
                                     };
+
+                                    useEffect(() => {
+                                        (async function run() {
+                                          const {userdb} = await getUserDataById(item.authorID);
+                                          setAuthor(userdb);
+                                        })();
+                                      }, [item.authorID]);
                                     return (
                                         <Col xs={12} md={3} key={item.$id} style={{ paddingBottom: '20px' }}>
                                             <a className="itemLink" href={`#/Item/${item.$id}`}>
@@ -51,7 +60,7 @@ const Items = () => {
                                                     }}
                                                     name={item.name}
                                                     date={item.date}
-                                                    author={item.author}
+                                                    author={author ? author.displayName || author.defaultName : "Unknown Author"}
                                                 />
                                             </a>
                                         </Col>

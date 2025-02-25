@@ -1,18 +1,15 @@
 import '../src/main.css'
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import Button from 'react-bootstrap/Button';
 import { useAuth } from './lib/AuthHook';
 import { useNavigate } from 'react-router-dom';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
-import { createProfileData, findUserDataById } from './lib/UserProfile';
-import { TraderyUser } from './lib/GetUser';
-import { getUser } from './lib/appwrite';
-import { TraderyProfileImage } from './comp/Profile';
+import Modal from 'react-bootstrap/Modal';
 
 export default function LoginPage() {
-  const [user, setUser] = useState<TraderyUser | undefined>();
-  const [image, setImage] = useState<TraderyProfileImage>();
+  const [loading, setLoading] = useState(false);
+
   const renderTooltip = (props) => (
     <Tooltip id="button-tooltip" {...props}>
       Please check the notice below to continue..
@@ -40,10 +37,18 @@ export default function LoginPage() {
   }
   const { logIn } = useAuth();
   async function loginHandle() {
+    setLoading(true); // Show loading modal
     await logIn();
+    setLoading(false); // Hide modal after login
   }
   return (
     <>
+    <Modal show={loading} centered backdrop="static">
+        <Modal.Body className="text-center">
+          <div className="spinner-border text-primary" role="status"></div>
+          <p className="mt-3">Logging in, please wait...</p>
+        </Modal.Body>
+    </Modal>
     <div className="logincontainer">
       <div className="circle">
         <img src="./images/favicon.png"></img>
@@ -51,7 +56,7 @@ export default function LoginPage() {
       <p className="LoginWord"> USER LOGIN </p>
       <div className="google-button">
         {isChecked && (
-          <Button className="login" variant="primary" size="lg" id="btn" style={{margin: 0}} onClick={loginHandle}>Login with Google</Button>
+          <Button className="login" variant="primary" size="lg" id="btn" style={{margin: 0}} onClick={loginHandle} disabled={loading}>Login with Google</Button>
         )}
         {!isChecked && (
           <OverlayTrigger

@@ -117,6 +117,28 @@ html {
 	}
 }
 
+.HomeItem {
+	padding: 0.5em 0.8em;
+	position: fixed;
+	z-index: 1;
+	color: #000000;
+	text-decoration: none;
+	display: flex;
+	align-items: center;
+	transition: 150ms;
+	svg > polyline {
+		transition: 150ms;
+	}
+	&:hover {
+		color: #dbdbdb;
+		background: #222222;
+		border-color:transparent;
+		svg > polyline {
+			stroke: #dbdbdb;
+		}
+	}
+}
+
 .HomeButton {
 	border: 2px solid #ffffff;
 	padding: 0.5em 0.8em;
@@ -136,9 +158,6 @@ html {
 		border-color:transparent;
 		svg > polyline {
 			stroke: #333;
-		}
-		+ .background-wrapper > h1 {
-			color: #dadada;
 		}
 	}
 }
@@ -295,12 +314,46 @@ body {
 }
 
 .image-carousel {
-  max-height: 300px; /* Ensures the carousel does not exceed 300px */
+  max-height: 720px;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   overflow: hidden;
 }
+
+.thumbnail {
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  margin: auto;
+  display: block;
+}
+
+.itemheading {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.itemheading h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.itemheading div {
+  font-size: 1rem;
+  color: #555;
+}
+
+.description {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-top: 20px;
+  padding: 10px;
+  background: #f9f9f9;
+  border-radius: 5px;
+}
+
 
 .image-carousel .carousel-item {
   text-align: center;

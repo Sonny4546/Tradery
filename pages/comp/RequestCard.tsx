@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Accordion } from 'react-bootstrap';
 import { getUserDataById } from '../lib/UserProfile';
-import { fetchUserData } from '../lib/User';
 
 interface ItemCardProps {
     name: string;
@@ -13,7 +12,7 @@ interface ItemCardProps {
     userId: string[] | undefined;
 }
 
-const RequestCard = ({ name, image, userId }: ItemCardProps) => {
+const RequestCard = ({ name, userId }: ItemCardProps) => {
     const [userRequests, setUserRequests] = useState<{ displayName: string; appwriteName: string }[]>([]);
 
     useEffect(() => {
@@ -28,11 +27,11 @@ const RequestCard = ({ name, image, userId }: ItemCardProps) => {
                         
                         return {
                             displayName: userdb?.displayName || "Unknown User",
-                            appwriteName: userdb?.defaultName || "No Appwrite Name",
+                            appwriteName: userdb?.defaultName || "No Default Name",
                         };
                     } catch (error) {
                         console.error("Error fetching user data:", error);
-                        return { displayName: "Unknown User", appwriteName: "No Appwrite Name" };
+                        return { displayName: "Unknown User", appwriteName: "No Default Name" };
                     }
                 })
             );

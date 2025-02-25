@@ -3,16 +3,19 @@ import { Button, Alert } from "react-bootstrap";
 import Carousel from 'react-bootstrap/Carousel';
 import { useParams } from "react-router-dom";
 
-import { getItemsById, deleteItemById, addRequest } from "../lib/Items";
+import { getItemsById, deleteItemById, addRequest, updateItem } from "../lib/Items";
 import { getPreviewImageById } from "../lib/storage";
 import { TraderyItems } from "../lib/ItemsInterface";
 import HomeNav from "../HomeNav";
 import { fetchUserData } from '../lib/User';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../lib/AuthHook";
+import { getUserDataById, TraderyProfiles } from "../lib/UserProfile";
+import { TraderyUser } from "../lib/GetUser";
 
 export default function ItemContent({ params = useParams() }: { params: { itemsId: string}}) {
     const [items, setItems] = useState<TraderyItems | undefined>();
+    const [author, setAuthor] = useState<TraderyProfiles | undefined>()
     const navigate = useNavigate();
     const [isAuthor, setIsAuthor] = useState(false);
     const [isRequesting, setRequest] = useState(false);
@@ -40,6 +43,11 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             
             if (user) {
                 setRequest(items.requests?.includes(user.$id) ?? false);
+            }
+            if (items) {
+                const {userdb} = await getUserDataById(items.authorID)
+                setAuthor(userdb)
+            return;
             }
         })();
     }, [params.itemsId]);
@@ -80,9 +88,11 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
     }
 
     async function handleDeleteItem() {
-        if (!items?.$id) return;
-        await deleteItemById(items.$id);
-        navigate('/');
+        if (items?.$id){
+            await deleteItemById(items.$id);
+        return;
+        }
+        navigate(-1);
     }
 
     async function handleApprove() {
@@ -95,25 +105,22 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
         }
     
         try {
-            // ✅ Optimistic UI update
-            setItems((prevItems) => prevItems ? { ...prevItems, isApproved: true } : prevItems);
-
-            // ✅ Update backend
-            await addRequest(params.itemsId, {
+            // ✅ Update in Appwrite using `updateItem` instead of `addRequest`
+            await updateItem(params.itemsId, {
                 ...items,
                 isApproved: true,
             });
-
-            // 🔹 Fetch updated data to ensure it's correctly stored
+    
+            // ✅ Fetch the latest data to ensure correctness
             const { items: updatedItem } = await getItemsById(params.itemsId);
-            console.log("Approved Post: ", updatedItem);
-
-            setItems(updatedItem);  // ✅ Update state
-            navigate(`/Admin`);
+            console.log("✅ Approved Post Data from Appwrite:", updatedItem);
+    
+            // ✅ Update state with the newly fetched data
+            setItems(updatedItem);
         } catch (error) {
             console.error("Error approving post:", error);
         }
-    }
+    }    
 
     async function handleOnTradeRemove() {
         if (!items) return;
@@ -148,9 +155,18 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             console.error("Error removing request:", error);
         }
     }
-
     return (
         <HomeNav>
+            <a className="HomeItem" href="#/Home">
+                <svg height="0.8em" width="0.8em" viewBox="0 0 2 1" preserveAspectRatio="none">
+                    <polyline
+                        fill="none" 
+                        stroke="#ffffff" 
+                        stroke-width="0.2" 
+                        points="0.9,0.1 0.1,0.5 0.9,0.9" 
+                    />
+                </svg> Home
+            </a>
             <div className="container">
                 {items && (
                     <>
@@ -162,7 +178,9 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                         
                         <div className="itemheading">
                             <div><h1>{items.name}</h1></div>
-                            <div>By: {items.author}</div>
+                            {author && (
+                            <div>By: {author.displayName || author.defaultName}</div>
+                            )}
                             <div>Date Posted: { new Date(items.date).toLocaleString('en-US', { month: 'long', day: 'numeric' }) }</div>
                         </div>
 
