@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Modal from 'react-bootstrap/Modal';
-import '../src/main.css';
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);

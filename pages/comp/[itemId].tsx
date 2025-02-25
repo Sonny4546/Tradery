@@ -170,12 +170,6 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             <div className="container">
                 {items && (
                     <>
-                        {!items.isApproved && (
-                            <Alert key="warning" variant="warning" style={{ margin: '20px' }}>
-                                The item is waiting to be approved by the admin.
-                            </Alert>
-                        )}
-                        
                         <div className="itemheading">
                             <div><h1>{items.name}</h1></div>
                             {author && (

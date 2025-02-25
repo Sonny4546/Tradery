@@ -3,7 +3,6 @@ import { Image, Button, Form, Container, Card, Spinner } from "react-bootstrap";
 import { getUser } from "../lib/appwrite";
 import { getUserDataById, updateUserData } from "../lib/UserProfile";
 import { getProfilePreviewImageById, uploadUserFile, deleteProfileImageById } from "../lib/storage";
-import "../src/main.css";
 
 export interface TraderyProfileImage {
     height: number;
