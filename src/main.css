@@ -346,6 +346,10 @@ body {
   border-radius: 5px;
 }
 
+.carousel {
+  margin-left: 10%;
+}
+
 .image-carousel {
   display: flex;
   justify-content: center;
@@ -367,6 +371,10 @@ body {
   width: auto; /* Maintain aspect ratio */
   object-fit: contain; /* Prevents stretching */
   margin: auto;
+}
+
+.carousel-item {
+  margin-right: 0;
 }
 
 .itemData {

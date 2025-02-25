@@ -78,6 +78,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             // ✅ Update backend
             await addRequest(params.itemsId, {
                 ...items,
+                isApproved: true,
                 requests: updatedRequests,
             });
 
@@ -147,6 +148,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             // ✅ Update backend
             await addRequest(params.itemsId, {
                 ...items,
+                isApproved: true,
                 requests: updatedRequests,
             });
 

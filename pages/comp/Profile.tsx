@@ -139,7 +139,7 @@ const Profile = () => {
                                 <div className="profile-image-upload">
                                     <input type="file" accept=".png, .jpg" onChange={handleOnChange} required />
                                     <Image
-                                        src={previewImage || "/images/default-profile.png"}
+                                        src={previewImage || "https://cloud.appwrite.io/v1/storage/buckets/67932f8600176cf1dfdc/files/default/view?project=678ba12f001dce105c6a&mode=admin"}
                                         roundedCircle
                                         className="profile-img"
                                     />

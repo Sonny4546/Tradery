@@ -46,6 +46,7 @@ export default function Admin() {
     return (
         <>
             {!isAdmin && (
+              <HomeNav>
                 <div className="RegAdminContainer">
                     <div className="login-register-container">
                         <form onSubmit={handleAdminLogin} autoComplete="off">
@@ -65,6 +66,7 @@ export default function Admin() {
                         </form>
                     </div>
                 </div>
+              </HomeNav>
             )}
 
             {isAdmin && (
