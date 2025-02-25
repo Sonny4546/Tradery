@@ -1,174 +1,131 @@
 import '../src/main.css'
-import { Col, Row, Nav, Navbar, NavDropdown, Container, Alert, CloseButton, AlertHeading, Button, Accordion } from 'react-bootstrap';
-import React, { useEffect, useState } from 'react'
-import { Link } from 'wouter';
+import React, { useEffect, useState } from 'react';
+import { Col, Row, Button, CloseButton, Alert, Accordion, Container } from 'react-bootstrap';
 
-import { useAuth } from './lib/AuthHook';
-import { TraderyItems } from './lib/ItemsInterface';
 import { getPreviewImageById } from "./lib/storage";
-import { getItems, getItemsbyCategory } from './lib/Items';
-import { getItemsbySearch } from './lib/Items';
+import { getItems, getItemsbyCategory, getItemsbySearch } from './lib/Items';
+import { getUserDataById, TraderyProfiles } from './lib/UserProfile';
 import ItemCard from './comp/ItemCard';
 import HomeNav from './HomeNav';
-import { createProfileData, findUserDataById, getUserDataById, TraderyProfiles } from './lib/UserProfile';
-import { TraderyUser } from './lib/GetUser';
-import { getUser } from './lib/appwrite';
-import { TraderyProfileImage } from './comp/Profile';
-
-
 
 const HomePage = () => {
-  const [items, setItems] = useState<Array<TraderyItems> | undefined>();
+  const [items, setItems] = useState<Array<any>>([]);
   const [isHidden, setIsHidden] = useState(false);
-  const [user, setUser] = useState<TraderyUser | undefined>();
-  const [author, setAuthor] = useState<TraderyProfiles | undefined>()
-  const [image, setImage] = useState<TraderyProfileImage>();
-   
+  const [authors, setAuthors] = useState<{ [key: string]: TraderyProfiles }>({}); // 🔹 Store authors in a state object
+
   useEffect(() => {
-    (async function run() {
+    (async function fetchItems() {
       const { items } = await getItems();
       setItems(items);
-      const userData = await getUser();
-      setUser(userData);
-      
-      if (userData) {
-          const userExists = await findUserDataById(userData.$id); // Now returns true/false
-          console.log("User Exists? ", userExists); // Debugging
 
-          if (!userExists) {       
-              await createProfileData(userData.$id, {
-                  userId: userData.$id,
-                  profileImageId: "",
-                  profileSummary: null,
-                  profileImageWidth: image?.width ?? 100,
-                  profileImageHeight: image?.height ?? 100,
-                  displayName: null,
-                  defaultName: userData.name
-              });
-              console.log("New profile created.");
+      // Fetch author details for all items
+      const authorData: { [key: string]: TraderyProfiles } = {};
+      await Promise.all(
+        items.map(async (item) => {
+          if (!authorData[item.authorID]) {
+            const { userdb } = await getUserDataById(item.authorID);
+            authorData[item.authorID] = userdb;
           }
-      }
+        })
+      );
+      setAuthors(authorData); // ✅ Store all authors at once
     })();
   }, []);
 
-  async function handleHomeItems() {
-    const { items } = await getItems();
-    setItems(items);
-  }
-
-  const handleSearch = async (e: React.SyntheticEvent) => {
-    e.preventDefault();
-    setIsHidden(prevState => !prevState);
-    const target = e.target as typeof e.target & {
-      ItemSearch: { value: string };
-    }
-    try {
-      const { items } = await getItemsbySearch(target.ItemSearch.value);
-      setItems(items)
-    } catch (error) {
-        console.error("Error finding Item:", error);
-    }
-  }
-  
   async function handleCategory(category: string) {
     const { items } = await getItemsbyCategory(category);
     setItems(items);
-    console.log(items);
   }
-  // Define a mapping object for category names
+
+  async function handleSearch(e: React.SyntheticEvent) {
+    e.preventDefault();
+    setIsHidden(true);
+    const target = e.target as typeof e.target & { ItemSearch: { value: string } };
+    try {
+      const { items } = await getItemsbySearch(target.ItemSearch.value);
+      setItems(items);
+    } catch (error) {
+      console.error("Error finding Item:", error);
+    }
+  }
+
+  // Category mapping
   const categoryMap: { [key: string]: string } = {
     a: "School Supplies",
     b: "Clothing",
     c: "Entertainment/Hobbies",
     d: "Gaming/Technology",
     e: "Accessories",
-    f: "Miscellaneous"
+    f: "Miscellaneous",
   };
+
   return (
     <HomeNav>
       <div className="home">
         <div className="container" id="pagewrap">
-            <div className="searchinput">
-              <form className="search" onSubmit={handleSearch} autoComplete="off">
-                  <input id="ItemSearch" name="ItemSearch" placeholder="Search for Items..." required></input>
-                    {isHidden && (
-                      <CloseButton className="clear-btn" onClick={handleHomeItems}/>
-                    )}
-                  <button className="submit-btn" type="submit">Search</button>
-              </form>
-            </div>
-            <div className="categories">
-              <Accordion defaultActiveKey="0">
-                <Accordion.Item eventKey="0">
-                  <Accordion.Header>Filter by Categories</Accordion.Header>
-                  <Accordion.Body>
+          <div className="searchinput">
+            <form className="search" onSubmit={handleSearch} autoComplete="off">
+              <input id="ItemSearch" name="ItemSearch" placeholder="Search for Items..." required />
+              {isHidden && <CloseButton className="clear-btn" onClick={() => setIsHidden(false)} />}
+              <button className="submit-btn" type="submit">Search</button>
+            </form>
+          </div>
+          <div className="categories">
+            <Accordion defaultActiveKey="0">
+              <Accordion.Item eventKey="0">
+                <Accordion.Header>Filter by Categories</Accordion.Header>
+                <Accordion.Body>
                   <Row>
-                    <Col sm={8} md={10} lg={12}>
-                      <Button variant="outline-danger" onClick={handleHomeItems}>Clear Filter</Button>
-                      <Button variant="outline-primary" onClick={() => handleCategory("a")}>School Supplies</Button>
-                      <Button variant="outline-secondary" onClick={() => handleCategory("b")}>Clothing</Button>
-                      <Button variant="outline-success" onClick={() => handleCategory("c")}>Entertainment/Hobbies</Button>
-                      <Button variant="outline-warning" onClick={() => handleCategory("d")}>Gaming/Technology</Button>
-                      <Button variant="outline-info" onClick={() => handleCategory("e")}>Accessories</Button>
-                      <Button variant="outline-dark" onClick={() => handleCategory("f")}>Miscellaneous</Button>
+                    <Col>
+                      <Button variant="outline-danger" onClick={() => setIsHidden(false)}>Clear Filter</Button>
+                      {Object.entries(categoryMap).map(([key, value]) => (
+                        <Button key={key} variant="outline-primary" onClick={() => handleCategory(key)}>
+                          {value}
+                        </Button>
+                      ))}
                     </Col>
                   </Row>
-                  </Accordion.Body>
-                </Accordion.Item>
-              </Accordion>
-            </div>
-            <div className="items container">
-              <Row>
-                {Array.isArray(items) && items.length > 0 && (
-                <>
-                    {items.map((item) => {
-                        const imageUrl = item.imageFileId && getPreviewImageById(item.imageFileId)
-                        const image = {
-                          url: imageUrl,
-                          height: item.imageHeight,
-                          width: item.imageWidth,
-                        };
-                        useEffect(() => {
-                          (async function run() {
-                            const {userdb} = await getUserDataById(item.authorID);
-                            setAuthor(userdb);
-                          })();
-                        }, [item.authorID]);
-                        return (
-                            <Col sm={12} md={6} lg={3} key={item.$id} style={{ paddingBottom: '20px' }}>
-                                <a className="itemLink" href={`#/Item/${item.$id}`}>
-                                  <div className="itemLabel">
-                                    <span className="Label">{categoryMap[item.itemCategory] || "Uncategorized"}</span>
-                                  </div>
-                                    <ItemCard
-                                        image={{
-                                          height: image.height,
-                                          url: image.url,
-                                          width: image.width
-                                        }}
-                                        name={item.name}
-                                        date={item.date}
-                                        author={author ? author.displayName || author.defaultName : "Unknown Author"}
-                                    />
-                                </a>
-                            </Col>
-                        );
-                    })}
-                </>
-                )}
-                {Array.isArray(items) && items.length === 0 && (
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+          </div>
+          <div className="items container">
+            <Row>
+              {items.length > 0 ? (
+                items.map((item) => {
+                  const imageUrl = item.imageFileId && getPreviewImageById(item.imageFileId);
+                  const image = { url: imageUrl, height: item.imageHeight, width: item.imageWidth };
+                  const author = authors[item.authorID];
+
+                  return (
+                    <Col sm={12} md={6} lg={3} key={item.$id} style={{ paddingBottom: '20px' }}>
+                      <a className="itemLink" href={`#/Item/${item.$id}`}>
+                        <div className="itemLabel">
+                          <span className="Label">{categoryMap[item.itemCategory] || "Uncategorized"}</span>
+                        </div>
+                        <ItemCard
+                          image={image}
+                          name={item.name}
+                          date={item.date}
+                          author={author ? author.displayName || author.defaultName : "Unknown Author"}
+                        />
+                      </a>
+                    </Col>
+                  );
+                })
+              ) : (
                 <Container>
-                    <Alert key='warning' variant='warning'>
-                    No Items are currently posted,&nbsp;
-                    <Alert.Link href="#/Dashboard/Post">You can start by posting here</Alert.Link>.
-                    </Alert>
+                  <Alert key="warning" variant="warning">
+                    No Items are currently posted, <Alert.Link href="#/Dashboard/Post">You can start by posting here</Alert.Link>.
+                  </Alert>
                 </Container>
-                )}
-              </Row>
-            </div>
+              )}
+            </Row>
+          </div>
         </div>
       </div>
     </HomeNav>
   );
-}
-export default HomePage
+};
+
+export default HomePage;
