@@ -1,8 +1,8 @@
-import '../src/main.css'
-import React, { useEffect, useState } from 'react'
-import { NavLink, Outlet, useNavigate } from 'react-router-dom'
-import { useAuth } from './lib/AuthHook'
+import React, { useEffect, useState } from 'react';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { useAuth } from './lib/AuthHook';
 import { Modal, Spinner } from 'react-bootstrap';
+import '../src/main.css';
 
 export default function UserDB() {
     const { session } = useAuth();

@@ -161,7 +161,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                 <svg height="0.8em" width="0.8em" viewBox="0 0 2 1" preserveAspectRatio="none">
                     <polyline
                         fill="none" 
-                        stroke="#ffffff" 
+                        stroke="#000" 
                         stroke-width="0.2" 
                         points="0.9,0.1 0.1,0.5 0.9,0.9" 
                     />

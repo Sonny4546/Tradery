@@ -1,4 +1,3 @@
-import "../src/main.css";
 import React, { useState, useEffect } from "react";
 import { Col, Row, Container, Alert, Button, Form } from "react-bootstrap";
 import { useAuth } from "./lib/AuthHook";
@@ -8,6 +7,7 @@ import { fetchUserData } from "./lib/User";
 import HomeNav from "./HomeNav";
 import { getUserDataById, TraderyProfiles } from "./lib/UserProfile";
 import { TraderyItems } from "./lib/ItemsInterface";
+import "../src/main.css";
 
 export default function Admin() {
     const { isAdmin, logInAdmin } = useAuth();

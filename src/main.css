@@ -313,14 +313,6 @@ body {
   }
 }
 
-.image-carousel {
-  max-height: 720px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-}
-
 .thumbnail {
   max-height: 100%;
   max-width: 100%;
@@ -354,18 +346,26 @@ body {
   border-radius: 5px;
 }
 
-
-.image-carousel .carousel-item {
-  text-align: center;
+.image-carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 100%;
+  max-height: 720px;
+  margin: 0 auto; /* Centers horizontally */
 }
 
-.image-carousel img {
-  max-height: 720px; /* Maximum height */
-  max-width: 100%; /* Ensures it resizes to fit width */
-  width: auto;
-  height: auto;
-  object-fit: contain; /* Ensures the image scales without being cropped */
-  display: block;
+.image-carousel .carousel-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-height: 720px;
+}
+
+.image-carousel .carousel-item img {
+  max-height: 720px;
+  width: auto; /* Maintain aspect ratio */
+  object-fit: contain; /* Prevents stretching */
   margin: auto;
 }
 
@@ -605,41 +605,47 @@ box-shadow: 0 0 20px 2px #2e7eff;
 }
 
 /*edit profile page*/
-.inputprofile {
-  height: 256px;
-  width: 256px;
-  background-color: #5555559a;
-  border-radius: 50%;
-  position: relative;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 20px;
-  p {
-    width: 100%;
-    height: 100%;
-    text-align: center;
-    opacity: 0%;
-    top: 50%;
-    position: absolute;
-  }
-  &:hover p{
-    opacity: 100%;
-  }
-  input[type=file] {
-    top: 0;
-    right: 0;
-    position: absolute;
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    outline: none;
-    opacity: 0;
-  }
-  img {
-    width: 100%;
-    height: 100%;
-  }
+.profile-card {
+  width: 450px;
+  padding: 20px;
+  border-radius: 15px;
+  background-color: #fff;
+}
+
+.profile-img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.profile-image-upload input {
+  display: block;
+  margin: 10px auto;
+}
+
+.display-name {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-top: 15px;
+}
+
+.account-name {
+  font-size: 1rem;
+  color: #888;
+  margin-top: -10px;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 /*Messages*/

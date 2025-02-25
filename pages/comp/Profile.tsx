@@ -1,12 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../lib/AuthHook";
-import { getUser, getUserPrefs } from "../lib/appwrite";
-import { useLocation } from "wouter";
-import { Image, Button, Form } from "react-bootstrap";
-import { TraderyUser } from "../lib/GetUser";
-import { fetchUserData } from "../lib/User";
-import { createProfileData, getUserDataById, TraderyProfiles, updateUserData } from "../lib/UserProfile";
-import { deleteFileById, getProfilePreviewImageById, uploadUserFile } from "../lib/storage";
+import { Image, Button, Form, Container, Card, Spinner } from "react-bootstrap";
+import { getUser } from "../lib/appwrite";
+import { getUserDataById, updateUserData } from "../lib/UserProfile";
+import { getProfilePreviewImageById, uploadUserFile, deleteProfileImageById } from "../lib/storage";
+import "../src/main.css";
 
 export interface TraderyProfileImage {
     height: number;
@@ -15,99 +12,90 @@ export interface TraderyProfileImage {
 }
 
 const Profile = () => {
-    const [user, setUser] = useState<TraderyUser | undefined>();
+    const [user, setUser] = useState<any>();
     const [userdb, setUserdb] = useState<any>();
     const [isEditing, setIsEditing] = useState(false);
     const [image, setImage] = useState<TraderyProfileImage>();
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
-    const imageUrl = userdb?.profileImageId && getProfilePreviewImageById(userdb.profileImageId)
-    const profile = {
-      url: imageUrl,
-      height: userdb?.profileImageHeight,
-      width: userdb?.profileImageWidth,
-    };
+    const [displayName, setDisplayName] = useState("");
+    const [profileSummary, setProfileSummary] = useState("");
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
-        const checkUser = async () => {
+        const fetchUser = async () => {
             try {
                 const userData = await getUser();
                 setUser(userData);
-
                 if (userData) {
-                    const {userdb} = await getUserDataById(userData.$id);
+                    const { userdb } = await getUserDataById(userData.$id);
                     setUserdb(userdb);
                     setPreviewImage(userdb?.profileImageId ? getProfilePreviewImageById(userdb.profileImageId) : null);
+                    setDisplayName(userdb?.displayName || userData?.name || "");
+                    setProfileSummary(userdb?.profileSummary || "");
                 }
             } catch (error) {
                 console.error("Error fetching user: ", error);
             }
         };
-
-        checkUser();
+        fetchUser();
     }, []);
 
     const handleEditProfile = () => setIsEditing(true);
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files || e.target.files.length === 0) return;
-
         const file = e.target.files[0];
+
+        // **Check File Size (Max 5MB)**
+        if (file.size > 5 * 1024 * 1024) { // 5MB
+            setError("File size exceeds 5MB limit.");
+            return;
+        } else {
+            setError(null);
+        }
+
         const img = document.createElement("img");
-
         img.onload = function () {
-            setImage({
-                height: img.height,
-                file: file,
-                width: img.width,
-            });
+            setImage({ height: img.height, file: file, width: img.width });
         };
-
         img.src = URL.createObjectURL(file);
-
-        // Update the preview image
-        const newPreviewUrl = URL.createObjectURL(file);
-        setPreviewImage(newPreviewUrl);
-
-        // Prevent memory leaks by revoking the old Blob URL
-        return () => URL.revokeObjectURL(newPreviewUrl);
-    };   
+        setPreviewImage(URL.createObjectURL(file));
+    };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
-    
-        const formData = new FormData(e.currentTarget);
-        const displayName = formData.get("display-name") as string;
-        const profileSummary = formData.get("summary") as string;
-    
-        if (!displayName || !profileSummary) {
+
+        if (!displayName.trim() || !profileSummary.trim()) {
             alert("Please fill in all fields.");
             setLoading(false);
             return;
         }
-    
+
         try {
             if (!user) {
                 console.log("User data is still loading. Please wait.");
                 setLoading(false);
                 return;
             }
-    
+
             let { userdb } = await getUserDataById(user.$id);
             let profileImageId = userdb?.profileImageId || "default";
-            if (profileImageId) {
-                await deleteFileById(profileImageId)
+            
+            // **Delete old image if exists**
+            if (profileImageId && profileImageId !== "default") {
+                await deleteProfileImageById(profileImageId);
             }
-            // Upload new image if selected
+
+            // **Upload new image if selected**
             if (image?.file) {
-                console.log("Uploading image...");
                 const file = await uploadUserFile(user.$id, image.file);
                 if (file?.$id) {
                     profileImageId = file.$id;
-                    console.log("Image uploaded successfully:", file.$id);
                 }
             }
+
             await updateUserData(user.$id, {
                 profileImageId,
                 profileSummary,
@@ -116,89 +104,91 @@ const Profile = () => {
                 displayName,
                 defaultName: ""
             });
+
             console.log("✅ Profile updated.");
-    
-            // Update local state to reflect changes
+
             setUserdb((prev) => ({
                 ...prev,
                 displayName,
                 profileSummary,
                 profileImageId,
             }));
-    
+
         } catch (error) {
             console.error("❌ Failed to update profile:", error);
         } finally {
             setLoading(false);
             setIsEditing(false);
         }
-    };     
+    };
 
     return (
-        <>
-        {loading && (
-            <div className="overlay">
-                <div className="overlay-content">
-                    <p>Please wait... Updating User Profile</p>
-                </div>
-            </div>
-        )}
-        <div className="Main">
-            <div className="container">
-                {isEditing ? (
-                    <>
-                        <h1>Edit Profile</h1>
-                        <form onSubmit={handleSubmit}>
-                            <div className="inputprofile">
-                                <input type="file" accept=".png, .jpg" onChange={handleOnChange} required/>
-                                    <Image
-                                        src={previewImage || "https://cloud.appwrite.io/v1/storage/buckets/67932f8600176cf1dfdc/files/default/view?project=678ba12f001dce105c6a&mode=admin"}
-                                        roundedCircle
-                                        width={180}
-                                        height={180}
-                                    />
-                                <p>Upload an image: accepts jpg and png only</p>
-                            </div>
-                            <div className="mb-3">
-                                <Form.Control type="text" id="display-name" name="display-name" placeholder="Name" autoComplete="off" defaultValue={userdb?.profileName || user?.name}/>
-                            </div>
-                            <Form.Group className="mb-3" controlId="Description.ControlTextarea1">
-                                <Form.Label>Profile Summary</Form.Label>
-                                <Form.Control as="textarea" id="summary" name="summary" rows={2} defaultValue={userdb?.profileSummary || "PROFILE SUMMARY"} />
-                            </Form.Group>
-                            <Button className="submitbtn" type="submit">
-                                Submit
-                            </Button>
-                        </form>
-                    </>
-                ) : (
-                    <>
-                        <h1>Profile</h1>
-                        <Button className="editprf btn btn-primary mb-3" onClick={handleEditProfile}>
-                            Edit Profile
-                        </Button>
-                            <div className="inputprofile">
-                                <Image
-                                    src={userdb?.profileImageId ? getProfilePreviewImageById(userdb.profileImageId) : "https://cloud.appwrite.io/v1/storage/buckets/67932f8600176cf1dfdc/files/default/view?project=678ba12f001dce105c6a&mode=admin"}
-                                    roundedCircle
-                                    width={180}
-                                    height={180}
-                                />
-                            </div>
-                            <div className="container">
-                                <div className="mb-3">
-                                    <p>{userdb?.displayName}</p>
-                                    <p>{user?.name}</p>
-                                </div>
-                                <div className="mb-3">
-                                    <p>{userdb?.profileSummary ?? "No profile description provided"}</p>
-                                </div>
-                            </div>
-                    </>
+        <Container className="d-flex justify-content-center align-items-center min-vh-100">
+            <Card className="profile-card shadow-lg">
+                {loading && (
+                    <div className="overlay">
+                        <Spinner animation="border" />
+                        <p className="mt-2">Updating User Profile...</p>
+                    </div>
                 )}
-            </div>
-        </div>
-        </>
+
+                <Card.Body className="text-center">
+                    {isEditing ? (
+                        <>
+                            <h2>Edit Profile</h2>
+                            <form onSubmit={handleSubmit} className="mt-3">
+                                <div className="profile-image-upload">
+                                    <input type="file" accept=".png, .jpg" onChange={handleOnChange} required />
+                                    <Image
+                                        src={previewImage || "/images/default-profile.png"}
+                                        roundedCircle
+                                        className="profile-img"
+                                    />
+                                    <p className="text-muted">Upload a PNG or JPG image (Max: 5MB)</p>
+                                    {error && <p className="text-danger">{error}</p>}
+                                </div>
+                                <Form.Group className="mb-3">
+                                    <Form.Control 
+                                        type="text" 
+                                        name="display-name" 
+                                        placeholder="Name" 
+                                        maxLength={20}
+                                        value={displayName}
+                                        onChange={(e) => setDisplayName(e.target.value)}
+                                    />
+                                    <small className="text-muted">{displayName.length}/20</small>
+                                </Form.Group>
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Profile Summary</Form.Label>
+                                    <Form.Control 
+                                        as="textarea" 
+                                        name="summary" 
+                                        rows={2} 
+                                        maxLength={500}
+                                        value={profileSummary}
+                                        onChange={(e) => setProfileSummary(e.target.value)}
+                                    />
+                                    <small className="text-muted">{profileSummary.length}/500</small>
+                                </Form.Group>
+                                <Button className="btn-lg w-100" type="submit">Submit</Button>
+                            </form>
+                        </>
+                    ) : (
+                        <>
+                            <Image
+                                src={userdb?.profileImageId ? getProfilePreviewImageById(userdb.profileImageId) : "/images/default-profile.png"}
+                                roundedCircle
+                                className="profile-img"
+                            />
+                            <h2 className="display-name">{userdb?.displayName || "Your Name"}</h2>
+                            <p className="account-name">{user?.name}</p>
+                            <p className="text-muted">{userdb?.profileSummary ?? "No profile description provided"}</p>
+                            <Button className="btn-lg mt-3" onClick={handleEditProfile}>Edit Profile</Button>
+                        </>
+                    )}
+                </Card.Body>
+            </Card>
+        </Container>
     );
 };
 

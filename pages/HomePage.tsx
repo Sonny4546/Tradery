@@ -1,4 +1,3 @@
-import '../src/main.css'
 import React, { useEffect, useState } from 'react';
 import { Col, Row, Button, CloseButton, Alert, Accordion, Container } from 'react-bootstrap';
 
@@ -7,6 +6,7 @@ import { getItems, getItemsbyCategory, getItemsbySearch } from './lib/Items';
 import { getUserDataById, TraderyProfiles } from './lib/UserProfile';
 import ItemCard from './comp/ItemCard';
 import HomeNav from './HomeNav';
+import '../src/main.css';
 
 const HomePage = () => {
   const [items, setItems] = useState<Array<any>>([]);
@@ -49,14 +49,14 @@ const HomePage = () => {
     }
   }
 
-  // Category mapping
-  const categoryMap: { [key: string]: string } = {
-    a: "School Supplies",
-    b: "Clothing",
-    c: "Entertainment/Hobbies",
-    d: "Gaming/Technology",
-    e: "Accessories",
-    f: "Miscellaneous",
+  // Category mapping with colors
+  const categoryMap: { [key: string]: { name: string; color: string } } = {
+    a: { name: "School Supplies", color: "primary" },
+    b: { name: "Clothing", color: "success" },
+    c: { name: "Entertainment/Hobbies", color: "warning" },
+    d: { name: "Gaming/Technology", color: "danger" },
+    e: { name: "Accessories", color: "info" },
+    f: { name: "Miscellaneous", color: "dark" },
   };
 
   return (
@@ -79,8 +79,8 @@ const HomePage = () => {
                     <Col>
                       <Button variant="outline-danger" onClick={() => setIsHidden(false)}>Clear Filter</Button>
                       {Object.entries(categoryMap).map(([key, value]) => (
-                        <Button key={key} variant="outline-primary" onClick={() => handleCategory(key)}>
-                          {value}
+                        <Button key={key} variant={`outline-${value.color}`} onClick={() => handleCategory(key)}>
+                          {value.name}
                         </Button>
                       ))}
                     </Col>
@@ -101,7 +101,7 @@ const HomePage = () => {
                     <Col sm={12} md={6} lg={3} key={item.$id} style={{ paddingBottom: '20px' }}>
                       <a className="itemLink" href={`#/Item/${item.$id}`}>
                         <div className="itemLabel">
-                          <span className="Label">{categoryMap[item.itemCategory] || "Uncategorized"}</span>
+                          <span className="Label">{categoryMap[item.itemCategory]?.name || "Uncategorized"}</span>
                         </div>
                         <ItemCard
                           image={image}

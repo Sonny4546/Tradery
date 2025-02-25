@@ -1,11 +1,11 @@
-import '../src/main.css'
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { useAuth } from './lib/AuthHook';
 import { useNavigate } from 'react-router-dom';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import Modal from 'react-bootstrap/Modal';
+import '../src/main.css';
 
 export default function LoginPage() {
   const [loading, setLoading] = useState(false);

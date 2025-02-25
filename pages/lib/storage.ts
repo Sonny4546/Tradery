@@ -18,3 +18,7 @@ export async function uploadUserFile(userId: string, file: File) {
   const data = await storage.createFile(import.meta.env.VITE_APPWRITE_STORAGE_USER_ID, userId, file)
   return data;
 }
+export async function deleteProfileImageById(fileId: string) {
+  const data = await storage.deleteFile(import.meta.env.VITE_APPWRITE_STORAGE_USER_ID, fileId)
+  return data;
+}
