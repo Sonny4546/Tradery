@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import { getUserDataById, TraderyProfiles } from "../lib/UserProfile";
 import { getItemsbyUser } from "../lib/Items";
-import { getPreviewImageById } from "../lib/storage";
+import { getPreviewImageById, getProfilePreviewImageById } from "../lib/storage";
 import { TraderyItems } from "../lib/ItemsInterface";
 import ItemCard from "../comp/ItemCard";
 import HomeNav from "../HomeNav";
@@ -54,7 +54,7 @@ export default function UserContent({ params = useParams() }: { params: { profil
                         {items.length > 0 ? (
                             <Row className="g-4">
                                 {items.map((item) => {
-                                    const imageUrl = item.imageFileId && getPreviewImageById(item.imageFileId);
+                                    const imageUrl = item.imageFileId && getProfilePreviewImageById(item.imageFileId);
                                     const image = {
                                         url: imageUrl,
                                         height: item.imageHeight,
