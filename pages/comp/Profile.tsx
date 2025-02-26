@@ -137,7 +137,7 @@ const Profile = () => {
                             <h2>Edit Profile</h2>
                             <form onSubmit={handleSubmit} className="mt-3">
                                 <div className="profile-image-upload">
-                                    <input type="file" accept=".png, .jpg" onChange={handleOnChange} required />
+                                    <input type="file" accept=".png, .jpg" onChange={handleOnChange}/>
                                     <Image
                                         src={previewImage || "https://cloud.appwrite.io/v1/storage/buckets/67932f8600176cf1dfdc/files/default/view?project=678ba12f001dce105c6a&mode=admin"}
                                         roundedCircle

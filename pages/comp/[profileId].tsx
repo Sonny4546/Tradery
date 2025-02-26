@@ -15,8 +15,6 @@ export default function UserContent({ params = useParams() }: { params: { userId
     useEffect(() => {
         (async function fetchData() {
             try {
-                if (!params.userId) return;
-                
                 // Fetch user profile
                 const { userdb } = await getUserDataById(params.userId);
                 setUser(userdb);

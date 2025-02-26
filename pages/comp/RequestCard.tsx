@@ -13,10 +13,17 @@ interface UserRequest {
     displayName: string;
     appwriteName: string;
 }
+
+async function messageUser(username: string) {
+    try {
+        await useAutoSearchAndAdd(username);
+    } catch {
+        console.log("Failed to add chat")
+    }
+}
+
 const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
     const [userRequests, setUserRequests] = useState<UserRequest[]>([]);
-    const [selectedUser, setSelectedUser] = useState<string | null>(null);
-    const autoSearchAndAdd = useAutoSearchAndAdd();
 
     useEffect(() => {
         (async function fetchUsers() {
@@ -43,13 +50,6 @@ const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
         })();
     }, [userId]);
 
-    useEffect(() => {
-        if (selectedUser) {
-            autoSearchAndAdd(selectedUser); // Call the hook inside useEffect, not directly in event handlers
-            setSelectedUser(null); // Reset after calling
-        }
-    }, [selectedUser, autoSearchAndAdd]);
-
     return (
         <Accordion.Item eventKey={eventKey}>
             <Accordion.Header>{name}</Accordion.Header>
@@ -60,7 +60,7 @@ const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
                             <p className="mb-0">
                                 <strong>{user.displayName}</strong> wants to trade.
                             </p>
-                            <Button variant="primary" size="sm" onClick={() => setSelectedUser(user.appwriteName)}>Message</Button>
+                            <Button variant="primary" size="sm" onClick={() => messageUser(user.appwriteName)}>Message</Button>
                         </div>
                     ))
                 ) : (
