@@ -114,7 +114,7 @@ const Profile = () => {
             }));
 
         } catch (error) {
-            console.error("❌ Failed to update profile:", error);
+            console.error("Failed to update profile:", error);
         } finally {
             setLoading(false);
             setIsEditing(false);
@@ -179,7 +179,7 @@ const Profile = () => {
                                 roundedCircle
                                 className="profile-img"
                             />
-                            <h2 className="display-name">{userdb?.displayName || "Your Name"}</h2>
+                            <h2 className="display-name">{userdb?.displayName || "Username"}</h2>
                             <p className="account-name">{user?.name}</p>
                             <p className="text-muted">{userdb?.profileSummary ?? "No profile description provided"}</p>
                             <Button className="btn-lg mt-3" onClick={handleEditProfile}>Edit Profile</Button>

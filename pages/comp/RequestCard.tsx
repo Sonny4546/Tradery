@@ -17,6 +17,7 @@ interface UserRequest {
 async function messageUser(username: string) {
     try {
         await useAutoSearchAndAdd(username);
+        console.log(username)
     } catch {
         console.log("Failed to add chat")
     }

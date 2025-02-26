@@ -165,6 +165,7 @@ export function useAutoSearchAndAdd(username) {
               const foundUser = await searchUser(username);
               setUser(foundUser);
               await addUserToChat(foundUser, currentUser);
+              console.log("found and added")
           } catch (err) {
               setError(err.message);
           }
