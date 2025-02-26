@@ -5,7 +5,6 @@ import { TraderyItems } from './ItemsInterface';
 import { deleteFileById } from './storage';
 
 export interface TraderyProfiles {
-    $id: string;
     userid: string;
     displayName?: string | null;
     defaultName: string;
@@ -23,7 +22,7 @@ export async function createProfileData(userId: string, item) {
     }
 }
 
-export async function getUserDataById(itemsId: TraderyProfiles['$id']) {
+export async function getUserDataById(itemsId: TraderyProfiles['userid']) {
     const document = await database.getDocument(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
                                                 import.meta.env.VITE_APPWRITE_COLLECTION_USER_ID, itemsId);
     return {
@@ -61,7 +60,6 @@ function mapDocumentToItem(document: Models.Document) {
         profileSummary: document.profileSummary,
         profileImageWidth: document.profileImageWidth,
         profileImageHeight: document.profileImageHeight,
-        $id: document.$id,
     }
     return userdb;
 }

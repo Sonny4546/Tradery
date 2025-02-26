@@ -3,6 +3,7 @@ import { Image, Button, Form, Container, Card, Spinner } from "react-bootstrap";
 import { getUser } from "../lib/appwrite";
 import { getUserDataById, updateUserData } from "../lib/UserProfile";
 import { getProfilePreviewImageById, uploadUserFile, deleteProfileImageById } from "../lib/storage";
+import { TraderyUser } from "../lib/GetUser";
 
 export interface TraderyProfileImage {
     height: number;
@@ -11,7 +12,7 @@ export interface TraderyProfileImage {
 }
 
 const Profile = () => {
-    const [user, setUser] = useState<any>();
+    const [user, setUser] = useState<TraderyUser>();
     const [userdb, setUserdb] = useState<any>();
     const [isEditing, setIsEditing] = useState(false);
     const [image, setImage] = useState<TraderyProfileImage>();
