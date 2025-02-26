@@ -106,7 +106,7 @@ By using this platform, you agree to abide by these Terms and Conditions and ens
         <input type="checkbox" id="cb-login" className="CheckBox" onChange={checkbx}></input>
         <p 
             className="terms-text text-primary fw-bold" 
-            style={{ cursor: "pointer", textDecoration: "underline" }} 
+            style={{ cursor: "pointer", textDecoration: "underline", position: "absolute", bottom: "0%", left: "30%" }} 
             onClick={handleOpen}
         >
             Terms and Conditions

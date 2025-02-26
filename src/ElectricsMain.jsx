@@ -23,26 +23,35 @@ import { RouterProvider, createHashRouter } from "react-router-dom";
 
 const main = createHashRouter([
   {
-    path: "/",
-    element: <LoginPage />,
+    path: "/", element: <LoginPage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/Admin", element: <AdminPage />,
+    errorElement: <ErrorPage />
+  },
+  {
+    path: "/Home", element: <HomePage />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/Item/:itemsId", element: <ItemContent />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/User/:profileId", element: <UserContent />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/Dashboard", element: <DBPage />,
     errorElement: <ErrorPage />,
     children: [
-      { path: "/Admin", element: <AdminPage /> },
-      { path: "/Home", element: <HomePage /> },
-      { path: "/Item/:itemsId", element: <ItemContent /> },
-      { path: "/User/:profileId", element: <UserContent /> },
-      {
-        path: "/Dashboard",
-        element: <DBPage />,
-        children: [
-          { path: "Post", element: <Post /> },
-          { path: "Profile", element: <Profile /> },
-          { path: "Items", element: <Items /> },
-          { path: "Requests", element: <Requests /> },
-          { path: "Messages", element: <Messages /> },
-        ],
-      },
-    ],
+      {path: "/Dashboard/Post", element: <Post />},
+      {path: "/Dashboard/Profile", element: <Profile />},
+      {path: "/Dashboard/Items", element: <Items />},
+      {path: "/Dashboard/Requests", element: <Requests />},
+      {path: "/Dashboard/Messages", element: <Messages />},
+    ]
   },
 ]);
 
