@@ -2,18 +2,14 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import { getUserDataById, TraderyProfiles } from "../lib/UserProfile";
-import { TraderyUser } from "../lib/GetUser";
-import { fetchUserData } from "../lib/User";
 import { getItemsbyUser } from "../lib/Items";
 import { getPreviewImageById } from "../lib/storage";
 import { TraderyItems } from "../lib/ItemsInterface";
 import ItemCard from "../comp/ItemCard";
 import HomeNav from "../HomeNav";
 
-export default function UserContent({ params = useParams() }: { params: { userId: string}}) {
-    
+export default function UserContent({ params = useParams() }: { params: { userId: string}}) { 
     const [user, setUser] = useState<TraderyProfiles | null>(null);
-    const [data, setData] = useState<TraderyUser | null>(null);
     const [items, setItems] = useState<TraderyItems[]>([]);
 
     useEffect(() => {
@@ -25,18 +21,16 @@ export default function UserContent({ params = useParams() }: { params: { userId
                 const { userdb } = await getUserDataById(params.userId);
                 setUser(userdb);
 
-                // Fetch user authentication data
-                const userdata = await fetchUserData();
-                setData(userdata);
-
                 // Fetch the user's uploaded items
                 const { items } = await getItemsbyUser(params.userId);
                 setItems(items);
+                console.log(userdb);
+                console.log(items)
             } catch (error) {
                 console.error("Error fetching profile data:", error);
             }
         })();
-    }, [params.userId]); // ✅ Ensure effect re-runs when params.userId changes
+    }, [params.userId]); // Ensure effect re-runs when params.userId changes
 
     return (
         <HomeNav>
@@ -47,12 +41,12 @@ export default function UserContent({ params = useParams() }: { params: { userId
                         <div className="profile-container p-4 bg-light rounded shadow">
                             <Image
                                 className="profile-img mb-3"
-                                src={user?.profileImageId ? getPreviewImageById(user.profileImageId) : "https://via.placeholder.com/180"}
+                                src={user?.profileImageId ? getPreviewImageById(user.profileImageId) : "https://cloud.appwrite.io/v1/storage/buckets/67932f8600176cf1dfdc/files/default/view?project=678ba12f001dce105c6a&mode=admin"}
                                 roundedCircle
                                 fluid
                             />
                             <h2 className="display-6 fw-bold">{user?.displayName || "Unknown User"}</h2>
-                            <p className="text-muted">{data?.name}</p>
+                            <p className="text-muted">{user?.defaultName}</p>
                             <p className="profile-summary lead">{user?.profileSummary || "No profile summary available."}</p>
                         </div>
                     </Col>
@@ -79,7 +73,7 @@ export default function UserContent({ params = useParams() }: { params: { userId
                                                     image={image}
                                                     name={item.name}
                                                     date={item.date}
-                                                    author={user?.displayName || data?.name || "Unknown Author"}
+                                                    author={user?.displayName || user?.defaultName || "Unknown Author"}
                                                 />
                                             </a>
                                         </Col>

@@ -377,6 +377,18 @@ body {
   object-fit: cover;
 }
 
+.profile-link {
+  color: inherit; /* Inherit text color from parent */
+  text-decoration: none; /* Remove underline */
+  font-weight: bold; /* Make it stand out */
+  cursor: pointer; /* Show pointer cursor */
+  transition: color 0.2s ease-in-out; /* Smooth transition */
+}
+
+.profile-link:hover {
+  color: #007bff; /* Slight color change on hover */
+}
+
 .image-carousel {
   display: flex;
   justify-content: center;
@@ -388,14 +400,14 @@ body {
 }
 
 .image-carousel .carousel-inner {
-  display: flex;
+  display: block;
   justify-content: center;
   align-items: center;
   width: 100%; /* Ensure it doesn't get cut */
 }
 
 .image-carousel .carousel-item {
-  display: flex;
+  display: block;
   justify-content: center;
   align-items: center;
   width: 100%; /* Ensure full width */
