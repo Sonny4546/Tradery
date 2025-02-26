@@ -20,16 +20,13 @@ import AdminPage from "../pages/Admin"
 import { AuthProvider, useAuth } from "../pages/lib/AuthHook";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { RouterProvider, createHashRouter } from "react-router-dom";
-import Footer from "../pages/comp/Footer";
-import Layout from "../pages/comp/Layout";
 
 const main = createHashRouter([
   {
     path: "/",
-    element: <Layout />, // Use Layout as the main wrapper
+    element: <LoginPage />,
     errorElement: <ErrorPage />,
     children: [
-      { path: "/", element: <LoginPage /> },
       { path: "/Admin", element: <AdminPage /> },
       { path: "/Home", element: <HomePage /> },
       { path: "/Item/:itemsId", element: <ItemContent /> },

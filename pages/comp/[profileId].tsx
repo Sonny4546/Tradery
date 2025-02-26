@@ -13,10 +13,7 @@ export default function UserContent({ params = useParams() }: { params: { userId
     const [items, setItems] = useState<TraderyItems[]>([]);
 
     useEffect(() => {
-        if (!params.userId) {
-            console.error("Error: Missing params.userId in route parameters.");
-            return;
-        }
+        console.log(params.userId);
     
         (async function fetchData() {
             try {
