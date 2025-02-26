@@ -22,7 +22,7 @@ export async function createProfileData(userId: string, item) {
     }
 }
 
-export async function getUserDataById(itemsId: TraderyProfiles['userid']) {
+export async function getUserDataById(itemsId: TraderyProfiles['userId']) {
     const document = await database.getDocument(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
                                                 import.meta.env.VITE_APPWRITE_COLLECTION_USER_ID, itemsId);
     return {
