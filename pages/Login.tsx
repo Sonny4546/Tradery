@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import { useAuth } from './lib/AuthHook';
 import { useNavigate } from 'react-router-dom';
@@ -20,9 +20,11 @@ export default function LoginPage() {
   );
   const { session } = useAuth();
   const navigate = useNavigate();
-  if (session) {
-    navigate(`/Home`);
-  }
+  useEffect(() => {
+    if (session) {
+        navigate(`/Home`);
+    }
+  }, [session, navigate]);
   const [isChecked, setIsChecked] = useState(false);
 
   function checkbx(event: React.ChangeEvent<HTMLInputElement>) {
