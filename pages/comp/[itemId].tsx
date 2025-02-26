@@ -118,6 +118,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
     
             // ✅ Update state with the newly fetched data
             setItems(updatedItem);
+            navigate(-1);
         } catch (error) {
             console.error("Error approving post:", error);
         }

@@ -20,34 +20,6 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth()
 export const db = getFirestore()
 
-// export async function firegoogle() {
-//     try {
-//         const provider = new GoogleAuthProvider();
-//         const result = await signInWithPopup(auth, provider);
-//         const user = result.user;
-
-//         const userRef = doc(db, "users", user.uid);
-//         const userSnap = await getDoc(userRef);
-
-//         if (!userSnap.exists()) {
-//             await setDoc(userRef, {
-//                 id: user.uid,
-//                 email: user.email,
-//                 username: user.displayName || "New User",
-//                 createdAt: new Date(),
-//                 blocked: []
-//             });
-//             await setDoc(doc(db, "userchats", user.uid), {
-//                 chats: [],
-//             });
-//         }
-//         console.log("User logged in successfully.");
-//     } catch (error) {
-//         console.error("Error during Google sign-in:", error);
-//         alert(`Login failed: ${error.message}`);
-//     }
-// }skibidi
-
 export async function bothlogin(){
     try {
         // Step 1: Log in with Firebase

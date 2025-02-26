@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from './lib/AuthHook';
 import { TraderyUser } from './lib/GetUser';
 import { getUser } from "./lib/appwrite";
+import {auth} from "./lib/firebase"
 import '../src/main.css';
 
 interface HomeNavProps {
@@ -37,6 +38,7 @@ const HomeNav = ({ children }: HomeNavProps) => {
 
   async function logoutHandle() {
     await logOut();
+    await auth.signOut();
     navigate("/"); // Redirect to login after logout
   }
 
