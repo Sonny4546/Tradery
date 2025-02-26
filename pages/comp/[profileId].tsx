@@ -36,7 +36,7 @@ export default function UserContent({ params = useParams() }: { params: { profil
                     <Col md={6} lg={4}>
                         <div className="profile-container p-4 bg-light rounded shadow">
                             <Image
-                                src={user?.profileImageId ? getPreviewImageById(user.profileImageId) : "https://cloud.appwrite.io/v1/storage/buckets/67932f8600176cf1dfdc/files/default/view?project=678ba12f001dce105c6a&mode=admin"}
+                                src={user?.profileImageId ? getProfilePreviewImageById(user.profileImageId) : "https://cloud.appwrite.io/v1/storage/buckets/67932f8600176cf1dfdc/files/default/view?project=678ba12f001dce105c6a&mode=admin"}
                                 roundedCircle
                                 className="profile-img"
                             />
@@ -54,7 +54,7 @@ export default function UserContent({ params = useParams() }: { params: { profil
                         {items.length > 0 ? (
                             <Row className="g-4">
                                 {items.map((item) => {
-                                    const imageUrl = item.imageFileId && getProfilePreviewImageById(item.imageFileId);
+                                    const imageUrl = item.imageFileId && getPreviewImageById(item.imageFileId);
                                     const image = {
                                         url: imageUrl,
                                         height: item.imageHeight,
