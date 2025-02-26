@@ -59,13 +59,13 @@ const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
                     userRequests.map((user, index) => (
                         <div key={index} className="d-flex justify-content-between align-items-center mb-2">
                             <p className="mb-0">
-                                <strong>{user.displayName}</strong> wants to trade.
+                                <strong>{user.displayName}</strong> wants to trade. The default username is <strong>{user.appwriteName}</strong>
                             </p>
                             <Button variant="primary" size="sm" onClick={() => messageUser(user.appwriteName)}>Message</Button>
                         </div>
                     ))
                 ) : (
-                    <p>No trade requests found.</p>
+                    <p>No trade requests yet.</p>
                 )}
             </Accordion.Body>
         </Accordion.Item>

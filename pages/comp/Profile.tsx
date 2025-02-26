@@ -65,54 +65,54 @@ const Profile = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
-
+    
         if (!displayName.trim() || !profileSummary.trim()) {
             alert("Please fill in all fields.");
             setLoading(false);
             return;
         }
-
+    
         try {
             if (!user) {
                 console.log("User data is still loading. Please wait.");
                 setLoading(false);
                 return;
             }
-
+    
             let { userdb } = await getUserDataById(user.$id);
             let profileImageId = userdb?.profileImageId || "default";
             
-            // **Delete old image if exists**
-            if (profileImageId && profileImageId !== "default") {
-                await deleteProfileImageById(profileImageId);
-            }
-
-            // **Upload new image if selected**
+            // ✅ Only delete the old image if a new one is uploaded
             if (image?.file) {
+                if (profileImageId && profileImageId !== "default") {
+                    await deleteProfileImageById(profileImageId);
+                }
+                // ✅ Upload the new image
                 const file = await uploadUserFile(user.$id, image.file);
                 if (file?.$id) {
                     profileImageId = file.$id;
                 }
             }
-
+    
+            // ✅ Update user data without affecting the existing image if no new image is uploaded
             await updateUserData(user.$id, {
-                profileImageId,
+                profileImageId,  // Retains old image if no new one is uploaded
                 profileSummary,
-                profileImageWidth: image?.width ?? 100,
-                profileImageHeight: image?.height ?? 100,
+                profileImageWidth: image?.width ?? userdb?.profileImageWidth ?? 100,
+                profileImageHeight: image?.height ?? userdb?.profileImageHeight ?? 100,
                 displayName,
                 defaultName: ""
             });
-
+    
             console.log("✅ Profile updated.");
-
+    
             setUserdb((prev) => ({
                 ...prev,
                 displayName,
                 profileSummary,
                 profileImageId,
             }));
-
+    
         } catch (error) {
             console.error("Failed to update profile:", error);
         } finally {
