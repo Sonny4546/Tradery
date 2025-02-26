@@ -36,10 +36,9 @@ export default function UserContent({ params = useParams() }: { params: { profil
                     <Col md={6} lg={4}>
                         <div className="profile-container p-4 bg-light rounded shadow">
                             <Image
-                                className="profile-img mb-3"
                                 src={user?.profileImageId ? getPreviewImageById(user.profileImageId) : "https://cloud.appwrite.io/v1/storage/buckets/67932f8600176cf1dfdc/files/default/view?project=678ba12f001dce105c6a&mode=admin"}
                                 roundedCircle
-                                fluid
+                                className="profile-img"
                             />
                             <h2 className="display-6 fw-bold">{user?.displayName || "Unknown User"}</h2>
                             <p className="text-muted">{user?.defaultName}</p>

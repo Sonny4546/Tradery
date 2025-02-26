@@ -103,7 +103,7 @@ const Profile = () => {
                 profileImageHeight: image?.height ?? userdb?.profileImageHeight ?? 100,
                 displayName,
                 defaultName: user.name,
-                userid: user.$id
+                userId: user.$id
             });
     
             console.log("✅ Profile updated.");
@@ -177,7 +177,7 @@ const Profile = () => {
                     ) : (
                         <>
                             <Image
-                                src={userdb?.profileImageId ? getProfilePreviewImageById(userdb.profileImageId) : "/images/default-profile.png"}
+                                src={userdb?.profileImageId ? getProfilePreviewImageById(userdb.profileImageId) : "https://cloud.appwrite.io/v1/storage/buckets/67932f8600176cf1dfdc/files/default/view?project=678ba12f001dce105c6a&mode=admin"}
                                 roundedCircle
                                 className="profile-img"
                             />

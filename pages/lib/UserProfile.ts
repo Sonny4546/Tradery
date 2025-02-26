@@ -5,7 +5,7 @@ import { TraderyItems } from './ItemsInterface';
 import { deleteFileById } from './storage';
 
 export interface TraderyProfiles {
-    userid: string;
+    userId: string;
     displayName?: string | null;
     defaultName: string;
     profileImageId: string;
@@ -53,7 +53,7 @@ export async function updateUserData(userId: string, item: Omit<TraderyProfiles,
 
 function mapDocumentToItem(document: Models.Document) {
     const userdb: TraderyProfiles = {
-        userid: document.$id,
+        userId: document.$id,
         displayName: document.displayName,
         defaultName: document.defaultName,
         profileImageId: document.profileImageId,
