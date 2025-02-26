@@ -21,6 +21,7 @@ import { AuthProvider, useAuth } from "../pages/lib/AuthHook";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { RouterProvider, createHashRouter } from "react-router-dom";
 import Footer from "../pages/comp/Footer";
+import Layout from "../pages/comp/Layout";
 
 const main = createHashRouter([
   {
