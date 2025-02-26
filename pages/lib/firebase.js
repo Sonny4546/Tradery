@@ -65,90 +65,113 @@ export async function bothlogin(){
       }
 }
 
-//Add user call
+//search
+export async function searchUser(username) {
+  try {
+      const userRef = collection(db, "users");
+      const q = query(userRef, where("username", "==", username));
+      const querySnapShot = await getDocs(q);
 
-export async function AddUser() {
-  const [user, setUser] = useState(null)
-  const [added, setAdded] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null) 
+      if (!querySnapShot.empty) {
+          return querySnapShot.docs[0].data();
+      } else {
+          throw new Error("User not found!");
+      }
+  } catch (err) {
+      console.error("Search Error:", err);
+      throw new Error("An error occurred while searching.");
+  }
+}
 
-  const { currentUser } = useUserStore()
+//Add
+export async function addUserToChat(targetUser, currentUser) {
+  if (!targetUser || !currentUser) return;
 
-  async function handleAdd() {
-    if (!user || added || loading) return;
-  
-    setLoading(true);
-    setError(null);
-  
-    const chatRef = collection(db, "chats");
-    const userChatsRef = collection(db, "userchats");
-    const currentUserChatsRef = doc(userChatsRef, currentUser.id);
-    const targetUserChatsRef = doc(userChatsRef, user.id);
-  
-    try {
-        // Fetch user chat documents for both users
-        const [currentUserChatsSnap, targetUserChatsSnap] = await Promise.all([
-            getDoc(currentUserChatsRef),
-            getDoc(targetUserChatsRef),
-        ]);
+  const chatRef = collection(db, "chats");
+  const userChatsRef = collection(db, "userchats");
+  const currentUserChatsRef = doc(userChatsRef, currentUser.id);
+  const targetUserChatsRef = doc(userChatsRef, targetUser.id);
 
-        // Ensure the userchats document exists for both users
-        if (!currentUserChatsSnap.exists()) {
-            await setDoc(currentUserChatsRef, { chats: [] });
-        }
-        if (!targetUserChatsSnap.exists()) {
-            await setDoc(targetUserChatsRef, { chats: [] });
-        }
+  try {
+      // Fetch user chat documents for both users
+      const [currentUserChatsSnap, targetUserChatsSnap] = await Promise.all([
+          getDoc(currentUserChatsRef),
+          getDoc(targetUserChatsRef),
+      ]);
 
-        // Get current chats for both users
-        const currentUserChats = currentUserChatsSnap.exists() ? currentUserChatsSnap.data().chats || [] : [];
-        const targetUserChats = targetUserChatsSnap.exists() ? targetUserChatsSnap.data().chats || [] : [];
+      // Ensure the userchats document exists for both users
+      if (!currentUserChatsSnap.exists()) {
+          await setDoc(currentUserChatsRef, { chats: [] });
+      }
+      if (!targetUserChatsSnap.exists()) {
+          await setDoc(targetUserChatsRef, { chats: [] });
+      }
 
-        // Check if the chat already exists for either user
-        const alreadyAddedByCurrentUser = currentUserChats.some(chat => chat.receiverId === user.id);
-        const alreadyAddedByTargetUser = targetUserChats.some(chat => chat.receiverId === currentUser.id);
+      // Get current chats for both users
+      const currentUserChats = currentUserChatsSnap.exists() ? currentUserChatsSnap.data().chats || [] : [];
+      const targetUserChats = targetUserChatsSnap.exists() ? targetUserChatsSnap.data().chats || [] : [];
 
-        if (alreadyAddedByCurrentUser || alreadyAddedByTargetUser) {
-            setError("User already added!");
-            setLoading(false);
-            return;
-        }
+      // Check if the chat already exists
+      const alreadyAddedByCurrentUser = currentUserChats.some(chat => chat.receiverId === targetUser.id);
+      const alreadyAddedByTargetUser = targetUserChats.some(chat => chat.receiverId === currentUser.id);
 
-        // Create new chat document
-        const newChatRef = doc(chatRef);
-        await setDoc(newChatRef, {
-            createdAt: serverTimestamp(),
-            messages: [],
-        });
+      if (alreadyAddedByCurrentUser || alreadyAddedByTargetUser) {
+          throw new Error("User already added!");
+      }
 
-        const chatData = {
-            chatId: newChatRef.id,
-            lastMessage: "",
-            receiverId: user.id,
-            updatedAt: Date.now(),
-        };
+      // Create new chat document
+      const newChatRef = doc(chatRef);
+      await setDoc(newChatRef, {
+          createdAt: serverTimestamp(),
+          messages: [],
+      });
 
-        // Add chat reference for both users
-        await updateDoc(currentUserChatsRef, {
-            chats: arrayUnion(chatData),
-        });
+      const chatData = {
+          chatId: newChatRef.id,
+          lastMessage: "",
+          receiverId: targetUser.id,
+          updatedAt: Date.now(),
+      };
 
-        await updateDoc(targetUserChatsRef, {
-            chats: arrayUnion({
-                ...chatData,
-                receiverId: currentUser.id, // Swap receiverId for the target user
-            }),
-        });
+      // Add chat reference for both users
+      await updateDoc(currentUserChatsRef, {
+          chats: arrayUnion(chatData),
+      });
 
-        console.log("Chat created:", newChatRef.id);
-        setAdded(true);
-        setTimeout(() => setUser(null), 1000); // Hide the user container after 1 second
-    } catch (err) {
-        console.error(err);
-        setError("An error occurred while adding the user.");
-    } finally {
-        setLoading(false);
-    }
-};
+      await updateDoc(targetUserChatsRef, {
+          chats: arrayUnion({
+              ...chatData,
+              receiverId: currentUser.id, // Swap receiverId for the target user
+          }),
+      });
+
+      return newChatRef.id;
+  } catch (err) {
+      console.error("Add User Error:", err);
+      throw new Error("An error occurred while adding the user.");
+  }
+}
+
+export function useAutoSearchAndAdd(username) {
+  const { currentUser } = useUserStore();
+  const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+      if (!username) return;
+
+      async function fetchAndAddUser() {
+          try {
+              const foundUser = await searchUser(username);
+              setUser(foundUser);
+              await addUserToChat(foundUser, currentUser);
+          } catch (err) {
+              setError(err.message);
+          }
+      }
+
+      fetchAndAddUser();
+  }, [username, currentUser]);
+
+  return { user, error };
 }

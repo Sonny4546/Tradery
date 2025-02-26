@@ -13,7 +13,9 @@ import { useAuth } from "../lib/AuthHook";
 import { getUserDataById, TraderyProfiles } from "../lib/UserProfile";
 import '../../src/main.css';
 
-export default function ItemContent({ params = useParams() }: { params: { itemsId: string}}) {
+export default function ItemContent() {
+    const params = useParams<{ itemId?: string }>(); 
+    const itemId = params.itemId ?? "";
     const [items, setItems] = useState<TraderyItems | undefined>();
     const [author, setAuthor] = useState<TraderyProfiles | undefined>()
     const navigate = useNavigate();
@@ -30,8 +32,9 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
 
     useEffect(() => {
         (async function run() {
-            const { items } = await getItemsById(params.itemsId);
-            console.log("Fetched Item Data:", items);  // ✅ Debugging
+            if (!itemId) return;
+            const { items } = await getItemsById(itemId);
+            console.log("Fetched Item Data:", items);  // Debugging
             
             setItems(items);
             const user = await fetchUserData();
@@ -50,7 +53,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             return;
             }
         })();
-    }, [params.itemsId]);
+    }, [itemId]);
 
     async function handleOnTrade() {
         if (!items) return;
@@ -76,7 +79,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             setRequest(true);
 
             // ✅ Update backend
-            await addRequest(params.itemsId, {
+            await addRequest(itemId, {
                 ...items,
                 isApproved: true,
                 requests: updatedRequests,
@@ -107,13 +110,13 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
     
         try {
             // ✅ Update in Appwrite using `updateItem` instead of `addRequest`
-            await updateItem(params.itemsId, {
+            await updateItem(itemId, {
                 ...items,
                 isApproved: true,
             });
     
             // ✅ Fetch the latest data to ensure correctness
-            const { items: updatedItem } = await getItemsById(params.itemsId);
+            const { items: updatedItem } = await getItemsById(itemId);
             console.log("✅ Approved Post Data from Appwrite:", updatedItem);
     
             // ✅ Update state with the newly fetched data
@@ -147,7 +150,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             setRequest(false);
 
             // ✅ Update backend
-            await addRequest(params.itemsId, {
+            await addRequest(itemId, {
                 ...items,
                 isApproved: true,
                 requests: updatedRequests,
@@ -176,7 +179,9 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                         <div className="itemheading">
                             <div><h1>{items.name}</h1></div>
                             {author && (
-                            <div>By: {author.displayName || author.defaultName}</div>
+                            <a href={`#/User/${items.authorID}`} className="profile-link">
+                                {author.displayName || author.defaultName}
+                            </a>
                             )}
                             <div>Date Posted: { new Date(items.date).toLocaleString('en-US', { month: 'long', day: 'numeric' }) }</div>
                         </div>

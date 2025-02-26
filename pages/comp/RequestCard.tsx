@@ -1,55 +1,62 @@
 import React, { useEffect, useState } from 'react';
-import { Accordion } from 'react-bootstrap';
+import { Accordion, Button } from 'react-bootstrap';
 import { getUserDataById } from '../lib/UserProfile';
+import { useAutoSearchAndAdd } from "../lib/firebase"
 
 interface ItemCardProps {
     name: string;
-    image?: {
-        height: number;
-        url: string;
-        width: number;
-    }
     userId: string[] | undefined;
+    eventKey: string;
 }
 
-const RequestCard = ({ name, userId }: ItemCardProps) => {
-    const [userRequests, setUserRequests] = useState<{ displayName: string; appwriteName: string }[]>([]);
+interface UserRequest {
+    displayName: string;
+    appwriteName: string;
+}
+const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
+    const [userRequests, setUserRequests] = useState<UserRequest[]>([]);
 
     useEffect(() => {
         (async function fetchUsers() {
-            if (!userId || userId.length === 0) return;  // Skip if no requests
+            if (!userId || userId.length === 0) return;
 
             const usersData = await Promise.all(
                 userId.map(async (id) => {
                     try {
-                        // Fetch user display name from database
                         const { userdb } = await getUserDataById(id);
-                        
-                        return {
-                            displayName: userdb?.displayName || "Unknown User",
-                            appwriteName: userdb?.defaultName || "No Default Name",
-                        };
+                        const displayName = userdb?.displayName || userdb?.defaultName || "";
+                        const appwriteName = userdb?.defaultName || "";
+
+                        return displayName || appwriteName
+                            ? { displayName, appwriteName }
+                            : null;
                     } catch (error) {
                         console.error("Error fetching user data:", error);
-                        return { displayName: "Unknown User", appwriteName: "No Default Name" };
+                        return null;
                     }
                 })
             );
 
-            setUserRequests(usersData);
+            setUserRequests(usersData.filter((user): user is UserRequest => user !== null));
         })();
     }, [userId]);
 
+    async function messageUser(username: string) {
+        useAutoSearchAndAdd(username);
+    }
+
     return (
-        <Accordion.Item eventKey="0">
+        <Accordion.Item eventKey={eventKey}>
             <Accordion.Header>{name}</Accordion.Header>
             <Accordion.Body>
                 {userRequests.length > 0 ? (
                     userRequests.map((user, index) => (
-                        <p key={index}>
-                            <strong>{user.displayName}</strong> requests to trade with this item.  
-                            You can message them at **{user.appwriteName}**.
-                        </p>
+                        <div key={index} className="d-flex justify-content-between align-items-center mb-2">
+                            <p className="mb-0">
+                                <strong>{user.displayName}</strong> wants to trade.
+                            </p>
+                            <Button variant="primary" size="sm" onClick={() => messageUser(user.appwriteName)}>Message</Button>
+                        </div>
                     ))
                 ) : (
                     <p>No trade requests found.</p>
@@ -57,6 +64,6 @@ const RequestCard = ({ name, userId }: ItemCardProps) => {
             </Accordion.Body>
         </Accordion.Item>
     );
-}
+};
 
 export default RequestCard;

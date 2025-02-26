@@ -22,7 +22,8 @@
     "react-dom": "^18.3.1",
     "react-router-dom": "^6.28.0",
     "react-timeago": "^7.2.0",
-    "wouter": "^3.4.0"
+    "wouter": "^3.4.0",
+    "zustand": "^5.0.3"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
