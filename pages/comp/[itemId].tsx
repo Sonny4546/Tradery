@@ -11,7 +11,7 @@ import { fetchUserData } from '../lib/User';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../lib/AuthHook";
 import { getUserDataById, TraderyProfiles } from "../lib/UserProfile";
-import { TraderyUser } from "../lib/GetUser";
+import '../../src/main.css';
 
 export default function ItemContent({ params = useParams() }: { params: { itemsId: string}}) {
     const [items, setItems] = useState<TraderyItems | undefined>();
