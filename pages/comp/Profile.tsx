@@ -101,7 +101,7 @@ const Profile = () => {
                 profileImageWidth: image?.width ?? userdb?.profileImageWidth ?? 100,
                 profileImageHeight: image?.height ?? userdb?.profileImageHeight ?? 100,
                 displayName,
-                defaultName: "",
+                defaultName: user.name,
                 userid: user.$id
             });
     

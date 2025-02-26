@@ -13,7 +13,7 @@ import { useAuth } from "../lib/AuthHook";
 import { getUserDataById, TraderyProfiles } from "../lib/UserProfile";
 import '../../src/main.css';
 
-export default function UserContent({ params = useParams() }: { params: { itemsId: string}}) {
+export default function ItemContent({ params = useParams() }: { params: { itemsId: string}}) {
     const [items, setItems] = useState<TraderyItems | undefined>();
     const [author, setAuthor] = useState<TraderyProfiles | undefined>()
     const navigate = useNavigate();
