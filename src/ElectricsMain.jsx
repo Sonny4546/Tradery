@@ -54,7 +54,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
       <RouterProvider router={main} />
-      <Footer></Footer>
     </AuthProvider>
   </React.StrictMode>,
 )
