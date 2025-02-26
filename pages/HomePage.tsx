@@ -37,6 +37,11 @@ const HomePage = () => {
     setItems(items);
   }
 
+  async function handleClear() {
+    window.location.reload();
+    setIsHidden(false);
+  }
+
   async function handleSearch(e: React.SyntheticEvent) {
     e.preventDefault();
     setIsHidden(true);
@@ -66,7 +71,9 @@ const HomePage = () => {
           <div className="searchinput">
             <form className="search" onSubmit={handleSearch} autoComplete="off">
               <input id="ItemSearch" name="ItemSearch" placeholder="Search for Items..." required />
-              {isHidden && <CloseButton className="clear-btn" onClick={() => setIsHidden(false)} />}
+              {isHidden && (
+                      <CloseButton className="clear-btn" onClick={handleClear}/>
+                    )}
               <button className="submit-btn" type="submit">Search</button>
             </form>
           </div>
@@ -77,7 +84,7 @@ const HomePage = () => {
                 <Accordion.Body>
                   <Row>
                     <Col>
-                      <Button variant="outline-danger" onClick={() => setIsHidden(false)}>Clear Filter</Button>
+                      <Button variant="outline-danger" onClick={handleClear}>Clear Filter</Button>
                       {Object.entries(categoryMap).map(([key, value]) => (
                         <Button key={key} variant={`outline-${value.color}`} onClick={() => handleCategory(key)}>
                           {value.name}

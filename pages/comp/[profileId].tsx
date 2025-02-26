@@ -13,22 +13,23 @@ export default function UserContent({ params = useParams() }: { params: { userId
     const [items, setItems] = useState<TraderyItems[]>([]);
 
     useEffect(() => {
+        if (!params.userId) {
+            console.error("Error: Missing params.userId in route parameters.");
+            return;
+        }
+    
         (async function fetchData() {
             try {
-                // Fetch user profile
-                const { userdb } = await getUserDataById(params.userId);
+                const { userdb } = await getUserDataById(params.userId); 
                 setUser(userdb);
-
-                // Fetch the user's uploaded items
+    
                 const { items } = await getItemsbyUser(params.userId);
                 setItems(items);
-                console.log(userdb);
-                console.log(items)
             } catch (error) {
                 console.error("Error fetching profile data:", error);
             }
         })();
-    }, [params.userId]); // Ensure effect re-runs when params.userId changes
+    }, [params.userId]);
 
     return (
         <HomeNav>

@@ -80,9 +80,9 @@ const Profile = () => {
             }
     
             let { userdb } = await getUserDataById(user.$id);
-            let profileImageId = userdb?.profileImageId || "default";
-            
-            // ✅ Only delete the old image if a new one is uploaded
+            let profileImageId = userdb?.profileImageId || ""; // ✅ Keep empty string if no existing image
+    
+            // ✅ Only delete the old image if a new one is uploaded AND an image already exists
             if (image?.file) {
                 if (profileImageId && profileImageId !== "default") {
                     await deleteProfileImageById(profileImageId);
@@ -94,14 +94,15 @@ const Profile = () => {
                 }
             }
     
-            // ✅ Update user data without affecting the existing image if no new image is uploaded
+            // ✅ Update user data without affecting existing image if no new image is uploaded
             await updateUserData(user.$id, {
-                profileImageId,  // Retains old image if no new one is uploaded
+                profileImageId, // Retains old image if no new one is uploaded
                 profileSummary,
                 profileImageWidth: image?.width ?? userdb?.profileImageWidth ?? 100,
                 profileImageHeight: image?.height ?? userdb?.profileImageHeight ?? 100,
                 displayName,
-                defaultName: ""
+                defaultName: "",
+                userid: user.$id
             });
     
             console.log("✅ Profile updated.");
@@ -119,7 +120,7 @@ const Profile = () => {
             setLoading(false);
             setIsEditing(false);
         }
-    };
+    };    
 
     return (
         <Container className="d-flex justify-content-center align-items-center min-vh-100">
