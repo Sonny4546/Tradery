@@ -10,8 +10,7 @@ import { TraderyItems } from "../lib/ItemsInterface";
 import ItemCard from "../comp/ItemCard";
 import HomeNav from "../HomeNav";
 
-export default function UserContent() {
-    const { userId } = useParams<{ userId: string }>();
+export default function UserContent({ params = useParams() }: { params: { userId: string}}) {
     
     const [user, setUser] = useState<TraderyProfiles | null>(null);
     const [data, setData] = useState<TraderyUser | null>(null);
@@ -20,10 +19,10 @@ export default function UserContent() {
     useEffect(() => {
         (async function fetchData() {
             try {
-                if (!userId) return; // ✅ Prevents fetching if userId is undefined
+                if (!params.userId) return;
                 
                 // Fetch user profile
-                const { userdb } = await getUserDataById(userId);
+                const { userdb } = await getUserDataById(params.userId);
                 setUser(userdb);
 
                 // Fetch user authentication data
@@ -31,13 +30,13 @@ export default function UserContent() {
                 setData(userdata);
 
                 // Fetch the user's uploaded items
-                const { items } = await getItemsbyUser(userId);
+                const { items } = await getItemsbyUser(params.userId);
                 setItems(items);
             } catch (error) {
                 console.error("Error fetching profile data:", error);
             }
         })();
-    }, [userId]); // ✅ Ensure effect re-runs when userId changes
+    }, [params.userId]); // ✅ Ensure effect re-runs when params.userId changes
 
     return (
         <HomeNav>
