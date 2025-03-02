@@ -3,13 +3,16 @@ import { Col, Row, Button, CloseButton, Alert, Accordion, Container } from 'reac
 
 import { getPreviewImageById } from "./lib/storage";
 import { getItems, getItemsbyCategory, getItemsbySearch } from './lib/Items';
-import { getUserDataById, TraderyProfiles } from './lib/UserProfile';
+import { createProfileData, findUserDataById, getUserDataById, TraderyProfiles } from './lib/UserProfile';
 import ItemCard from './comp/ItemCard';
 import HomeNav from './HomeNav';
 import '../src/main.css';
+import { getUser } from './lib/appwrite';
+import { TraderyUser } from './lib/GetUser';
 
 const HomePage = () => {
   const [items, setItems] = useState<Array<any>>([]);
+  const [user, setUser] = useState<TraderyUser | undefined>();
   const [isHidden, setIsHidden] = useState(false);
   const [authors, setAuthors] = useState<{ [key: string]: TraderyProfiles }>({}); // 🔹 Store authors in a state object
 
@@ -29,6 +32,27 @@ const HomePage = () => {
         })
       );
       setAuthors(authorData); // ✅ Store all authors at once
+
+      const userData = await getUser();
+      setUser(userData);
+      
+      if (userData) {
+          const userExists = await findUserDataById(userData.$id); // Now returns true/false
+          console.log("User Exists? ", userExists); // Debugging
+
+          if (!userExists) {       
+              await createProfileData(userData.$id, {
+                  userId: userData.$id,
+                  profileImageId: "",
+                  profileSummary: null,
+                  profileImageWidth: 100,
+                  profileImageHeight: 100,
+                  displayName: null,
+                  defaultName: userData.name
+              });
+              console.log("New profile created.");
+          }
+      }
     })();
   }, []);
 
