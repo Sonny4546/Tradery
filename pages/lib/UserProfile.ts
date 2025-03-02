@@ -28,6 +28,26 @@ export async function getUserDataById(itemsId: TraderyProfiles['userId']) {
     }
 }
 
+export async function getUserDataByName(username: string) {
+    const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
+                                                    import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, 
+                                                    [Query.contains('displayName', username)]);
+    return{
+        userdb: documents.map(mapDocumentToItem)
+    }
+}
+
+export async function checkUserNameDuplicate(username: string) {
+    try {
+    const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
+                                                    import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, 
+                                                    [Query.contains('displayName', username)]);
+    return !!documents;
+    } catch (error) {
+        return false;
+    }
+}
+
 export async function findUserDataById(userId: string) {
     try {
         const document = await database.getDocument(

@@ -39,7 +39,7 @@ const main = createHashRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/User/:profileId", element: <UserContent />,
+    path: "/User/:profileName", element: <UserContent />,
     errorElement: <ErrorPage />,
   },
   {

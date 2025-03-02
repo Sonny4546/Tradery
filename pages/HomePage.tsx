@@ -47,7 +47,7 @@ const HomePage = () => {
                   profileSummary: null,
                   profileImageWidth: 100,
                   profileImageHeight: 100,
-                  displayName: null,
+                  displayName: userData.name,
                   defaultName: userData.name,
                   userEmail: userData.email
               });

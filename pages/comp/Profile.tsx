@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Image, Button, Form, Container, Card, Spinner } from "react-bootstrap";
 import { getUser } from "../lib/appwrite";
-import { getUserDataById, updateUserData } from "../lib/UserProfile";
+import { checkUserNameDuplicate, getUserDataById, updateUserData } from "../lib/UserProfile";
 import { getProfilePreviewImageById, uploadUserFile, deleteProfileImageById } from "../lib/storage";
 import { TraderyUser } from "../lib/GetUser";
 
@@ -94,18 +94,24 @@ const Profile = () => {
                     profileImageId = file.$id;
                 }
             }
-    
+            
+            const nameExists = await checkUserNameDuplicate(displayName)
             // ✅ Update user data without affecting existing image if no new image is uploaded
-            await updateUserData(user.$id, {
-                profileImageId, // Retains old image if no new one is uploaded
-                profileSummary,
-                profileImageWidth: image?.width ?? userdb?.profileImageWidth ?? 100,
-                profileImageHeight: image?.height ?? userdb?.profileImageHeight ?? 100,
-                displayName,
-                defaultName: user.name,
-                userId: user.$id,
-                userEmail: user.email
-            });
+            if (!nameExists) {
+                await updateUserData(user.$id, {
+                    profileImageId, // Retains old image if no new one is uploaded
+                    profileSummary,
+                    profileImageWidth: image?.width ?? userdb?.profileImageWidth ?? 100,
+                    profileImageHeight: image?.height ?? userdb?.profileImageHeight ?? 100,
+                    displayName,
+                    defaultName: user.name,
+                    userId: user.$id,
+                    userEmail: user.email
+                });
+            } else {
+                alert("Feelsbad, The same username already exists... Try another one");
+                setLoading(false);
+            }
     
             console.log("✅ Profile updated.");
     

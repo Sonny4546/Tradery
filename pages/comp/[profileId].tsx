@@ -1,32 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Container, Row, Col, Image } from "react-bootstrap";
-import { getUserDataById, TraderyProfiles } from "../lib/UserProfile";
+import { getUserDataById, getUserDataByName, TraderyProfiles } from "../lib/UserProfile";
 import { getItemsbyUser } from "../lib/Items";
 import { getPreviewImageById, getProfilePreviewImageById } from "../lib/storage";
 import { TraderyItems } from "../lib/ItemsInterface";
 import ItemCard from "../comp/ItemCard";
 import HomeNav from "../HomeNav";
 
-export default function UserContent({ params = useParams() }: { params: { profileId: string}}) { 
+export default function UserContent({ params = useParams() }: { params: { profileName: string}}) { 
     const [user, setUser] = useState<TraderyProfiles | null>(null);
     const [items, setItems] = useState<TraderyItems[]>([]);
 
     useEffect(() => {
-        console.log(params.profileId);
+        console.log(params.profileName);
     
         (async function fetchData() {
             try {
-                const { userdb } = await getUserDataById(params.profileId); 
-                setUser(userdb);
-    
-                const { items } = await getItemsbyUser(params.profileId);
-                setItems(items);
+                if (user) {
+                    const { userdb } = await getUserDataByName(params.profileName); 
+                    userdb.map((user) => {
+                    setUser(user);})
+        
+                    const { items } = await getItemsbyUser(user?.userId);
+                    setItems(items);
+                }
             } catch (error) {
                 console.error("Error fetching profile data:", error);
             }
         })();
-    }, [params.profileId]);
+    }, [params.profileName]);
 
     return (
         <HomeNav>

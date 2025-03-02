@@ -48,7 +48,6 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             if (items) {
                 const {userdb} = await getUserDataById(items.authorID)
                 setAuthor(userdb)
-            return;
             }
         })();
     }, [params.itemsId]);
@@ -177,9 +176,9 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                         <div className="itemheading">
                             <div><h1>{items.name}</h1></div>
                             {author && (
-                            <a href={`#/User/${items.authorID}`} className="profile-link">
-                                {author.displayName || author.defaultName}
-                            </a>
+                                <a href={`#/User/${author.displayName}`} className="profile-link">
+                                    {author.displayName || author.defaultName}
+                                </a>
                             )}
                             <div>Date Posted: { new Date(items.date).toLocaleString('en-US', { month: 'long', day: 'numeric' }) }</div>
                         </div>
