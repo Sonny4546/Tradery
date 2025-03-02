@@ -1,8 +1,5 @@
-import React from 'react';
 import { Models, Query, ID } from 'appwrite';
 import { database } from './appwrite';
-import { TraderyItems } from './ItemsInterface';
-import { deleteFileById } from './storage';
 
 export interface TraderyProfiles {
     userId: string;
@@ -12,6 +9,7 @@ export interface TraderyProfiles {
     profileSummary?: string | null;
     profileImageWidth: number;
     profileImageHeight: number;
+    userEmail: string;
 }
 
 export async function createProfileData(userId: string, item) {
@@ -60,6 +58,7 @@ function mapDocumentToItem(document: Models.Document) {
         profileSummary: document.profileSummary,
         profileImageWidth: document.profileImageWidth,
         profileImageHeight: document.profileImageHeight,
+        userEmail: document.userEmail,
     }
     return userdb;
 }

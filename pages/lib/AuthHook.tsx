@@ -49,7 +49,11 @@ export function useAuthState() {
       }, [session?.$id])
     
       async function logIn() {
-        await bothlogin()
+        await account.createOAuth2Session(
+          OAuthProvider.Google,
+          "https://sonny4546.github.io/Tradery/#/Home",
+          "https://sonny4546.github.io/Tradery"
+        );
       }
       
 

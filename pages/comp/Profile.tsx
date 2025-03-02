@@ -103,7 +103,8 @@ const Profile = () => {
                 profileImageHeight: image?.height ?? userdb?.profileImageHeight ?? 100,
                 displayName,
                 defaultName: user.name,
-                userId: user.$id
+                userId: user.$id,
+                userEmail: user.email
             });
     
             console.log("✅ Profile updated.");

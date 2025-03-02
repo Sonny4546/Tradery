@@ -52,11 +52,6 @@ export async function bothlogin(){
         }
     
         // Step 3: Log in with Appwrite (OAuth session)
-        await account.createOAuth2Session(
-          OAuthProvider.Google,
-          "https://sonny4546.github.io/Tradery/#/Home",
-          "https://sonny4546.github.io/Tradery"
-        );
     
         console.log("Login successful with Firebase and Appwrite.");
       } catch (error) {

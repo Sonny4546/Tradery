@@ -17,7 +17,8 @@ export async function fetchUserData() {
 function mapUserToItem(user: Models.User<Models.Preferences>): TraderyUser {
     return {
         name: user.name,
-        $id: user.$id
+        $id: user.$id,
+        email: user.email
     };
 }
 

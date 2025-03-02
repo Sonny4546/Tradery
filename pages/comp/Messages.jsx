@@ -1,20 +1,38 @@
-import React from 'react'
-import { useEffect } from "react";
-import { useAuth } from '../lib/AuthHook';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { fetchUserData } from "../lib/User";
 
 const Messages = () => {
-    return(
-        <>
-        <div class="messages-container">
-            <iframe width="100%"
+    const [userId, setUserId] = useState<string | null>(null);
+
+    useEffect(() => {
+        (async function fetchData() {
+            try {
+                const user = await fetchUserData();
+                if (user?.$id) {
+                    setUserId(user.$id);
+                }
+            } catch (error) {
+                console.error("Error fetching user data:", error);
+            }
+        })();
+    }, []);
+
+    const srclink = userId ? `https://lynxlenior.github.io/TraderyMessenger/#/${userId}` : "";
+
+    return (
+        <div className="messages-container">
+            {userId ? (
+                <iframe 
+                    width="100%"
                     height="100%"
-                    src="https://lynxlenior.github.io/TraderyMessenger/"
-                    title="TraderyMessenger">
-            </iframe>
-            <div id="view-messages"></div>
+                    src={srclink}
+                    title="TraderyMessenger"
+                />
+            ) : (
+                <p>Loading messages...</p>
+            )}
         </div>
-        </>
-    )
-}
-export default Messages
+    );
+};
+
+export default Messages;
