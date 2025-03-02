@@ -43,6 +43,17 @@ const Profile = () => {
 
     const handleEditProfile = () => setIsEditing(true);
 
+    // ✅ Automatically remove non-alphanumeric characters (except spaces)
+    const handleDisplayNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value.replace(/[^a-zA-Z0-9 ]/g, ""); // Keep letters, numbers, and spaces
+        setDisplayName(value);
+    };
+
+    const handleProfileSummaryChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        const value = e.target.value.replace(/[^a-zA-Z0-9 .,!?]/g, ""); // Allow punctuation
+        setProfileSummary(value);
+    };
+
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target.files || e.target.files.length === 0) return;
         const file = e.target.files[0];
@@ -66,23 +77,23 @@ const Profile = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
-    
+
         if (!displayName.trim() || !profileSummary.trim()) {
             alert("Please fill in all fields.");
             setLoading(false);
             return;
         }
-    
+
         try {
             if (!user) {
                 console.log("User data is still loading. Please wait.");
                 setLoading(false);
                 return;
             }
-    
+
             let { userdb } = await getUserDataById(user.$id);
             let profileImageId = userdb?.profileImageId || ""; // ✅ Keep empty string if no existing image
-    
+
             // ✅ Only delete the old image if a new one is uploaded AND an image already exists
             if (image?.file) {
                 if (profileImageId && profileImageId !== "default") {
@@ -94,12 +105,11 @@ const Profile = () => {
                     profileImageId = file.$id;
                 }
             }
-            
-            const nameExists = await checkUserNameDuplicate(displayName)
-            // ✅ Update user data without affecting existing image if no new image is uploaded
+
+            const nameExists = await checkUserNameDuplicate(displayName);
             if (!nameExists) {
                 await updateUserData(user.$id, {
-                    profileImageId, // Retains old image if no new one is uploaded
+                    profileImageId,
                     profileSummary,
                     profileImageWidth: image?.width ?? userdb?.profileImageWidth ?? 100,
                     profileImageHeight: image?.height ?? userdb?.profileImageHeight ?? 100,
@@ -109,26 +119,26 @@ const Profile = () => {
                     userEmail: user.email
                 });
             } else {
-                alert("Feelsbad, The same username already exists... Try another one");
+                alert("The username already exists. Try another one.");
                 setLoading(false);
+                return;
             }
-    
+
             console.log("✅ Profile updated.");
-    
             setUserdb((prev) => ({
                 ...prev,
                 displayName,
                 profileSummary,
                 profileImageId,
             }));
-    
+
         } catch (error) {
             console.error("Failed to update profile:", error);
         } finally {
             setLoading(false);
             setIsEditing(false);
         }
-    };    
+    };
 
     return (
         <Container className="d-flex justify-content-center align-items-center min-vh-100">
@@ -162,7 +172,7 @@ const Profile = () => {
                                         placeholder="Name" 
                                         maxLength={20}
                                         value={displayName}
-                                        onChange={(e) => setDisplayName(e.target.value)}
+                                        onChange={handleDisplayNameChange}
                                     />
                                     <small className="text-muted">{displayName.length}/20</small>
                                 </Form.Group>
@@ -174,7 +184,7 @@ const Profile = () => {
                                         rows={2} 
                                         maxLength={500}
                                         value={profileSummary}
-                                        onChange={(e) => setProfileSummary(e.target.value)}
+                                        onChange={handleProfileSummaryChange}
                                     />
                                     <small className="text-muted">{profileSummary.length}/500</small>
                                 </Form.Group>

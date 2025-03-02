@@ -17,11 +17,11 @@ export default function UserContent({ params = useParams() }: { params: { profil
     
         (async function fetchData() {
             try {
+                const { userdb } = await getUserDataByName(params.profileName); 
+                userdb.map((user) => {
+                setUser(user);})
+                console.log(user)
                 if (user) {
-                    const { userdb } = await getUserDataByName(params.profileName); 
-                    userdb.map((user) => {
-                    setUser(user);})
-        
                     const { items } = await getItemsbyUser(user?.userId);
                     setItems(items);
                 }
