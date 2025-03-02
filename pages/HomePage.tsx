@@ -48,7 +48,8 @@ const HomePage = () => {
                   profileImageWidth: 100,
                   profileImageHeight: 100,
                   displayName: null,
-                  defaultName: userData.name
+                  defaultName: userData.name,
+                  userEmail: userData.email
               });
               console.log("New profile created.");
           }
