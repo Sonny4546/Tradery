@@ -8,7 +8,13 @@ export default function UserDB() {
     const { session } = useAuth();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(true); // State to manage loading modal
-
+  
+    const [show, setShow] = useState(false);
+    const handleClose = () => {
+      setShow(false);
+      navigate(`/Dashboard/Profile`)
+    }
+    const handleOpen = () => setShow(true);
     useEffect(() => {
         const checkSession = async () => {
             if (!session) {
@@ -23,6 +29,8 @@ export default function UserDB() {
 
     return (
         <>
+        <Tutorial show={show} onHide={handleClose}/>
+
         {/* Bootstrap Modal for Loading Indicator */}
         <Modal show={loading} centered backdrop="static">
             <Modal.Body className="text-center">
@@ -54,6 +62,7 @@ export default function UserDB() {
                     </ul>
                     <Outlet/>
                 </div>
+                <Button variant={`outline-success`} onClick={handleOpen} className="tutorial">?</Button>
             </>
         )}
         </>

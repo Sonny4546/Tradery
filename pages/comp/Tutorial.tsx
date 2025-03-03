@@ -16,7 +16,7 @@ function Tutorial(props) {
       aria-labelledby="contained-modal-title-vcenter"
       centered>
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>First Time?</Modal.Title>
         </Modal.Header>
         <Modal.Body><Row className="mt-2">
         {/* Left-side navigation */}
@@ -105,6 +105,10 @@ function Tutorial(props) {
                 <ListGroup.Item>
                   <strong>Since you're new to Tradery</strong>
                   <p>Before you start Trading, We recommend you customize your profile first and change how people will see your profile. By clicking Done, this will redirect you to your profile in your dashboard where you can start editing.</p>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <strong>Wanna read this again?</strong>
+                  <p>You can access this menu by going to the User Dashboard and clicking the Question button on the top right corner of the navigation bar.</p>
                 </ListGroup.Item>
               </ListGroup>
             </div>
