@@ -6,12 +6,10 @@ import ListGroup from "react-bootstrap/ListGroup";
 import Container from "react-bootstrap/Container";
 
 function LeftTabsExample() {
-  // Correctly define refs for scrolling
   const tradingRef = useRef(null);
   const uploadRef = useRef(null);
   const faqRef = useRef(null);
 
-  // Function to scroll smoothly
   const scrollToSection = (ref) => {
     ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
   };
@@ -37,9 +35,9 @@ function LeftTabsExample() {
       <Col sm={9}>
         <Container 
           style={{
-            maxHeight: "500px", // Set max height
-            width: "100%", 
-            overflowY: "auto", // Enable vertical scrollbar
+            maxHeight: "500px", 
+            width: "75%", 
+            overflowY: "auto", 
             border: "1px solid #ccc",
             padding: "15px",
             borderRadius: "10px",
@@ -48,7 +46,7 @@ function LeftTabsExample() {
         >
           {/* Trading Section */}
           <div ref={tradingRef} className="mb-4">
-            <h4>🔄 Trading</h4>
+            <h4> Trading</h4>
             <ListGroup>
               <ListGroup.Item>
                 <strong>How does trading work?</strong>
@@ -63,7 +61,7 @@ function LeftTabsExample() {
 
           {/* Upload Section */}
           <div ref={uploadRef} className="mb-4">
-            <h4>📤 Upload</h4>
+            <h4> Upload</h4>
             <ListGroup>
               <ListGroup.Item>
                 <strong>How do I upload an item?</strong>
@@ -78,7 +76,7 @@ function LeftTabsExample() {
 
           {/* FAQ Section */}
           <div ref={faqRef} className="mb-4">
-            <h4>🔑 Account Issues</h4>
+            <h4> FAQ </h4>
             <ListGroup>
               <ListGroup.Item>
                 <strong>How do I reset my password?</strong>
@@ -87,6 +85,10 @@ function LeftTabsExample() {
               <ListGroup.Item>
                 <strong>Why was my account suspended?</strong>
                 <p>Check your email for details or contact support for further assistance.</p>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <strong>Why is my post not showing in the HomePage?</strong>
+                <p>Your post is probably not accepted by Admins.</p>
               </ListGroup.Item>
             </ListGroup>
           </div>
