@@ -10,7 +10,7 @@ import '../src/main.css';
 import { getUser } from './lib/appwrite';
 import { TraderyUser } from './lib/GetUser';
 import { useNavigate } from 'react-router-dom';
-import Tutorial from './comp/Tutorial'
+import Tutorial from './comp/Tutorial';
 
 const HomePage = () => {
   const [items, setItems] = useState<Array<any>>([]);
