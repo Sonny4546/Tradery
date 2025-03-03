@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 import { useAuth } from './lib/AuthHook';
 import { Modal, Spinner } from 'react-bootstrap';
+import Tutorial from './comp/Tutorial';
 import '../src/main.css';
 
 export default function UserDB() {
