@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import { fetchUserData } from "../lib/User";
 
 const Messages = () => {
-    const [userId, setUserId] = useState<string | null>(null);
+    const [userId, setUserId] = useState<string>(""); // Explicit type
 
     useEffect(() => {
         (async function fetchData() {
             try {
                 const user = await fetchUserData();
-                if (user?.$id) {
+                console.log("Fetched User Data:", user); // ✅ Debugging
+                if (user && typeof user.$id === "string") {
                     setUserId(user.$id);
                 }
             } catch (error) {
@@ -21,16 +22,12 @@ const Messages = () => {
 
     return (
         <div className="messages-container">
-            {userId ? (
-                <iframe 
-                    width="100%"
-                    height="100%"
-                    src={srclink}
-                    title="TraderyMessenger"
-                />
-            ) : (
-                <p>Loading messages...</p>
-            )}
+            <iframe 
+                width="100%"
+                height="100%"
+                src={srclink}
+                title="TraderyMessenger"
+            />
         </div>
     );
 };

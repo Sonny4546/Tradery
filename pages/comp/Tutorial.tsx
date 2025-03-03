@@ -1,60 +1,24 @@
-import { useRef, useState } from "react";
-import Col from "react-bootstrap/Col";
-import Nav from "react-bootstrap/Nav";
-import Row from "react-bootstrap/Row";
-import ListGroup from "react-bootstrap/ListGroup";
-import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
+import React from 'react';
+import { useRef, useState } from 'react';
+import { Container, Button, Modal, Col, Nav, Row, ListGroup } from 'react-bootstrap';
 
-function LeftTabsExample() {
-  const [isOpen, setIsOpen] = useState(true); //This is for close button thingy
+function Tutorial(props) {
   const tradingRef = useRef(null);
   const uploadRef = useRef(null);
   const faqRef = useRef(null);
-
+  const fin = useRef(null);
   const scrollToSection = (ref) => {
     ref.current.scrollIntoView({ behavior: "smooth", block: "start" }); //scroll thingy
   };
-
-  if (!isOpen) return null; //close button thingy
-
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        zIndex: 1000,
-        background: "rgba(255, 255, 255, 0.95)",
-        boxShadow: "0px 5px 20px rgba(0, 0, 0, 0.3)",
-        padding: "20px",
-        borderRadius: "12px",
-        width: "60%",
-        maxWidth: "800px",
-      }}
-    >
-      {/* This is Close Button */}
-      <Button
-        onClick={() => setIsOpen(false)}
-        variant="danger"
-        size="sm"
-        style={{
-          position: "absolute",
-          top: "3px",
-          right: "14px",
-          borderRadius: "50%",
-          width: "25px",
-          height: "25px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        ❌
-      </Button>
-
-      <Row className="mt-2">
+    <>
+      <Modal {...props} show={props.show} onHide={props.handleClose} backdrop="static" size="lg"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Modal heading</Modal.Title>
+        </Modal.Header>
+        <Modal.Body><Row className="mt-2">
         {/* Left-side navigation */}
         <Col sm={3}>
           <Nav variant="pills" className="flex-column">
@@ -66,6 +30,9 @@ function LeftTabsExample() {
             </Nav.Item>
             <Nav.Item>
               <Nav.Link onClick={() => scrollToSection(faqRef)}>Account Issues</Nav.Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Nav.Link onClick={() => scrollToSection(fin)}>Finish</Nav.Link>
             </Nav.Item>
           </Nav>
         </Col>
@@ -126,15 +93,32 @@ function LeftTabsExample() {
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <strong>Why is my post not showing in the HomePage?</strong>
-                  <p>Your post is probably not accepted by Admins.</p>
+                  <p>Your post is probably not yet accepted by Admins.</p>
+                </ListGroup.Item>
+              </ListGroup>
+            </div>
+            
+            {/* Finish Section */}
+            <div ref={fin} className="mb-4">
+              <h4>You're Done!</h4>
+              <ListGroup>
+                <ListGroup.Item>
+                  <strong>Since you're new to Tradery</strong>
+                  <p>Before you start Trading, We recommend you customize your profile first and change how people will see your profile. By clicking Done, this will redirect you to your profile in your dashboard where you can start editing.</p>
                 </ListGroup.Item>
               </ListGroup>
             </div>
           </Container>
         </Col>
-      </Row>
-    </div>
+      </Row></Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" onClick={props.onHide}>
+            Done
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
   );
 }
 
-export default LeftTabsExample;
+export default Tutorial;

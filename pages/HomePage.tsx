@@ -9,12 +9,21 @@ import HomeNav from './HomeNav';
 import '../src/main.css';
 import { getUser } from './lib/appwrite';
 import { TraderyUser } from './lib/GetUser';
+import { useNavigate } from 'react-router-dom';
+import Tutorial from './comp/Tutorial'
 
 const HomePage = () => {
   const [items, setItems] = useState<Array<any>>([]);
   const [user, setUser] = useState<TraderyUser | undefined>();
   const [isHidden, setIsHidden] = useState(false);
   const [authors, setAuthors] = useState<{ [key: string]: TraderyProfiles }>({}); // 🔹 Store authors in a state object
+  const navigate = useNavigate();
+  
+  const [show, setShow] = useState(false);
+  const handleClose = () => {
+    setShow(false);
+    navigate(`/Dashboard/Profile`)
+  }
 
   useEffect(() => {
     (async function fetchItems() {
@@ -52,6 +61,7 @@ const HomePage = () => {
                   userEmail: userData.email
               });
               console.log("New profile created.");
+              setShow(true);
           }
       }
     })();
@@ -91,6 +101,7 @@ const HomePage = () => {
 
   return (
     <HomeNav>
+      <Tutorial show={show} onHide={handleClose}/>
       <div className="home">
         <div className="container" id="pagewrap">
           <div className="searchinput">
