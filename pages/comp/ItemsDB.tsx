@@ -5,7 +5,7 @@ import { getPreviewImageById } from "../lib/storage";
 import { getItemsbyUser } from "../lib/Items";
 import { getUserDataById, TraderyProfiles } from "../lib/UserProfile";
 import { TraderyItems } from "../lib/ItemsInterface";
-import ItemCard from "../comp/ItemCard";
+import { ItemCard } from "../comp/ItemCard";
 
 const Items = () => {
     const [items, setItems] = useState<TraderyItems[]>([]);

@@ -5,7 +5,7 @@ import { getItemsbyApproval } from "./lib/Items";
 import { getPreviewImageById } from "./lib/storage";
 import { fetchUserData } from "./lib/User";
 import HomeNav from "./HomeNav";
-import ItemCard from './comp/ItemCard';
+import { ItemCard } from './comp/ItemCard';
 import { getUserDataById, TraderyProfiles } from "./lib/UserProfile";
 import { TraderyItems } from "./lib/ItemsInterface";
 import "../src/main.css";
