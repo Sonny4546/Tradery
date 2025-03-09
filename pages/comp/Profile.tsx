@@ -45,7 +45,7 @@ const Profile = () => {
 
     // ✅ Automatically remove non-alphanumeric characters (except spaces)
     const handleDisplayNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value.replace(/[^a-zA-Z0-9 ]/g, ""); // Keep letters, numbers, and spaces
+        const value = e.target.value.replace(/[^a-zA-Z0-9]/g, ""); // Keep letters, numbers, and spaces
         setDisplayName(value);
     };
 

@@ -27,45 +27,53 @@ const HomePage = () => {
 
   useEffect(() => {
     (async function fetchItems() {
-      const { items } = await getItems();
-      setItems(items);
+        const { items } = await getItems();
+        setItems(items);
 
-      // Fetch author details for all items
-      const authorData: { [key: string]: TraderyProfiles } = {};
-      await Promise.all(
-        items.map(async (item) => {
-          if (!authorData[item.authorID]) {
-            const { userdb } = await getUserDataById(item.authorID);
-            authorData[item.authorID] = userdb;
-          }
-        })
-      );
-      setAuthors(authorData); // ✅ Store all authors at once
+        const authorData: { [key: string]: TraderyProfiles } = {};
 
-      const userData = await getUser();
-      setUser(userData);
-      
-      if (userData) {
-          const userExists = await findUserDataById(userData.$id); // Now returns true/false
-          console.log("User Exists? ", userExists); // Debugging
+        await Promise.all(
+            items.map(async (item) => {
+                if (!authorData[item.authorID]) {
+                    try {
+                        const { userdb } = await getUserDataById(item.authorID);
+                        if (userdb) {
+                            authorData[item.authorID] = userdb;
+                        }
+                    } catch (error) {
+                        console.error(`Error fetching author data for ${item.authorID}:`, error);
+                    }
+                }
+            })
+        );
 
-          if (!userExists) {       
-              await createProfileData(userData.$id, {
-                  userId: userData.$id,
-                  profileImageId: "",
-                  profileSummary: null,
-                  profileImageWidth: 100,
-                  profileImageHeight: 100,
-                  displayName: userData.name,
-                  defaultName: userData.name,
-                  userEmail: userData.email
-              });
-              console.log("New profile created.");
-              setShow(true);
-          }
-      }
+        setAuthors({ ...authorData }); // ✅ Now updates AFTER all fetches complete
+
+        // ✅ Fetch the logged-in user
+        const userData = await getUser();
+        setUser(userData);
+
+        if (userData) {
+            const userExists = await findUserDataById(userData.$id);
+            console.log("User Exists? ", userExists);
+
+            if (!userExists) {
+                await createProfileData(userData.$id, {
+                    userId: userData.$id,
+                    profileImageId: "",
+                    profileSummary: null,
+                    profileImageWidth: 100,
+                    profileImageHeight: 100,
+                    displayName: userData.name,
+                    defaultName: userData.name,
+                    userEmail: userData.email
+                });
+                console.log("New profile created.");
+                setShow(true);
+            }
+        }
     })();
-  }, []);
+}, []);
 
   async function handleCategory(category: string) {
     const { items } = await getItemsbyCategory(category);
