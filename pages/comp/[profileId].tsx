@@ -5,7 +5,7 @@ import { getUserDataById, getUserDataByName, TraderyProfiles } from "../lib/User
 import { getItemsbyUser } from "../lib/Items";
 import { getPreviewImageById, getProfilePreviewImageById } from "../lib/storage";
 import { TraderyItems } from "../lib/ItemsInterface";
-import ItemCard from "../comp/ItemCard";
+import { ItemCard } from "../comp/ItemCard";
 import HomeNav from "../HomeNav";
 
 export default function UserContent({ params = useParams() }: { params: { profileName: string}}) { 
