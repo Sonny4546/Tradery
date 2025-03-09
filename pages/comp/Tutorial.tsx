@@ -2,7 +2,7 @@ import React from 'react';
 import { useRef, useState } from 'react';
 import { Container, Button, Modal, Col, Nav, Row, ListGroup } from 'react-bootstrap';
 
-function Tutorial(props) {
+function Tutorial({ show, onHide }) {
   const tradingRef = useRef(null);
   const uploadRef = useRef(null);
   const faqRef = useRef(null);
@@ -12,7 +12,7 @@ function Tutorial(props) {
   };
   return (
     <>
-      <Modal {...props} show={props.show} onHide={props.handleClose} backdrop="static" size="lg"
+      <Modal show={show} onHide={onHide} backdrop="static" size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered>
         <Modal.Header closeButton>
@@ -116,7 +116,7 @@ function Tutorial(props) {
         </Col>
       </Row></Modal.Body>
         <Modal.Footer>
-          <Button variant="primary" onClick={props.onHide}>
+          <Button variant="primary" onClick={onHide}>
             Done
           </Button>
         </Modal.Footer>

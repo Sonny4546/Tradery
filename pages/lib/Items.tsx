@@ -100,7 +100,17 @@ function mapDocumentToItem(document: Models.Document) {
         imageWidth: document.imageWidth,
         isApproved: false,
         requests: document.requests,
-        itemCategory: document.itemCategory
+        itemCategory: document.itemCategory,
+        parameters: {
+            Condition: document.Condition,
+            Usefulness: document.Usefulness,
+            BrandValue: document.BrandValue,
+            Demand: document.Demand,
+            Rarity: document.Rarity,
+            AgeDepreciation: document.AgeDepreciation,
+            ResaleValue: document.ResaleValue,
+            ReplacementCost: document.ReplacementCost
+        }
     }
     return items;
 }
