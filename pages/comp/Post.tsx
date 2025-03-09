@@ -191,7 +191,34 @@ const Post = () => {
                                 </Form.Select>
                             </FloatingLabel>
                         </div>
-
+                        <div className="mb-3">
+                             <Form.Control
+                                 id="name"
+                                 name="name"
+                                 type="text"
+                                 placeholder="Name"
+                                 maxLength={40} // ✅ Limit to 40 characters
+                                 value={name}
+                                 onChange={(e) => setName(e.target.value)}
+                                 required
+                             />
+                             <small>{name.length}/40</small>
+                         </div>
+                         <Form.Group className="mb-3" controlId="Description.ControlTextarea1">
+                             <Form.Label>Item Description</Form.Label>
+                             <Form.Control
+                                 rows={4}
+                                 as="textarea"
+                                 id="description"
+                                 name="description"
+                                 placeholder="Description"
+                                 maxLength={500} // ✅ Limit to 500 characters
+                                 value={description}
+                                 onChange={(e) => setDescription(e.target.value)}
+                                 required
+                             />
+                             <small>{description.length}/500</small>
+                         </Form.Group>
                         <h5>Item Parameters</h5>
                         {Object.entries(parameters).map(([key, value]) => (
                             <Form.Group key={key} className="mb-3">

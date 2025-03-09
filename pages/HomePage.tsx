@@ -132,7 +132,7 @@ const HomePage = () => {
       <Tutorial show={show} onHide={handleClose} />
       <div className="home">
         <div className="container" id="pagewrap">
-          <div className="mb-3">
+          <div className="mb-3" style={{ marginTop: '20px' }}>
             {/* ✅ Item selection dropdown */}
             <FloatingLabel controlId="floatingSelect" label="Your Approved Items">
               <Form.Select onChange={handleItemChange} className="itemCategory" required>
