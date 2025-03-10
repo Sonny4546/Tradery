@@ -118,7 +118,14 @@ const Post = () => {
                 imageWidth: image.width,
                 isApproved: false,
                 itemCategory,
-                parameters: defaultParameters, // Ensure it is stored properly
+                Condition: defaultParameters.Condition,
+                Usefulness: defaultParameters.Usefulness,
+                BrandValue: defaultParameters.BrandValue,
+                Demand: defaultParameters.Demand,
+                Rarity: defaultParameters.Rarity,
+                AgeDepreciation: defaultParameters.AgeDepreciation,
+                ResaleValue: defaultParameters.ResaleValue,
+                ReplacementCost: defaultParameters.ReplacementCost,
             });
     
             if (!results || !results.items || !results.items.$id) {
@@ -148,7 +155,14 @@ const Post = () => {
                 date: new Date().toISOString(),
                 isApproved: false,
                 itemCategory,
-                parameters: defaultParameters, // Keep format consistent
+                Condition: defaultParameters.Condition,
+                Usefulness: defaultParameters.Usefulness,
+                BrandValue: defaultParameters.BrandValue,
+                Demand: defaultParameters.Demand,
+                Rarity: defaultParameters.Rarity,
+                AgeDepreciation: defaultParameters.AgeDepreciation,
+                ResaleValue: defaultParameters.ResaleValue,
+                ReplacementCost: defaultParameters.ReplacementCost,
             });
     
             console.log("Item created and updated successfully.");
