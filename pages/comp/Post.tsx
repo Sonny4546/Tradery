@@ -80,59 +80,67 @@ const Post = () => {
     
         const formData = new FormData(e.currentTarget);
         const itemCategory = formData.get("itemCategory") as string;
-
+    
         if (!name || !description || !itemCategory || !image) {
             setError("Please fill in all fields.");
             setLoading(false);
             return;
         }
-
+    
         try {
             const user = await fetchUserData();
             if (!user) {
                 console.log("User data is still loading. Please wait.");
+                setLoading(false);
                 return;
             }
-
+    
+            // ✅ Create item with required attributes
             const results = await createItems({
                 name,
                 authorID: user.$id,
                 description,
                 date: new Date().toISOString(),
                 imageHeight: image.height,
-                imageFileId: "",
+                imageFileId: "", // Placeholder (will be updated after upload)
                 imageWidth: image.width,
                 isApproved: false,
                 itemCategory,
-                parameters, 
+                parameters,
             });
-
-            console.log("Item created successfully:", results.items);
-
+    
+            // ✅ Ensure item was created successfully
             if (!results || !results.items || !results.items.$id) {
                 throw new Error("Failed to create item. No ID returned.");
             }
-
+    
+            let imageFileId = "";
             if (image.file) {
                 console.log("Uploading image...");
-                const file = await uploadFile(image.file);
-
-                await updateItem(results.items.$id, {
-                    imageFileId: file?.$id,
-                    imageHeight: image.height,
-                    imageWidth: image.width,
-                    name,
-                    description,
-                    authorID: user.$id,
-                    date: new Date().toISOString(),
-                    isApproved: false,
-                    itemCategory,
-                    parameters, 
-                });
-
-                console.log("Image uploaded successfully:", file.$id);
+                const uploadedFile = await uploadFile(image.file);
+    
+                if (!uploadedFile || !uploadedFile.$id) {
+                    throw new Error("Image upload failed.");
+                }
+    
+                imageFileId = uploadedFile.$id;
             }
-
+    
+            // ✅ Update the item with imageFileId after upload
+            await updateItem(results.items.$id, {
+                imageFileId, // Now assigned properly
+                imageHeight: image.height,
+                imageWidth: image.width,
+                name,
+                description,
+                authorID: user.$id,
+                date: new Date().toISOString(),
+                isApproved: false,
+                itemCategory,
+                parameters,
+            });
+    
+            console.log("Item created and updated successfully.");
             navigate(`/Item/${results.items.$id}`);
         } catch (error) {
             console.error("Error creating or updating item:", error);
@@ -140,7 +148,7 @@ const Post = () => {
         } finally {
             setLoading(false);
         }
-    };
+    };    
 
     const parameterTooltips = {
         Condition: "Is it new or worn out?",
