@@ -25,7 +25,6 @@ interface TraderyImage {
 const Post = () => {
     const { session } = useAuth();
     const navigate = useNavigate();
-    const [formPage, setFormPage] = useState(1);
     const [image, setImage] = useState<TraderyImage | null>(null);
     const [loading, setLoading] = useState(false);
     const [name, setName] = useState("");
@@ -62,7 +61,7 @@ const Post = () => {
                 height: img.height,
                 file: file,
                 width: img.width,
-                previewUrl: previewUrl, // Store the preview URL
+                previewUrl: previewUrl,
             });
         };
         img.src = previewUrl;
@@ -110,6 +109,10 @@ const Post = () => {
 
             console.log("Item created successfully:", results.items);
 
+            if (!results || !results.items || !results.items.$id) {
+                throw new Error("Failed to create item. No ID returned.");
+            }
+
             if (image.file) {
                 console.log("Uploading image...");
                 const file = await uploadFile(image.file);
@@ -132,7 +135,7 @@ const Post = () => {
 
             navigate(`/Item/${results.items.$id}`);
         } catch (error) {
-            console.error("Error creating item:", error);
+            console.error("Error creating or updating item:", error);
             alert("Failed to create item. Please try again.");
         } finally {
             setLoading(false);
@@ -164,54 +167,46 @@ const Post = () => {
                 <h1 className="text-center">Post Item</h1>
                 {error && <p className="text-danger">{error}</p>}
                 <form onSubmit={handleOnSubmit} autoComplete="off">
-                    {formPage === 1 && (
-                        <>
-                            <Form.Group controlId="formFileLg" className="mb-3">
-                                <Form.Label>Import Image (Max: 5MB)</Form.Label>
-                                <Form.Control
-                                    type="file"
-                                    size="lg"
-                                    accept=".png, .jpg"
-                                    onChange={handleOnChange}
-                                    required
-                                />
-                            </Form.Group>
-                            {image && (
-                                <Image src={image.previewUrl} alt="Preview" className="mb-3" fluid rounded />
-                            )}
-                            <FloatingLabel controlId="floatingSelect" label="Category">
-                                <Form.Select id="itemCategory" name="itemCategory" required>
-                                    <option value="" disabled>Select a Category...</option>
-                                    <option value="a">School Supplies</option>
-                                    <option value="b">Clothing</option>
-                                    <option value="c">Entertainment/Hobbies</option>
-                                    <option value="d">Gaming/Technology</option>
-                                    <option value="e">Fashion Accessories</option>
-                                    <option value="f">Sports & Outdoor</option>
-                                </Form.Select>
-                            </FloatingLabel>
-                            <Form.Control className="mt-3" id="name" name="name" type="text" placeholder="Name" maxLength={40} value={name} onChange={(e) => setName(e.target.value)} required />
-                            <Form.Control className="mt-3" as="textarea" id="description" name="description" placeholder="Description" maxLength={500} value={description} onChange={(e) => setDescription(e.target.value)} required />
-                            <Button className="mt-3 w-100" onClick={() => setFormPage(2)}>Next</Button>
-                        </>
+                    <Form.Group controlId="formFileLg" className="mb-3">
+                        <Form.Label>Import Image (Max: 5MB)</Form.Label>
+                        <Form.Control
+                            type="file"
+                            size="lg"
+                            accept=".png, .jpg"
+                            onChange={handleOnChange}
+                            required
+                        />
+                    </Form.Group>
+                    {image && (
+                        <Image src={image.previewUrl} alt="Preview" className="mb-3" fluid rounded />
                     )}
+                    <FloatingLabel controlId="floatingSelect" label="Category">
+                        <Form.Select id="itemCategory" name="itemCategory" required>
+                            <option value="" disabled>Select a Category...</option>
+                            <option value="a">School Supplies</option>
+                            <option value="b">Clothing</option>
+                            <option value="c">Entertainment/Hobbies</option>
+                            <option value="d">Gaming/Technology</option>
+                            <option value="e">Fashion Accessories</option>
+                            <option value="f">Sports & Outdoor</option>
+                        </Form.Select>
+                    </FloatingLabel>
+                    <Form.Control className="mt-3" id="name" name="name" type="text" placeholder="Name" maxLength={40} value={name} onChange={(e) => setName(e.target.value)} required />
+                    <Form.Control className="mt-3" as="textarea" id="description" name="description" placeholder="Description" maxLength={500} value={description} onChange={(e) => setDescription(e.target.value)} required />
 
-                    {formPage === 2 && (
-                        <>
-                            <Row className="row-cols-2">
-                                {Object.entries(parameters).map(([key, value]) => (
-                                    <Col key={key} className="mb-3">
-                                        <OverlayTrigger placement="top" overlay={<Tooltip>{parameterTooltips[key]}</Tooltip>}>
-                                            <Form.Label>{key.replace(/([A-Z])/g, " $1").trim()}</Form.Label>
-                                        </OverlayTrigger>
-                                        <Form.Range min={1} max={10} value={value} onChange={(e) => handleParameterChange(key, parseInt(e.target.value))} required />
-                                    </Col>
-                                ))}
-                            </Row>
-                            <Button className="w-100 mt-3" onClick={() => setFormPage(1)}>Back</Button>
-                            <Button className="w-100 mt-2" type="submit" disabled={loading}>Submit</Button>
-                        </>
-                    )}
+                    <h5 className="mt-4">Item Parameters</h5>
+                    <Row className="row-cols-2">
+                        {Object.entries(parameters).map(([key, value]) => (
+                            <Col key={key} className="mb-3">
+                                <OverlayTrigger placement="top" overlay={<Tooltip>{parameterTooltips[key]}</Tooltip>}>
+                                    <Form.Label>{key.replace(/([A-Z])/g, " $1").trim()}</Form.Label>
+                                </OverlayTrigger>
+                                <Form.Range min={1} max={10} value={value} onChange={(e) => handleParameterChange(key, parseInt(e.target.value))} required />
+                            </Col>
+                        ))}
+                    </Row>
+
+                    <Button className="w-100 mt-3" type="submit" disabled={loading}>Submit</Button>
                 </form>
             </Card>
         </Container>
