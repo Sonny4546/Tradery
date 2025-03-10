@@ -13,18 +13,20 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
+import Image from "react-bootstrap/Image";
 
 interface TraderyImage {
     height: number;
     file: File;
     width: number;
+    previewUrl: string;
 }
 
 const Post = () => {
     const { session } = useAuth();
     const navigate = useNavigate();
     const [formPage, setFormPage] = useState(1);
-    const [image, setImage] = useState<TraderyImage>();
+    const [image, setImage] = useState<TraderyImage | null>(null);
     const [loading, setLoading] = useState(false);
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
@@ -53,15 +55,17 @@ const Post = () => {
         }
         setError(null);
 
-        const img = new Image();
+        const img = new window.Image();
+        const previewUrl = URL.createObjectURL(file);
         img.onload = function () {
             setImage({
                 height: img.height,
                 file: file,
                 width: img.width,
+                previewUrl: previewUrl, // Store the preview URL
             });
         };
-        img.src = URL.createObjectURL(file);
+        img.src = previewUrl;
     }
 
     const handleParameterChange = (key: string, value: number) => {
@@ -78,7 +82,7 @@ const Post = () => {
         const formData = new FormData(e.currentTarget);
         const itemCategory = formData.get("itemCategory") as string;
 
-        if (!name || !description || !itemCategory) {
+        if (!name || !description || !itemCategory || !image) {
             setError("Please fill in all fields.");
             setLoading(false);
             return;
@@ -96,9 +100,9 @@ const Post = () => {
                 authorID: user.$id,
                 description,
                 date: new Date().toISOString(),
-                imageHeight: image?.height ?? 100,
+                imageHeight: image.height,
                 imageFileId: "",
-                imageWidth: image?.width ?? 100,
+                imageWidth: image.width,
                 isApproved: false,
                 itemCategory,
                 parameters, 
@@ -106,14 +110,14 @@ const Post = () => {
 
             console.log("Item created successfully:", results.items);
 
-            if (image?.file) {
+            if (image.file) {
                 console.log("Uploading image...");
                 const file = await uploadFile(image.file);
 
                 await updateItem(results.items.$id, {
                     imageFileId: file?.$id,
-                    imageHeight: image?.height,
-                    imageWidth: image?.width,
+                    imageHeight: image.height,
+                    imageWidth: image.width,
                     name,
                     description,
                     authorID: user.$id,
@@ -172,6 +176,9 @@ const Post = () => {
                                     required
                                 />
                             </Form.Group>
+                            {image && (
+                                <Image src={image.previewUrl} alt="Preview" className="mb-3" fluid rounded />
+                            )}
                             <FloatingLabel controlId="floatingSelect" label="Category">
                                 <Form.Select id="itemCategory" name="itemCategory" required>
                                     <option value="" disabled>Select a Category...</option>
