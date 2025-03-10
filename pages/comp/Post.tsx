@@ -9,6 +9,10 @@ import { createItems, updateItem } from "../lib/Items";
 import { fetchUserData } from "../lib/User";
 import { uploadFile } from "../lib/storage";
 import { useNavigate } from "react-router-dom";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Card from "react-bootstrap/Card";
 
 interface TraderyImage {
     height: number;
@@ -19,13 +23,14 @@ interface TraderyImage {
 const Post = () => {
     const { session } = useAuth();
     const navigate = useNavigate();
+    const [formPage, setFormPage] = useState(1);
     const [image, setImage] = useState<TraderyImage>();
     const [loading, setLoading] = useState(false);
     const [name, setName] = useState("");
     const [description, setDescription] = useState("");
     const [error, setError] = useState<string | null>(null);
 
-    // Parameters state (default to 5)
+    // Parameters state
     const [parameters, setParameters] = useState({
         Condition: 5,
         Usefulness: 5,
@@ -79,15 +84,6 @@ const Post = () => {
             return;
         }
 
-        // Validate that all parameters are set
-        for (const key in parameters) {
-            if (parameters[key as keyof typeof parameters] < 1 || parameters[key as keyof typeof parameters] > 10) {
-                setError("All parameters must be between 1 and 10.");
-                setLoading(false);
-                return;
-            }
-        }
-
         try {
             const user = await fetchUserData();
             if (!user) {
@@ -139,8 +135,7 @@ const Post = () => {
         }
     };
 
-    // Tooltips for parameters
-    const parameterTooltips: { [key: string]: string } = {
+    const parameterTooltips = {
         Condition: "Is it new or worn out?",
         Usefulness: "How useful is the item in daily life?",
         BrandValue: "Is it from a well-known or high-quality brand?",
@@ -152,7 +147,7 @@ const Post = () => {
     };
 
     return (
-        <>
+        <Container className="mt-4">
             {loading && (
                 <div className="overlay">
                     <div className="overlay-content">
@@ -161,12 +156,12 @@ const Post = () => {
                 </div>
             )}
 
-            <div className="Main">
-                <div className="container">
-                    <h1>Post Item</h1>
-                    {error && <p style={{ color: "red" }}>{error}</p>}
-                    <form onSubmit={handleOnSubmit} autoComplete="off">
-                        <div className="uploader">
+            <Card className="p-4 shadow">
+                <h1 className="text-center">Post Item</h1>
+                {error && <p className="text-danger">{error}</p>}
+                <form onSubmit={handleOnSubmit} autoComplete="off">
+                    {formPage === 1 && (
+                        <>
                             <Form.Group controlId="formFileLg" className="mb-3">
                                 <Form.Label>Import Image (Max: 5MB)</Form.Label>
                                 <Form.Control
@@ -177,10 +172,8 @@ const Post = () => {
                                     required
                                 />
                             </Form.Group>
-                        </div>
-                        <div className="mb-3">
                             <FloatingLabel controlId="floatingSelect" label="Category">
-                                <Form.Select className="itemCategory" id="itemCategory" name="itemCategory" required>
+                                <Form.Select id="itemCategory" name="itemCategory" required>
                                     <option value="" disabled>Select a Category...</option>
                                     <option value="a">School Supplies</option>
                                     <option value="b">Clothing</option>
@@ -190,66 +183,31 @@ const Post = () => {
                                     <option value="f">Sports & Outdoor</option>
                                 </Form.Select>
                             </FloatingLabel>
-                        </div>
-                        <div className="mb-3">
-                             <Form.Control
-                                 id="name"
-                                 name="name"
-                                 type="text"
-                                 placeholder="Name"
-                                 maxLength={40} // ✅ Limit to 40 characters
-                                 value={name}
-                                 onChange={(e) => setName(e.target.value)}
-                                 required
-                             />
-                             <small>{name.length}/40</small>
-                         </div>
-                         <Form.Group className="mb-3" controlId="Description.ControlTextarea1">
-                             <Form.Label>Item Description</Form.Label>
-                             <Form.Control
-                                 rows={4}
-                                 as="textarea"
-                                 id="description"
-                                 name="description"
-                                 placeholder="Description"
-                                 maxLength={500} // ✅ Limit to 500 characters
-                                 value={description}
-                                 onChange={(e) => setDescription(e.target.value)}
-                                 required
-                             />
-                             <small>{description.length}/500</small>
-                         </Form.Group>
-                        <h5>Item Parameters</h5>
-                        {Object.entries(parameters).map(([key, value]) => (
-                            <Form.Group key={key} className="mb-3">
-                                <OverlayTrigger placement="top" overlay={<Tooltip>{parameterTooltips[key]}</Tooltip>}>
-                                    <Form.Label>{key.replace(/([A-Z])/g, " $1").trim()}</Form.Label>
-                                </OverlayTrigger>
-                                <Form.Range
-                                    min={1}
-                                    max={10}
-                                    value={value}
-                                    onChange={(e) => handleParameterChange(key, parseInt(e.target.value))}
-                                    required
-                                />
-                                <Form.Control
-                                    type="number"
-                                    min={1}
-                                    max={10}
-                                    value={value}
-                                    onChange={(e) => handleParameterChange(key, parseInt(e.target.value))}
-                                    required
-                                />
-                            </Form.Group>
-                        ))}
+                            <Form.Control className="mt-3" id="name" name="name" type="text" placeholder="Name" maxLength={40} value={name} onChange={(e) => setName(e.target.value)} required />
+                            <Form.Control className="mt-3" as="textarea" id="description" name="description" placeholder="Description" maxLength={500} value={description} onChange={(e) => setDescription(e.target.value)} required />
+                            <Button className="mt-3 w-100" onClick={() => setFormPage(2)}>Next</Button>
+                        </>
+                    )}
 
-                        <Button className="submitbtn" type="submit" disabled={loading}>
-                            Submit
-                        </Button>
-                    </form>
-                </div>
-            </div>
-        </>
+                    {formPage === 2 && (
+                        <>
+                            <Row className="row-cols-2">
+                                {Object.entries(parameters).map(([key, value]) => (
+                                    <Col key={key} className="mb-3">
+                                        <OverlayTrigger placement="top" overlay={<Tooltip>{parameterTooltips[key]}</Tooltip>}>
+                                            <Form.Label>{key.replace(/([A-Z])/g, " $1").trim()}</Form.Label>
+                                        </OverlayTrigger>
+                                        <Form.Range min={1} max={10} value={value} onChange={(e) => handleParameterChange(key, parseInt(e.target.value))} required />
+                                    </Col>
+                                ))}
+                            </Row>
+                            <Button className="w-100 mt-3" onClick={() => setFormPage(1)}>Back</Button>
+                            <Button className="w-100 mt-2" type="submit" disabled={loading}>Submit</Button>
+                        </>
+                    )}
+                </form>
+            </Card>
+        </Container>
     );
 };
 
