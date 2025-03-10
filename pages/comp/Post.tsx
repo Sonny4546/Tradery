@@ -87,6 +87,18 @@ const Post = () => {
             return;
         }
     
+        // ✅ Ensure parameters exist
+        const defaultParameters = {
+            Condition: parameters.Condition ?? 5,
+            Usefulness: parameters.Usefulness ?? 5,
+            BrandValue: parameters.BrandValue ?? 5,
+            Demand: parameters.Demand ?? 5,
+            Rarity: parameters.Rarity ?? 5,
+            AgeDepreciation: parameters.AgeDepreciation ?? 5,
+            ResaleValue: parameters.ResaleValue ?? 5,
+            ReplacementCost: parameters.ReplacementCost ?? 5,
+        };
+    
         try {
             const user = await fetchUserData();
             if (!user) {
@@ -95,21 +107,20 @@ const Post = () => {
                 return;
             }
     
-            // ✅ Create item with required attributes
+            // ✅ Convert parameters to a JSON string
             const results = await createItems({
                 name,
                 authorID: user.$id,
                 description,
                 date: new Date().toISOString(),
                 imageHeight: image.height,
-                imageFileId: "", // Placeholder (will be updated after upload)
+                imageFileId: "", // Placeholder, updated after upload
                 imageWidth: image.width,
                 isApproved: false,
                 itemCategory,
-                parameters,
+                parameters: defaultParameters, // Ensure it is stored properly
             });
     
-            // ✅ Ensure item was created successfully
             if (!results || !results.items || !results.items.$id) {
                 throw new Error("Failed to create item. No ID returned.");
             }
@@ -126,9 +137,9 @@ const Post = () => {
                 imageFileId = uploadedFile.$id;
             }
     
-            // ✅ Update the item with imageFileId after upload
+            // ✅ Update item with proper attributes
             await updateItem(results.items.$id, {
-                imageFileId, // Now assigned properly
+                imageFileId,
                 imageHeight: image.height,
                 imageWidth: image.width,
                 name,
@@ -137,7 +148,7 @@ const Post = () => {
                 date: new Date().toISOString(),
                 isApproved: false,
                 itemCategory,
-                parameters,
+                parameters: defaultParameters, // Keep format consistent
             });
     
             console.log("Item created and updated successfully.");
