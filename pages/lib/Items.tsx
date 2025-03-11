@@ -57,6 +57,15 @@ export async function getItemsById(itemsId: TraderyItems['$id']) {
     }
 }
 
+export async function getApprovedItemsById(itemsId: TraderyItems['$id']) {
+    const document = await database.getDocument(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
+                                                import.meta.env.VITE_APPWRITE_COLLECTION_ITEM_ID, itemsId
+                                                [Query.equal('isApproved', true)]);
+    return {
+        items: mapDocumentToItem(document)
+    }
+}
+
 export async function deleteItemById(itemId: TraderyItems['$id']) {
     const { items } = await getItemsById(itemId);
     await deleteFileById(items.imageFileId);
@@ -98,7 +107,7 @@ function mapDocumentToItem(document: Models.Document) {
         imageFileId: document.imageFileId,
         imageHeight: document.imageHeight,
         imageWidth: document.imageWidth,
-        isApproved: false,
+        isApproved: document.isApproved,
         requests: document.requests,
         itemCategory: document.itemCategory,
         Condition: document.Condition,

@@ -52,11 +52,11 @@ export default function Admin() {
                         <form onSubmit={handleAdminLogin} autoComplete="off">
                             <div className="form-field-wrapper">
                                 <label>Email:</label>
-                                <input required type="email" name="email" placeholder="Enter email..." />
+                                <input required  className="AdminInput" type="email" name="email" placeholder="Enter email..." />
                             </div>
                             <div className="form-field-wrapper">
                                 <label>Password:</label>
-                                <Form.Control type="password" name="password" placeholder="Enter password..." />
+                                <Form.Control className="AdminInput" type="password" name="password" placeholder="Enter password..." />
                             </div>
                             <div className="form-field-wrapper">
                                 <Button type="submit" className="admin-btn btn-dark w-100">

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Col, Row, Button, CloseButton, Alert, Accordion, Container, Form, FloatingLabel } from 'react-bootstrap';
 
 import { getPreviewImageById } from "./lib/storage";
-import { getItems, getItemsbyCategory, getItemsById, getItemsbySearch } from './lib/Items';
+import { getApprovedItemsById, getItems, getItemsbyCategory, getItemsById, getItemsbySearch } from './lib/Items';
 import { createProfileData, findUserDataById, getUserDataById, TraderyProfiles } from './lib/UserProfile';
 import { HomeItemCard, ItemCard } from './comp/ItemCard';
 import HomeNav from './HomeNav';
@@ -57,8 +57,8 @@ const HomePage = () => {
         const userExists = await findUserDataById(userData.$id);
         console.log("User Exists? ", userExists);
 
-        const { items: userItems } = await getItemsById(userData.$id);
-        const approvedItems = Array.isArray(userItems) ? userItems.filter((item) => item.status === 'approved') : []; // ✅ Filter approved items
+        const { items: userItems } = await getApprovedItemsById(userData.$id);
+        const approvedItems = Array.isArray(userItems) ? userItems.filter((item) => item.IsApproved === 'approved') : []; // ✅ Filter approved items
         setOwnItems(approvedItems);
 
         if (!userExists) {
@@ -146,11 +146,21 @@ const HomePage = () => {
             {/* ✅ Show HomeItemCard if item is selected */}
             {selectedItem && (
               <HomeItemCard
-                image={{ url: getPreviewImageById(selectedItem.imageFileId), height: selectedItem.imageHeight, width: selectedItem.imageWidth }}
-                name={selectedItem.name}
-                description={selectedItem.description}
-                date={selectedItem.date}
-                parameters={selectedItem.parameters || {}}
+                  itemId={selectedItem.$id}
+                  image={{ url: "image_url_here" }}
+                  name="Sample Item"
+                  description="This is a sample item."
+                  date="2025-02-25T14:30:00Z"
+                  parameters={{
+                      Condition: selectedItem.Condition,
+                      Usefulness: selectedItem.Usefulness,
+                      BrandValue: selectedItem.BrandValue,
+                      Demand: selectedItem.Demand,
+                      Rarity: selectedItem.Rarity,
+                      AgeDepreciation: selectedItem.AgeDepreciation,
+                      ResaleValue: selectedItem.ResaleValue,
+                      ReplacementCost: selectedItem.ReplacementCost,
+                  }}
               />
             )}
           </div>
