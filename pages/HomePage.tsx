@@ -30,68 +30,65 @@ const HomePage = () => {
 
   useEffect(() => {
     (async function fetchItems() {
-      const { items } = await getItems();
-      setItems(items);
+        try {
+            const { items } = await getItems();
+            setItems(items);
 
-      const authorData: { [key: string]: TraderyProfiles } = {};
-      await Promise.all(
-        items.map(async (item) => {
-          if (!authorData[item.authorID]) {
-            try {
-              const { userdb } = await getUserDataById(item.authorID);
-              if (userdb) {
-                authorData[item.authorID] = userdb;
-              }
-            } catch (error) {
-              console.error(`Error fetching author data for ${item.authorID}:`, error);
+            // ✅ Ensure userData is available before making API calls
+            const userData = await getUser();
+            if (!userData) return;
+            setUser(userData);
+
+            const userExists = await findUserDataById(userData.$id);
+            console.log("User Exists? ", userExists);
+
+            // ✅ Ensure user ID is valid before calling getApprovedItemsById
+            if (userData.$id) {
+                const { items: userItems } = await getApprovedItemsById(userData.$id);
+                const approvedItems = Array.isArray(userItems)
+                    ? userItems.filter((item) => item.IsApproved === "approved")
+                    : [];
+                setOwnItems(approvedItems);
             }
-          }
-        })
-      );
-      setAuthors({ ...authorData });
 
-      const userData = await getUser();
-      setUser(userData);
-
-      if (userData) {
-        const userExists = await findUserDataById(userData.$id);
-        console.log("User Exists? ", userExists);
-
-        const { items: userItems } = await getApprovedItemsById(userData.$id);
-        const approvedItems = Array.isArray(userItems) ? userItems.filter((item) => item.IsApproved === 'approved') : []; // ✅ Filter approved items
-        setOwnItems(approvedItems);
-
-        if (!userExists) {
-          setShow(true);
-          await createProfileData(userData.$id, {
-            userId: userData.$id,
-            profileImageId: "",
-            profileSummary: null,
-            profileImageWidth: 100,
-            profileImageHeight: 100,
-            displayName: userData.name,
-            defaultName: userData.name,
-            userEmail: userData.email
-          });
-          console.log("New profile created.");
+            if (!userExists) {
+                setShow(true);
+                await createProfileData(userData.$id, {
+                    userId: userData.$id,
+                    profileImageId: "",
+                    profileSummary: null,
+                    profileImageWidth: 100,
+                    profileImageHeight: 100,
+                    displayName: userData.name,
+                    defaultName: userData.name,
+                    userEmail: userData.email,
+                });
+                console.log("New profile created.");
+            }
+        } catch (error) {
+            console.error("Error fetching items:", error);
         }
-      }
     })();
   }, []);
 
   // ✅ Fetch selected item data when dropdown changes
   const handleItemChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const itemId = e.target.value;
+    const itemId = e.target.value.trim(); // Trim whitespace to avoid empty strings
+
     if (!itemId) {
-      setSelectedItem(null);
-      return;
+        setSelectedItem(null);
+        return;
     }
 
     try {
-      const { items } = await getItemsById(itemId);
-      setSelectedItem(items);
+        const { items } = await getItemsById(itemId);
+        if (!items) {
+            console.error("Item not found:", itemId);
+            return;
+        }
+        setSelectedItem(items);
     } catch (error) {
-      console.error("Error fetching item data:", error);
+        console.error("Error fetching item data:", error);
     }
   };
 
