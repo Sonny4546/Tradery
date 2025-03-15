@@ -10,12 +10,4 @@ export interface TraderyItems {
     isApproved: boolean;
     requests?: string[];
     itemCategory: string;
-    Condition: number;
-    Usefulness: number;
-    BrandValue: number;
-    Demand: number;
-    Rarity: number;
-    AgeDepreciation: number;
-    ResaleValue: number;
-    ReplacementCost: number
 }

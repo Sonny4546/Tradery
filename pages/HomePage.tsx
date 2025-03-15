@@ -4,7 +4,7 @@ import { Col, Row, Button, CloseButton, Alert, Accordion, Container, Form, Float
 import { getPreviewImageById } from "./lib/storage";
 import { getApprovedItemsById, getItems, getItemsbyCategory, getItemsById, getItemsbySearch } from './lib/Items';
 import { createProfileData, findUserDataById, getUserDataById, TraderyProfiles } from './lib/UserProfile';
-import { HomeItemCard, ItemCard } from './comp/ItemCard';
+import { ItemCard } from './comp/ItemCard';
 import HomeNav from './HomeNav';
 import '../src/main.css';
 import { getUser } from './lib/appwrite';
@@ -129,39 +129,6 @@ const HomePage = () => {
       <Tutorial show={show} onHide={handleClose} />
       <div className="home">
         <div className="container" id="pagewrap">
-          <div className="mb-3" style={{ marginTop: '20px' }}>
-            {/* ✅ Item selection dropdown */}
-            <FloatingLabel controlId="floatingSelect" label="Your Approved Items">
-              <Form.Select onChange={handleItemChange} className="itemCategory" required>
-                <option value="">Select one of your items...</option>
-                {ownItems.map((item) => (
-                  <option key={item.$id} value={item.$id}>{item.name}</option>
-                ))}
-              </Form.Select>
-            </FloatingLabel>
-
-            {/* ✅ Show HomeItemCard if item is selected */}
-            {selectedItem && (
-              <HomeItemCard
-                  itemId={selectedItem.$id}
-                  image={{ url: "image_url_here" }}
-                  name="Sample Item"
-                  description="This is a sample item."
-                  date="2025-02-25T14:30:00Z"
-                  parameters={{
-                      Condition: selectedItem.Condition,
-                      Usefulness: selectedItem.Usefulness,
-                      BrandValue: selectedItem.BrandValue,
-                      Demand: selectedItem.Demand,
-                      Rarity: selectedItem.Rarity,
-                      AgeDepreciation: selectedItem.AgeDepreciation,
-                      ResaleValue: selectedItem.ResaleValue,
-                      ReplacementCost: selectedItem.ReplacementCost,
-                  }}
-              />
-            )}
-          </div>
-
           {/* ✅ Search input */}
           <div className="searchinput">
             <form className="search" onSubmit={handleSearch} autoComplete="off">

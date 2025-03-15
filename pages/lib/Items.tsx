@@ -110,14 +110,6 @@ function mapDocumentToItem(document: Models.Document) {
         isApproved: document.isApproved,
         requests: document.requests,
         itemCategory: document.itemCategory,
-        Condition: document.Condition,
-        Usefulness: document.Usefulness,
-        BrandValue: document.BrandValue,
-        Demand: document.Demand,
-        Rarity: document.Rarity,
-        AgeDepreciation: document.AgeDepreciation,
-        ResaleValue: document.ResaleValue,
-        ReplacementCost: document.ReplacementCost
     }
     return items;
 }
