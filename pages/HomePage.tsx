@@ -50,7 +50,24 @@ const HomePage = () => {
                     : [];
                 setOwnItems(approvedItems);
             }
-
+            
+            const authorData: { [key: string]: TraderyProfiles } = {};
+            await Promise.all(
+                items.map(async (item) => {
+                    if (!authorData[item.authorID]) {
+                        try {
+                            const { userdb } = await getUserDataById(item.authorID);
+                            if (userdb) {
+                                authorData[item.authorID] = userdb;
+                            }
+                        } catch (error) {
+                            console.error(`Error fetching author data for ${item.authorID}:`, error);
+                        }
+                    }
+                })
+            );
+    
+            setAuthors({ ...authorData }); // ✅ Now updates AFTER all fetches complete
             if (!userExists) {
                 setShow(true);
                 await createProfileData(userData.$id, {
@@ -70,27 +87,6 @@ const HomePage = () => {
         }
     })();
   }, []);
-
-  // ✅ Fetch selected item data when dropdown changes
-  const handleItemChange = async (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const itemId = e.target.value.trim(); // Trim whitespace to avoid empty strings
-
-    if (!itemId) {
-        setSelectedItem(null);
-        return;
-    }
-
-    try {
-        const { items } = await getItemsById(itemId);
-        if (!items) {
-            console.error("Item not found:", itemId);
-            return;
-        }
-        setSelectedItem(items);
-    } catch (error) {
-        console.error("Error fetching item data:", error);
-    }
-  };
 
   async function handleCategory(category: string) {
     const { items } = await getItemsbyCategory(category);

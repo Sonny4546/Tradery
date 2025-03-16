@@ -116,7 +116,8 @@ const Profile = () => {
                     displayName,
                     defaultName: user.name,
                     userId: user.$id,
-                    userEmail: user.email
+                    userEmail: user.email,
+                    firebaseId: userdb.firebaseId
                 });
             } else {
                 alert("The username already exists. Try another one.");

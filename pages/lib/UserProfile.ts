@@ -10,6 +10,7 @@ export interface TraderyProfiles {
     profileImageWidth: number;
     profileImageHeight: number;
     userEmail: string;
+    firebaseId?: string | null;
 }
 
 export async function createProfileData(userId: string, item) {
@@ -79,6 +80,7 @@ function mapDocumentToItem(document: Models.Document) {
         profileImageWidth: document.profileImageWidth,
         profileImageHeight: document.profileImageHeight,
         userEmail: document.userEmail,
+        firebaseId: document.firebaseId
     }
     return userdb;
 }
