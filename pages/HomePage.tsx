@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Col, Row, Button, CloseButton, Alert, Accordion, Container, Form, FloatingLabel } from 'react-bootstrap';
 
 import { getPreviewImageById } from "./lib/storage";
-import { getApprovedItemsById, getItems, getItemsbyCategory, getItemsById, getItemsbySearch } from './lib/Items';
+import { getItems, getItemsbyCategory, getItemsById, getItemsbySearch } from './lib/Items';
 import { createProfileData, findUserDataById, getUserDataById, TraderyProfiles } from './lib/UserProfile';
 import { ItemCard } from './comp/ItemCard';
 import HomeNav from './HomeNav';
@@ -18,8 +18,6 @@ const HomePage = () => {
   const [user, setUser] = useState<TraderyUser | undefined>();
   const [isHidden, setIsHidden] = useState(false);
   const [authors, setAuthors] = useState<{ [key: string]: TraderyProfiles }>({});
-  const [ownItems, setOwnItems] = useState<Array<TraderyItems>>([]);
-  const [selectedItem, setSelectedItem] = useState<TraderyItems | null>(null);
   const navigate = useNavigate();
   
   const [show, setShow] = useState(false);
@@ -42,32 +40,16 @@ const HomePage = () => {
             const userExists = await findUserDataById(userData.$id);
             console.log("User Exists? ", userExists);
 
-            // ✅ Ensure user ID is valid before calling getApprovedItemsById
-            if (userData.$id) {
-                const { items: userItems } = await getApprovedItemsById(userData.$id);
-                const approvedItems = Array.isArray(userItems)
-                    ? userItems.filter((item) => item.IsApproved === "approved")
-                    : [];
-                setOwnItems(approvedItems);
-            }
-            
             const authorData: { [key: string]: TraderyProfiles } = {};
             await Promise.all(
                 items.map(async (item) => {
                     if (!authorData[item.authorID]) {
-                        try {
-                            const { userdb } = await getUserDataById(item.authorID);
-                            if (userdb) {
-                                authorData[item.authorID] = userdb;
-                            }
-                        } catch (error) {
-                            console.error(`Error fetching author data for ${item.authorID}:`, error);
-                        }
+                        const { userdb } = await getUserDataById(item.authorID);
+                        authorData[item.authorID] = userdb;
                     }
                 })
             );
-    
-            setAuthors({ ...authorData }); // ✅ Now updates AFTER all fetches complete
+            setAuthors(authorData);
             if (!userExists) {
                 setShow(true);
                 await createProfileData(userData.$id, {
