@@ -323,7 +323,7 @@ body {
 
 .itemheading {
   text-align: center;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .itemheading h1 {
@@ -414,7 +414,7 @@ body {
 }
 
 .image-carousel .carousel-item img {
-  max-height: 720px;
+  max-height: 360px;
   width: auto; /* Maintain aspect ratio */
   max-width: 100%; /* Prevents it from exceeding container */
   object-fit: contain; /* Ensures full image is visible */
