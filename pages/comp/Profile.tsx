@@ -18,7 +18,7 @@ const Profile = () => {
     const [image, setImage] = useState<TraderyProfileImage>();
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
-    const [displayName, setDisplayName] = useState("");
+    const [newDisplayName, setDisplayName] = useState("");
     const [profileSummary, setProfileSummary] = useState("");
     const [error, setError] = useState<string | null>(null);
 
@@ -78,7 +78,7 @@ const Profile = () => {
         e.preventDefault();
         setLoading(true);
 
-        if (!displayName.trim() || !profileSummary.trim()) {
+        if (!newDisplayName.trim() || !profileSummary.trim()) {
             alert("Please fill in all fields.");
             setLoading(false);
             return;
@@ -94,31 +94,30 @@ const Profile = () => {
             let { userdb } = await getUserDataById(user.$id);
             let profileImageId = userdb?.profileImageId || ""; // ✅ Keep empty string if no existing image
 
-            // ✅ Only delete the old image if a new one is uploaded AND an image already exists
-            if (image?.file) {
-                if (profileImageId && profileImageId !== "default") {
-                    await deleteProfileImageById(profileImageId);
-                }
-                // ✅ Upload the new image
-                const file = await uploadUserFile(user.$id, image.file);
-                if (file?.$id) {
-                    profileImageId = file.$id;
-                }
-            }
-
-            const nameExists = await checkUserNameDuplicate(displayName);
+            const nameExists = await checkUserNameDuplicate(newDisplayName);
             if (!nameExists) {
                 await updateUserData(user.$id, {
                     profileImageId,
                     profileSummary,
                     profileImageWidth: image?.width ?? userdb?.profileImageWidth ?? 100,
                     profileImageHeight: image?.height ?? userdb?.profileImageHeight ?? 100,
-                    displayName,
+                    displayName: newDisplayName,
                     defaultName: user.name,
                     userId: user.$id,
                     userEmail: user.email,
                     firebaseId: userdb.firebaseId
                 });
+                // ✅ Only delete the old image if a new one is uploaded AND an image already exists
+                if (image?.file) {
+                    if (profileImageId && profileImageId !== "default") {
+                        await deleteProfileImageById(profileImageId);
+                    }
+                    // ✅ Upload the new image
+                    const file = await uploadUserFile(user.$id, image.file);
+                    if (file?.$id) {
+                        profileImageId = file.$id;
+                    }
+                }
             } else {
                 alert("The username already exists. Try another one.");
                 setLoading(false);
@@ -128,7 +127,7 @@ const Profile = () => {
             console.log("✅ Profile updated.");
             setUserdb((prev) => ({
                 ...prev,
-                displayName,
+                displayName: newDisplayName,
                 profileSummary,
                 profileImageId,
             }));
@@ -172,10 +171,10 @@ const Profile = () => {
                                         name="display-name" 
                                         placeholder="Name" 
                                         maxLength={20}
-                                        value={displayName}
+                                        value={newDisplayName}
                                         onChange={handleDisplayNameChange}
                                     />
-                                    <small className="text-muted">{displayName.length}/20</small>
+                                    <small className="text-muted">{newDisplayName.length}/20</small>
                                 </Form.Group>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Profile Summary</Form.Label>
