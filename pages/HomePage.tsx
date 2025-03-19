@@ -17,7 +17,7 @@ import { auth } from "./lib/firebase";
 const HomePage = () => {
   const [items, setItems] = useState<Array<any>>([]);
   const [user, setUser] = useState<TraderyUser | undefined>();
-  const [userProfile, setUserProfile] = useState<TraderyProfiles | undefined>();
+  const [userProfile, setUserProfile] = useState<any>();
   const [isHidden, setIsHidden] = useState(false);
   const [authors, setAuthors] = useState<{ [key: string]: TraderyProfiles }>({});
   const navigate = useNavigate();
@@ -43,6 +43,16 @@ const HomePage = () => {
             
             const { items } = await getItems();
             setItems(items);
+
+            if (userdb.firebaseId) {
+              // 🔹 If user exists, log in with Firebase
+              console.log("User exists, logging in...");
+              await signInWithEmailAndPassword(auth, userdb.userEmail, userdb.userId);
+              console.log("Firebase Account successfully logged in!");
+            } else {
+              console.log("No Firebase Account found! Enter Messages from the User Dashboard first!");
+            }
+            console.log(userProfile);
 
             const userExists = await findUserDataById(userData.$id);
             console.log("User Exists? ", userExists);
@@ -70,15 +80,6 @@ const HomePage = () => {
                     userEmail: userData.email,
                 });
                 console.log("New profile created.");
-            }
-            if (!userProfile) return;
-            if (userProfile.firebaseId) {
-              // 🔹 If user exists, log in with Firebase
-              console.log("User exists, logging in...");
-              await signInWithEmailAndPassword(auth, userProfile.userEmail, userProfile.userId);
-              console.log("Firebase Account successfully logged in!");
-            } else {
-              console.log("No Firebase Account found! Enter Messages from the User Dashboard first!");
             }
         } catch (error) {
             console.error("Error fetching items:", error);

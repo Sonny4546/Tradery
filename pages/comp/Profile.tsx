@@ -14,7 +14,6 @@ export interface TraderyProfileImage {
 const Profile = () => {
     const [user, setUser] = useState<TraderyUser>();
     const [userdb, setUserdb] = useState<any>();
-    const [usernameUnused, setUsernameUsed] = useState<boolean>();
     const [isEditing, setIsEditing] = useState(false);
     const [image, setImage] = useState<TraderyProfileImage>();
     const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -78,67 +77,57 @@ const Profile = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setLoading(true);
-
+    
         if (!newDisplayName.trim() || !profileSummary.trim()) {
             alert("Please fill in all fields.");
             setLoading(false);
             return;
         }
-
+    
         try {
             if (!user) {
                 console.log("User data is still loading. Please wait.");
                 setLoading(false);
                 return;
             }
-
+    
             let { userdb } = await getUserDataById(user.$id);
             let profileImageId = userdb?.profileImageId || ""; // ✅ Keep empty string if no existing image
-
-            if (userdb.displayName != newDisplayName){
+    
+            // ✅ Only check for duplicate username if it's changed
+            if (userdb.displayName !== newDisplayName) {
                 const nameExists = await checkUserNameDuplicate(newDisplayName);
-                setUsernameUsed(nameExists)
-            }
-            if (usernameUnused) {
-                await updateUserData(user.$id, {
-                    profileImageId: "",
-                    profileSummary,
-                    profileImageWidth: image?.width ?? userdb?.profileImageWidth ?? 100,
-                    profileImageHeight: image?.height ?? userdb?.profileImageHeight ?? 100,
-                    displayName: newDisplayName,
-                    defaultName: user.name,
-                    userId: user.$id,
-                    userEmail: user.email,
-                    firebaseId: userdb.firebaseId
-                });
-                // ✅ Only delete the old image if a new one is uploaded AND an image already exists
-                if (image?.file) {
-                    if (profileImageId && profileImageId !== "default") {
-                        await deleteProfileImageById(profileImageId);
-                    }
-                    // ✅ Upload the new image
-                    const file = await uploadUserFile(user.$id, image.file);
-                    if (file?.$id) {
-                        profileImageId = file.$id;
-                    }
+                if (nameExists) {
+                    alert("The username already exists. Try another one.");
+                    setLoading(false);
+                    return;
                 }
-                await updateUserData(user.$id, {
-                    profileImageId,
-                    profileSummary,
-                    profileImageWidth: image?.width ?? userdb?.profileImageWidth ?? 100,
-                    profileImageHeight: image?.height ?? userdb?.profileImageHeight ?? 100,
-                    displayName: newDisplayName,
-                    defaultName: user.name,
-                    userId: user.$id,
-                    userEmail: user.email,
-                    firebaseId: userdb.firebaseId
-                });
-            } else {
-                alert("The username already exists. Try another one.");
-                setLoading(false);
-                return;
             }
-
+    
+            await updateUserData(user.$id, {
+                profileImageId,
+                profileSummary,
+                profileImageWidth: image?.width ?? userdb?.profileImageWidth ?? 100,
+                profileImageHeight: image?.height ?? userdb?.profileImageHeight ?? 100,
+                displayName: newDisplayName,
+                defaultName: user.name,
+                userId: user.$id,
+                userEmail: user.email,
+                firebaseId: userdb.firebaseId
+            });
+    
+            // ✅ Only delete the old image if a new one is uploaded AND an image already exists
+            if (image?.file) {
+                if (profileImageId && profileImageId !== "default") {
+                    await deleteProfileImageById(profileImageId);
+                }
+                // ✅ Upload the new image
+                const file = await uploadUserFile(user.$id, image.file);
+                if (file?.$id) {
+                    profileImageId = file.$id;
+                }
+            }
+    
             console.log("✅ Profile updated.");
             setUserdb((prev) => ({
                 ...prev,
@@ -146,14 +135,14 @@ const Profile = () => {
                 profileSummary,
                 profileImageId,
             }));
-
+    
         } catch (error) {
             console.error("Failed to update profile:", error);
         } finally {
             setLoading(false);
             setIsEditing(false);
         }
-    };
+    };    
 
     return (
         <Container className="d-flex justify-content-center align-items-center min-vh-100">
