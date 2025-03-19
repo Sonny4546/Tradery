@@ -1,9 +1,7 @@
 import React, { createContext, ReactNode, useContext, useState, useEffect } from "react";
 import { getCurrentSession, DeleteSession, OAuthProvider, account } from "./appwrite";
 import { Models } from "appwrite";
-import { useNavigate } from 'react-router'
 import { getTeams } from "./User";
-import {bothlogin} from "./firebase";
 
 interface TraderyAuthContext {
     session?: Models.Session;

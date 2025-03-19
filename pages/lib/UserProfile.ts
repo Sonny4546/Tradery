@@ -40,11 +40,15 @@ export async function getUserDataByName(username: string) {
 
 export async function checkUserNameDuplicate(username: string) {
     try {
-    const {documents} = await database.listDocuments(import.meta.env.VITE_APPWRITE_DATABASE_ID, 
-                                                    import.meta.env.VITE_APPWRITE_COLLECTION_USER_ID, 
-                                                    [Query.contains('displayName', username)]);
-    return !!documents;
+        const { documents } = await database.listDocuments(
+            import.meta.env.VITE_APPWRITE_DATABASE_ID,
+            import.meta.env.VITE_APPWRITE_COLLECTION_USER_ID,
+            [Query.equal("displayName", username)] // ✅ Use exact match
+        );
+        
+        return documents.length > 0; // ✅ Check array length
     } catch (error) {
+        console.error("Error checking username:", error);
         return false;
     }
 }

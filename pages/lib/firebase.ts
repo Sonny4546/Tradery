@@ -22,32 +22,14 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app)
 export const db = getFirestore(app)
 
-//search
-export async function searchUser(username) {
-  try {
-      const userRef = collection(db, "users");
-      const q = query(userRef, where("username", "==", username));
-      const querySnapShot = await getDocs(q);
-
-      if (!querySnapShot.empty) {
-          return querySnapShot.docs[0].data();
-      } else {
-          throw new Error("User not found!");
-      }
-  } catch (err) {
-      console.error("Search Error:", err);
-      throw new Error("An error occurred while searching.");
-  }
-}
-
 //Add
-export async function addUserToChat(targetUser, currentUser) {
-  if (!targetUser || !currentUser) return;
+export async function addUserToChat(targetUserId: string, currentUserId: string) {
+  if (!targetUserId || !currentUserId) return;
 
   const chatRef = collection(db, "chats");
   const userChatsRef = collection(db, "userchats");
-  const currentUserChatsRef = doc(userChatsRef, currentUser.id);
-  const targetUserChatsRef = doc(userChatsRef, targetUser.id);
+  const currentUserChatsRef = doc(userChatsRef, currentUserId);
+  const targetUserChatsRef = doc(userChatsRef, targetUserId);
 
   try {
       // Fetch user chat documents for both users
@@ -69,8 +51,8 @@ export async function addUserToChat(targetUser, currentUser) {
       const targetUserChats = targetUserChatsSnap.exists() ? targetUserChatsSnap.data().chats || [] : [];
 
       // Check if the chat already exists
-      const alreadyAddedByCurrentUser = currentUserChats.some(chat => chat.receiverId === targetUser.id);
-      const alreadyAddedByTargetUser = targetUserChats.some(chat => chat.receiverId === currentUser.id);
+      const alreadyAddedByCurrentUser = currentUserChats.some((chat: { receiverId: any; }) => chat.receiverId === targetUserId);
+      const alreadyAddedByTargetUser = targetUserChats.some((chat: { receiverId: any; }) => chat.receiverId === currentUserId);
 
       if (alreadyAddedByCurrentUser || alreadyAddedByTargetUser) {
           throw new Error("User already added!");
@@ -86,7 +68,7 @@ export async function addUserToChat(targetUser, currentUser) {
       const chatData = {
           chatId: newChatRef.id,
           lastMessage: "",
-          receiverId: targetUser.id,
+          receiverId: targetUserId,
           updatedAt: Date.now(),
       };
 
@@ -98,7 +80,7 @@ export async function addUserToChat(targetUser, currentUser) {
       await updateDoc(targetUserChatsRef, {
           chats: arrayUnion({
               ...chatData,
-              receiverId: currentUser.id, // Swap receiverId for the target user
+              receiverId: currentUserId, // Swap receiverId for the target user
           }),
       });
 
@@ -107,29 +89,4 @@ export async function addUserToChat(targetUser, currentUser) {
       console.error("Add User Error:", err);
       throw new Error("An error occurred while adding the user.");
   }
-}
-
-export function useAutoSearchAndAdd(username) {
-  const { currentUser } = useUserStore();
-  const [user, setUser] = useState<any>(null);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-      if (!username) return;
-
-      async function fetchAndAddUser() {
-          try {
-              const foundUser = await searchUser(username);
-              setUser(foundUser);
-              await addUserToChat(foundUser, currentUser);
-              console.log("found and added")
-          } catch (err) {
-              setError(err.message);
-          }
-      }
-
-      fetchAndAddUser();
-  }, [username, currentUser]);
-
-  return { user, error };
 }

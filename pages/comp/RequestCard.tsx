@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Accordion, Button } from 'react-bootstrap';
 import { getUserDataById } from '../lib/UserProfile';
-import { useAutoSearchAndAdd } from "../lib/firebase"
+import { addUserToChat } from "../lib/firebase"
+import { getUser } from '../lib/appwrite';
+import { useNavigate } from 'react-router-dom';
 
 interface ItemCardProps {
     name: string;
@@ -12,19 +14,13 @@ interface ItemCardProps {
 interface UserRequest {
     displayName: string;
     appwriteName: string;
-}
-
-async function messageUser(username: string) {
-    try {
-        await useAutoSearchAndAdd(username);
-        console.log(username)
-    } catch {
-        console.log("Failed to add chat")
-    }
+    firebaseId: string;
 }
 
 const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
     const [userRequests, setUserRequests] = useState<UserRequest[]>([]);
+    const [userdb, setUserdb] = useState<any>();
+    const navigate = useNavigate();
 
     useEffect(() => {
         (async function fetchUsers() {
@@ -36,9 +32,10 @@ const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
                         const { userdb } = await getUserDataById(id);
                         const displayName = userdb?.displayName || userdb?.defaultName || "";
                         const appwriteName = userdb?.defaultName || "";
+                        const firebaseId = userdb?.firebaseId || null;
 
                         return displayName || appwriteName
-                            ? { displayName, appwriteName }
+                            ? { displayName, appwriteName, firebaseId }
                             : null;
                     } catch (error) {
                         console.error("Error fetching user data:", error);
@@ -51,6 +48,32 @@ const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
         })();
     }, [userId]);
 
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const userData = await getUser();
+                if (userData) {
+                    const { userdb } = await getUserDataById(userData.$id);
+                    setUserdb(userdb);
+                }
+            } catch (error) {
+                console.error("Error fetching user: ", error);
+            }
+        };
+        fetchUser();
+    }, []);
+
+    async function messageUser(targetUserId: string, currentUserId: string) {
+        try {
+            await addUserToChat(targetUserId, currentUserId);
+            console.log("Done");
+            navigate(`/Dashboard/Profile`);
+        } catch {
+            console.log("Failed to add chat")
+        }
+        
+    }
+
     return (
         <Accordion.Item eventKey={eventKey}>
             <Accordion.Header>{name}</Accordion.Header>
@@ -61,7 +84,7 @@ const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
                             <p className="mb-0">
                                 <strong>{user.displayName}</strong> wants to trade. The default username is <strong>{user.appwriteName}</strong>
                             </p>
-                            <Button variant="primary" size="sm" onClick={() => messageUser(user.appwriteName)}>Message</Button>
+                            <Button variant="primary" size="sm" onClick={() => messageUser(user.firebaseId, userdb.firebaseId)}>Message</Button>
                         </div>
                     ))
                 ) : (
