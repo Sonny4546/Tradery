@@ -103,9 +103,8 @@ const Profile = () => {
                     return;
                 }
             }
-    
             await updateUserData(user.$id, {
-                profileImageId,
+                profileImageId: "",
                 profileSummary,
                 profileImageWidth: image?.width ?? userdb?.profileImageWidth ?? 100,
                 profileImageHeight: image?.height ?? userdb?.profileImageHeight ?? 100,
@@ -115,7 +114,6 @@ const Profile = () => {
                 userEmail: user.email,
                 firebaseId: userdb.firebaseId
             });
-    
             // ✅ Only delete the old image if a new one is uploaded AND an image already exists
             if (image?.file) {
                 if (profileImageId && profileImageId !== "default") {
@@ -127,7 +125,17 @@ const Profile = () => {
                     profileImageId = file.$id;
                 }
             }
-    
+            await updateUserData(user.$id, {
+                profileImageId,
+                profileSummary,
+                profileImageWidth: image?.width ?? userdb?.profileImageWidth ?? 100,
+                profileImageHeight: image?.height ?? userdb?.profileImageHeight ?? 100,
+                displayName: newDisplayName,
+                defaultName: user.name,
+                userId: user.$id,
+                userEmail: user.email,
+                firebaseId: userdb.firebaseId
+            });
             console.log("✅ Profile updated.");
             setUserdb((prev) => ({
                 ...prev,
