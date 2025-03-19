@@ -31,9 +31,6 @@ const HomePage = () => {
   useEffect(() => {
     (async function fetchItems() {
         try {
-            const { items } = await getItems();
-            setItems(items);
-
             // ✅ Ensure userData is available before making API calls
             const userData = await getUser();
             if (!userData) return;
@@ -42,7 +39,10 @@ const HomePage = () => {
             const { userdb } = await getUserDataById(userData.$id);
             if (!userdb) return;
             setUserProfile(userdb);
-            console.log(userProfile)
+            console.log(userdb);
+            
+            const { items } = await getItems();
+            setItems(items);
 
             const userExists = await findUserDataById(userData.$id);
             console.log("User Exists? ", userExists);
