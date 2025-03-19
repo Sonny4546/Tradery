@@ -44,6 +44,7 @@ const HomePage = () => {
             const { userdb } = await getUserDataById(userData.$id);
             if (!userdb) return;
             setUserProfile(userdb);
+            console.log(userProfile)
 
             const userExists = await findUserDataById(userData.$id);
             console.log("User Exists? ", userExists);
@@ -72,7 +73,8 @@ const HomePage = () => {
                 });
                 console.log("New profile created.");
             }
-            if (userProfile?.firebaseId) {
+            if (!userProfile) return;
+            if (userProfile.firebaseId) {
               // 🔹 If user exists, log in with Firebase
               console.log("User exists, logging in...");
               await signInWithEmailAndPassword(auth, userProfile.userEmail, userProfile.userId);
