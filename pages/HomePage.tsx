@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Row, Button, CloseButton, Alert, Accordion, Container, Form, FloatingLabel } from 'react-bootstrap';
+import { Col, Row, Button, CloseButton, Alert, Accordion, Container } from 'react-bootstrap';
 
 import { getPreviewImageById } from "./lib/storage";
-import { getItems, getItemsbyCategory, getItemsById, getItemsbySearch } from './lib/Items';
+import { getItems, getItemsbyCategory, getItemsbySearch } from './lib/Items';
 import { createProfileData, findUserDataById, getUserDataById, TraderyProfiles } from './lib/UserProfile';
 import { ItemCard } from './comp/ItemCard';
 import HomeNav from './HomeNav';
@@ -11,15 +11,13 @@ import { getUser } from './lib/appwrite';
 import { TraderyUser } from './lib/GetUser';
 import { useNavigate } from 'react-router-dom';
 import Tutorial from './comp/Tutorial';
-import { TraderyItems } from './lib/ItemsInterface';
-import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { auth, db } from "./lib/firebase";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "./lib/firebase";
 
 const HomePage = () => {
   const [items, setItems] = useState<Array<any>>([]);
   const [user, setUser] = useState<TraderyUser | undefined>();
-  const [userProfile, setUserProfile] = useState<TraderyProfiles | null>(null);
+  const [userProfile, setUserProfile] = useState<TraderyProfiles | undefined>();
   const [isHidden, setIsHidden] = useState(false);
   const [authors, setAuthors] = useState<{ [key: string]: TraderyProfiles }>({});
   const navigate = useNavigate();

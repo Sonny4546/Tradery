@@ -48,7 +48,6 @@ export async function checkUserNameDuplicate(username: string) {
         
         return documents.length > 0; // ✅ Check array length
     } catch (error) {
-        console.error("Error checking username:", error);
         return false;
     }
 }

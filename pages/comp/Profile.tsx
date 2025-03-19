@@ -14,6 +14,7 @@ export interface TraderyProfileImage {
 const Profile = () => {
     const [user, setUser] = useState<TraderyUser>();
     const [userdb, setUserdb] = useState<any>();
+    const [usernameUnused, setUsernameUsed] = useState<boolean>();
     const [isEditing, setIsEditing] = useState(false);
     const [image, setImage] = useState<TraderyProfileImage>();
     const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -94,10 +95,13 @@ const Profile = () => {
             let { userdb } = await getUserDataById(user.$id);
             let profileImageId = userdb?.profileImageId || ""; // ✅ Keep empty string if no existing image
 
-            const nameExists = await checkUserNameDuplicate(newDisplayName);
-            if (!nameExists) {
+            if (userdb.displayName != newDisplayName){
+                const nameExists = await checkUserNameDuplicate(newDisplayName);
+                setUsernameUsed(nameExists)
+            }
+            if (usernameUnused) {
                 await updateUserData(user.$id, {
-                    profileImageId,
+                    profileImageId: "",
                     profileSummary,
                     profileImageWidth: image?.width ?? userdb?.profileImageWidth ?? 100,
                     profileImageHeight: image?.height ?? userdb?.profileImageHeight ?? 100,
@@ -118,6 +122,17 @@ const Profile = () => {
                         profileImageId = file.$id;
                     }
                 }
+                await updateUserData(user.$id, {
+                    profileImageId,
+                    profileSummary,
+                    profileImageWidth: image?.width ?? userdb?.profileImageWidth ?? 100,
+                    profileImageHeight: image?.height ?? userdb?.profileImageHeight ?? 100,
+                    displayName: newDisplayName,
+                    defaultName: user.name,
+                    userId: user.$id,
+                    userEmail: user.email,
+                    firebaseId: userdb.firebaseId
+                });
             } else {
                 alert("The username already exists. Try another one.");
                 setLoading(false);
