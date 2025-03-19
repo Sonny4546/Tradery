@@ -67,7 +67,7 @@ const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
         try {
             await addUserToChat(targetUserId, currentUserId);
             console.log("Done");
-            navigate(`/Dashboard/Profile`);
+            navigate(`/Dashboard/Messages#view-messages`);
         } catch {
             console.log("Failed to add chat")
         }

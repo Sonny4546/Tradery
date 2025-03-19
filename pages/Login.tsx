@@ -90,7 +90,7 @@ By using this platform, you agree to abide by these Terms and Conditions and ens
         )}
         {!isChecked && (
           <OverlayTrigger
-          placement="right"
+          placement="bottom"
           delay={{ show: 0, hide: 400 }}
           overlay={renderTooltip}
           >
