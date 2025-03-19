@@ -19,7 +19,7 @@ import { doc, setDoc, getDoc } from "firebase/firestore";
 const HomePage = () => {
   const [items, setItems] = useState<Array<any>>([]);
   const [user, setUser] = useState<TraderyUser | undefined>();
-  const [userProfile, setUserProfile] = useState<any>();
+  const [userProfile, setUserProfile] = useState<TraderyProfiles | null>(null);
   const [isHidden, setIsHidden] = useState(false);
   const [authors, setAuthors] = useState<{ [key: string]: TraderyProfiles }>({});
   const navigate = useNavigate();
@@ -41,9 +41,9 @@ const HomePage = () => {
             if (!userData) return;
             setUser(userData);
 
-            const accountData = await getUserDataById(userData.$id);
-            if (!accountData) return;
-            setUserProfile(accountData);
+            const { userdb } = await getUserDataById(userData.$id);
+            if (!userdb) return;
+            setUserProfile(userdb);
 
             const userExists = await findUserDataById(userData.$id);
             console.log("User Exists? ", userExists);
@@ -72,7 +72,7 @@ const HomePage = () => {
                 });
                 console.log("New profile created.");
             }
-            if (userProfile.firebaseId) {
+            if (userProfile?.firebaseId) {
               // 🔹 If user exists, log in with Firebase
               console.log("User exists, logging in...");
               await signInWithEmailAndPassword(auth, userProfile.userEmail, userProfile.userId);
