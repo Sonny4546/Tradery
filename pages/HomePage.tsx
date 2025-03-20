@@ -36,6 +36,25 @@ const HomePage = () => {
             if (!userData) return;
             setUser(userData);
 
+            const userExists = await findUserDataById(userData.$id);
+            console.log("User Exists? ", userExists);
+
+            if (!userExists) {
+              setShow(true);
+              await createProfileData(userData.$id, {
+                  userId: userData.$id,
+                  profileImageId: "",
+                  profileSummary: null,
+                  profileImageWidth: 100,
+                  profileImageHeight: 100,
+                  displayName: userData.name,
+                  defaultName: userData.name,
+                  userEmail: userData.email,
+                  firebaseId: "",
+              });
+              console.log("New profile created.");
+            }
+
             const { userdb } = await getUserDataById(userData.$id);
             if (!userdb) return;
             setUserProfile(userdb);
@@ -43,19 +62,6 @@ const HomePage = () => {
             
             const { items } = await getItems();
             setItems(items);
-
-            if (userdb.firebaseId) {
-              // 🔹 If user exists, log in with Firebase
-              console.log("User exists, logging in...");
-              await signInWithEmailAndPassword(auth, userdb.userEmail, userdb.userId);
-              console.log("Firebase Account successfully logged in!");
-            } else {
-              console.log("No Firebase Account found! Enter Messages from the User Dashboard first!");
-            }
-            console.log(userProfile);
-
-            const userExists = await findUserDataById(userData.$id);
-            console.log("User Exists? ", userExists);
 
             const authorData: { [key: string]: TraderyProfiles } = {};
             await Promise.all(
@@ -67,20 +73,16 @@ const HomePage = () => {
                 })
             );
             setAuthors(authorData);
-            if (!userExists) {
-                setShow(true);
-                await createProfileData(userData.$id, {
-                    userId: userData.$id,
-                    profileImageId: "",
-                    profileSummary: null,
-                    profileImageWidth: 100,
-                    profileImageHeight: 100,
-                    displayName: userData.name,
-                    defaultName: userData.name,
-                    userEmail: userData.email,
-                });
-                console.log("New profile created.");
+            
+            if (userdb.firebaseId) {
+              // 🔹 If user exists, log in with Firebase
+              console.log("User exists, logging in...");
+              await signInWithEmailAndPassword(auth, userdb.userEmail, userdb.userId);
+              console.log("Firebase Account successfully logged in!");
+            } else {
+              console.log("No Firebase Account found! Enter Messages from the User Dashboard first!");
             }
+            console.log(userProfile);
         } catch (error) {
             console.error("Error fetching items:", error);
         }
