@@ -75,7 +75,7 @@ const HomePage = () => {
                 })
             );
             setAuthors(authorData);
-            if (user?.$id) {
+            if (userData.$id) {
               try {
                   if (!userdb || !userdb.userEmail || !userdb.userId) {
                       toast.error("Invalid user data from Appwrite.");

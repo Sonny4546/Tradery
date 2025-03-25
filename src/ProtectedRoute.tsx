@@ -9,21 +9,27 @@ const ADMIN_EMAIL = "bagus.anselliam@ue.edu.ph"; // Change this if needed
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    (async function fetchItems() {
-      // ✅ Ensure userData is available before making API calls
-      const userData = await getUser();
-      if (!userData) return;
-      if (userData.email === ADMIN_EMAIL) {
-        setIsAdmin(true);
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const userData = await getUser();
+        if (userData && userData.email === ADMIN_EMAIL) {
+          setIsAdmin(true);
+        } else {
+          setIsAdmin(false);
+        }
       } else {
         setIsAdmin(false);
       }
-    })();
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
-  if (isAdmin === null) return <p>Loading...</p>; // Show loading state while checking
+  if (loading) return <p>Loading...</p>; // Show loading state while checking
 
   return isAdmin ? children : <Navigate to="/" />;
 };
