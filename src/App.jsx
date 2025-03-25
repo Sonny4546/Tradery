@@ -139,8 +139,6 @@ import Detail from "./components/detail/Detail";
 import List from "./components/list/List";
 import Login from "./components/login/Login";
 import Notification from "./components/notification/Notification";
-import { auth } from "./lib/firebase";
-import { onAuthStateChanged } from "firebase/auth";
 import { useUserStore } from "./lib/userStore";
 import { useChatStore } from "./lib/chatStore";
 import { Container, Row, Col, Modal, CloseButton, Button } from "react-bootstrap";
