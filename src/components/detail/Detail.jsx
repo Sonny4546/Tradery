@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { auth, db } from "../../lib/firebase";
+import { auth, db } from "../../../pages/lib/firebase";
 import { useChatStore } from "../../lib/chatStore";
 import { useUserStore } from "../../lib/userStore";
 import { arrayRemove, arrayUnion, doc, updateDoc, serverTimestamp, setDoc, getDoc } from "firebase/firestore";

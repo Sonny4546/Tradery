@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth, db } from "../../lib/firebase";
+import { auth, db } from "../../../pages/lib/firebase";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
 import "./admin.css";
 

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { db } from "../../../../lib/firebase"
+import { db } from "../../../../../pages/lib/firebase"
 import "./addUser.css"
 import { 
   arrayUnion, 

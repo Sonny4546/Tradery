@@ -1,7 +1,7 @@
 // import { useEffect, useState } from "react";
 // import { useParams } from "react-router-dom";
 // import { signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-// import { auth, db } from "../../lib/firebase";
+// import { auth, db } from "../../../pages/lib/firebase";
 // import { doc, setDoc, getDoc } from "firebase/firestore";
 // import { findUserDataById, updateUserData } from "../../lib/appwrite";
 // import { TraderyProfiles } from "../../lib/appwrite";

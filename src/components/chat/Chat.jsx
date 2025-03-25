@@ -2,7 +2,7 @@
 // import EmojiPicker from "emoji-picker-react"
 // import { arrayUnion, doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore"
 // import { useState, useRef, useEffect } from 'react'
-// import { db } from "../../lib/firebase"
+// import { db } from "../../../pages/lib/firebase"
 // import { useChatStore } from "../../lib/chatStore"
 // import { useUserStore } from "../../lib/userStore"
 // import React from "react";
@@ -170,7 +170,7 @@ import "./chat.css";
 import EmojiPicker from "emoji-picker-react";
 import { arrayUnion, doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { useState, useRef, useEffect } from 'react';
-import { db } from "../../lib/firebase";
+import { db } from "../../../pages/lib/firebase";
 import { useChatStore } from "../../lib/chatStore";
 import { useUserStore } from "../../lib/userStore";
 import { Button } from "react-bootstrap";
