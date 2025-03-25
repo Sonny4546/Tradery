@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import styles from "./chatList.module.css"
 import AddUser from "./addUser/addUser";
-import { useUserStore } from "../../../lib/userStore";
+import { useUserStore } from "../../../../pages/lib/userStore";
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../../../../pages/lib/firebase";
 import { useChatStore } from "../../../lib/chatStore";
@@ -12,7 +12,7 @@ const ChatList = () => {
     const [addMode, setAddMode]= useState(false);
     const [input, setInput]= useState("");
 
-    const {currentUser} = useUserStore()
+    const { currentUser } = useUserStore() as  { currentUser: { id: string } };
     const { changeChat} = useChatStore()
     
     useEffect(()=>{

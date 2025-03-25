@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { auth, db } from "../../../pages/lib/firebase";
 import { useChatStore } from "../../lib/chatStore";
-import { useUserStore } from "../../lib/userStore";
+import { useUserStore } from "../../../pages/lib/userStore";
 import { arrayRemove, arrayUnion, doc, updateDoc, serverTimestamp, setDoc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import styles from "./detail.module.css";
@@ -9,7 +9,7 @@ import React from "react";
 
 const Detail = () => { 
   const { chatId, user, isCurrentUserBlocked, isReceiverBlocked, changeBlock } = useChatStore();
-  const { currentUser } = useUserStore();
+  const { currentUser }  = useUserStore() as { currentUser: { id: string; username: string; email: string } };
   const [showReport, setShowReport] = useState(false);
   const [reportReason, setReportReason] = useState<any>("");
   const navigate = useNavigate();

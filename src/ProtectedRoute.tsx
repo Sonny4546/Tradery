@@ -31,7 +31,7 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 
   if (loading) return <p>Loading...</p>; // Show loading state while checking
 
-  return isAdmin ? children : <Navigate to="/" />;
+  return isAdmin ? children : null; // Show children if admin, otherwise show nothing
 };
 
 export default ProtectedRoute;

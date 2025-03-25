@@ -138,7 +138,7 @@ import Chat from "./components/chat/Chat";
 import Detail from "./components/detail/Detail";
 import List from "./components/list/List";
 import Notification from "./components/notification/Notification";
-import { useUserStore } from "./lib/userStore";
+import { useUserStore } from "../pages/lib/userStore";
 import { useChatStore } from "./lib/chatStore";
 import { Container, Row, Col, Modal, CloseButton, Button } from "react-bootstrap";
 import styles from './index.module.css';

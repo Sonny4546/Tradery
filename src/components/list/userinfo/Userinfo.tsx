@@ -1,10 +1,10 @@
 import React from "react"
-import { useUserStore } from "../../../lib/userStore"
+import { useUserStore } from "../../../../pages/lib/userStore"
 import styles from "./userInfo.module.css"
 
 const Userinfo = () => {
 
-  const {currentUser} = useUserStore()
+  const {currentUser} = useUserStore() as {currentUser: {username: string}}
   return (
     <div className={styles.userInfo}>
       <div className={styles.user}>

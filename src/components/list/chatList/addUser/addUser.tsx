@@ -13,7 +13,7 @@ import {
   updateDoc, 
   where 
 } from "firebase/firestore"
-import { useUserStore } from "../../../../lib/userStore"
+import { useUserStore } from "../../../../../pages/lib/userStore"
 import React from "react"
 
 const AddUser = () => {
@@ -22,7 +22,7 @@ const AddUser = () => {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<any>(null) 
 
-  const { currentUser } = useUserStore()
+  const { currentUser } = useUserStore() as { currentUser: { id: string; username: string; email: string } }
 
   const handleSearch = async (e) => {
     e.preventDefault()

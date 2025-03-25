@@ -4,7 +4,7 @@ import { arrayUnion, doc, getDoc, onSnapshot, updateDoc } from "firebase/firesto
 import { useState, useRef, useEffect } from 'react';
 import { db } from "../../../pages/lib/firebase";
 import { useChatStore } from "../../lib/chatStore";
-import { useUserStore } from "../../lib/userStore";
+import { useUserStore } from "../../../pages/lib/userStore";
 import { Button } from "react-bootstrap";
 import React from "react";
 
@@ -14,7 +14,7 @@ const Chat = ({ openDetail, goBackToChatList }) => {
     const [text, setText] = useState<any>("");
     const [cooldownActive, setCooldownActive] = useState(false);
 
-    const { currentUser } = useUserStore();
+    const { currentUser } = useUserStore() as { currentUser: { id: string } };
     const { chatId, user, isCurrentUserBlocked, isReceiverBlocked } = useChatStore();
     const endRef = useRef<any>(null);
     const emojiRef = useRef<any>(null);
