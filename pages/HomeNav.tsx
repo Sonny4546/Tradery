@@ -38,6 +38,7 @@ const HomeNav = ({ children }: HomeNavProps) => {
 
   async function logoutHandle() {
     await logOut();
+    await auth.signOut();
     navigate("/"); // Redirect to login after logout
   }
 

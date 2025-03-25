@@ -17,6 +17,8 @@ import Requests from "../pages/comp/Requests";
 import ItemContent from "../pages/comp/[itemId]"
 import UserContent from "../pages/comp/[profileId]"
 import AdminPage from "../pages/Admin"
+import ProtectedRoute from "./ProtectedRoute";
+import AdminChat from "./components/admin/Admin";
 import { AuthProvider, useAuth } from "../pages/lib/AuthHook";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import { RouterProvider, createHashRouter } from "react-router-dom";
@@ -29,6 +31,15 @@ const main = createHashRouter([
   {
     path: "/Admin", element: <AdminPage />,
     errorElement: <ErrorPage />
+  },
+  {
+    path: "/Admin-Chat",
+    element: (
+      <ProtectedRoute>
+        <AdminChat />
+      </ProtectedRoute>
+    ),
+    errorElement: <ErrorPage />,
   },
   {
     path: "/Home", element: <HomePage />,

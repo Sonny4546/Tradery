@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchUserData } from "../lib/User";
+import App from "../../src/App.jsx";
 
 const Messages = () => {
     const [userId, setUserId] = useState<string>(""); // Explicit type
@@ -22,12 +23,7 @@ const Messages = () => {
 
     return (
         <div className="messages-container">
-            <iframe 
-                width="100%"
-                height="100%"
-                src={srclink}
-                title="TraderyMessenger"
-            />
+            <App />
         </div>
     );
 };
