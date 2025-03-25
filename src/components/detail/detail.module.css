@@ -2,7 +2,7 @@
     flex: 1;
     flex-direction: column;
     display: flex;
-
+}
 
 .user {
     padding: 30px 20px;
@@ -168,5 +168,5 @@ button.deleteChat:hover {
       max-width: 350px;
     }
   }
-}
+
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchUserData } from "../lib/User";
-import App from "../../src/App.jsx";
+import App from "../../src/App.js";
 
 const Messages = () => {
     const [userId, setUserId] = useState<string>(""); // Explicit type

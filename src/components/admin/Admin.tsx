@@ -2,14 +2,15 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../../../pages/lib/firebase";
 import { collection, getDocs, doc, deleteDoc } from "firebase/firestore";
-import "./admin.css";
+import styles from "./admin.module.css";
+import React from "react";
 
 const Admin = () => {
-    const [users, setUsers] = useState([]);
-    const [reports, setReports] = useState([]);
-    const [filteredReports, setFilteredReports] = useState([]);
+    const [users, setUsers] = useState<any>([]);
+    const [reports, setReports] = useState<any>([]);
+    const [filteredReports, setFilteredReports] = useState<any>([]);
     const [loading, setLoading] = useState(true);
-    const [selectedReport, setSelectedReport] = useState(null);
+    const [selectedReport, setSelectedReport] = useState<any>(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -43,14 +44,14 @@ const Admin = () => {
     };
 
     return (
-        <div className="admin-container">
+        <div className={styles.adminContainer}>
             <h1>Admin Panel</h1>
             <p>Welcome, Admin! Here you can manage users and view reports.</p>
 
             {/* Buttons */}
-            <div className="admin-buttons">
-                <button className="back-button" onClick={() => navigate("/TraderyMessenger")}>Back to Chat</button>
-                <button className="logout" onClick={() => auth.signOut()}>Logout</button>
+            <div className={styles.adminButtons}>
+                <button className={styles.backButton} onClick={() => navigate("/TraderyMessenger")}>Back to Chat</button>
+                <button className={styles.logout} onClick={() => auth.signOut()}>Logout</button>
             </div>
 
             {loading ? (
@@ -58,11 +59,11 @@ const Admin = () => {
             ) : (
                 <>
                     {/* User List */}
-                    <div className="user-list">
+                    <div className={styles.userList}>
                         <h2>Registered Users</h2>
                         <ul>
                             {users.map(user => (
-                                <li key={user.id} className="user-item">
+                                <li key={user.id} className={styles.userItem}>
                                     <strong>{user.username}</strong> - {user.email}
                                     <button onClick={() => setFilteredReports(reports.filter(r => r.reportedUserId === user.id))}>
                                         View Reports
@@ -70,13 +71,13 @@ const Admin = () => {
                                 </li>
                             ))}
                         </ul>
-                        <button className="show-all-reports" onClick={() => setFilteredReports(reports)}>
+                        <button className={styles.showAllReports} onClick={() => setFilteredReports(reports)}>
                             Show All Reported Users
                         </button>
                     </div>
 
                     {/* Reports List */}
-                    <div className="reports-list">
+                    <div className={styles.reportsList}>
                         <h2>Reported Users</h2>
                         {filteredReports.length === 0 ? (
                             <p>No reports available.</p>
@@ -86,7 +87,7 @@ const Admin = () => {
                                     const timestamp = report.timestamp?.seconds ? 
                                         new Date(report.timestamp.seconds * 1000).toLocaleString() : "Unknown";
                                     return (
-                                        <li key={report.id} className="report-item">
+                                        <li key={report.id} className={styles.reportItem}>
                                             <p><strong>Reporter:</strong> {report.reporterUsername}</p>
                                             <p><strong>Reporter ID:</strong> {report.reporterId}</p>
                                             <p><strong>Reported User:</strong> {report.reportedUsername}</p>
@@ -94,7 +95,7 @@ const Admin = () => {
                                             <p><strong>Reason:</strong> {report.reason.length > 10 ? (
                                                 <>
                                                     {report.reason.substring(0, 10)}...
-                                                    <button className="read-more" onClick={() => setSelectedReport(report)}>
+                                                    <button className={styles.readMore} onClick={() => setSelectedReport(report)}>
                                                         Read More
                                                     </button>
                                                 </>
@@ -111,8 +112,8 @@ const Admin = () => {
 
                     {/* Modal for full report */}
                     {selectedReport && (
-                        <div className="modal">
-                            <div className="modal-content">
+                        <div className={styles.modal}>
+                            <div className={styles.modalContent}>
                                 <h2>Full Report</h2>
                                 <p><strong>Reporter:</strong> {selectedReport.reporterUsername}</p>
                                 <p><strong>Reporter ID:</strong> {selectedReport.reporterId}</p>
@@ -120,7 +121,7 @@ const Admin = () => {
                                 <p><strong>Reported ID:</strong> {selectedReport.reportedUserId}</p>
                                 <p><strong>Reason:</strong> {selectedReport.reason}</p>
                                 <p><strong>Timestamp:</strong> {new Date(selectedReport.timestamp?.seconds * 1000).toLocaleString()}</p>
-                                <button className="close-modal" onClick={() => setSelectedReport(null)}>Close</button>
+                                <button className={styles.closeModal} onClick={() => setSelectedReport(null)}>Close</button>
                             </div>
                         </div>
                     )}

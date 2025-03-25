@@ -4,13 +4,14 @@ import { useChatStore } from "../../lib/chatStore";
 import { useUserStore } from "../../lib/userStore";
 import { arrayRemove, arrayUnion, doc, updateDoc, serverTimestamp, setDoc, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import "./detail.css";
+import styles from "./detail.module.css";
+import React from "react";
 
 const Detail = () => { 
   const { chatId, user, isCurrentUserBlocked, isReceiverBlocked, changeBlock } = useChatStore();
   const { currentUser } = useUserStore();
   const [showReport, setShowReport] = useState(false);
-  const [reportReason, setReportReason] = useState("");
+  const [reportReason, setReportReason] = useState<any>("");
   const navigate = useNavigate();
 
   const handleBlock = async () => {
@@ -102,16 +103,16 @@ const Detail = () => {
   };
 
   return (
-    <div className='detail'>
+    <div className={styles.detail}>
       {currentUser?.email === "bagus.anselliam@ue.edu.ph" && (
-        <button className="adminButton" onClick={() => navigate("/admin")}>
+        <button className={styles.adminButton} onClick={() => navigate("/admin")}>
           Admin Panel
         </button>
       )}
-      <div className="user">
+      <div className={styles.user}>
         <h2>{user?.username}</h2>
       </div>
-      <div className="info">
+      <div className={styles.info}>
         <button onClick={handleBlock}>
           {isCurrentUserBlocked 
             ? "You are Blocked!" 
@@ -119,14 +120,14 @@ const Detail = () => {
             ? "Unblock User" 
             : "Block User"}
         </button>
-        <button className="report" onClick={() => setShowReport(true)}>Report</button>
-        <button className="deleteChat" onClick={handleDeleteChat}>Delete Chat</button>
+        <button className={styles.report} onClick={() => setShowReport(true)}>Report</button>
+        <button className={styles.deleteChat} onClick={handleDeleteChat}>Delete Chat</button>
       </div>
 
       {showReport && (
-        <div className="reportPopup">
-          <div className="popupContent">
-            <button className="closeButton" onClick={() => setShowReport(false)}>X</button>
+        <div className={styles.reportPopup}>
+          <div className={styles.popupContent}>
+            <button className={styles.closeButton} onClick={() => setShowReport(false)}>X</button>
             <h2>Report {user?.username}</h2>
             <form onSubmit={handleReportSubmit}>
               <textarea 

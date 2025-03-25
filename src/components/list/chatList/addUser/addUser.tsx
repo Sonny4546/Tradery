@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { db } from "../../../../../pages/lib/firebase"
-import "./addUser.css"
+import styles from "./addUser.module.css"
 import { 
   arrayUnion, 
   collection, 
@@ -14,12 +14,13 @@ import {
   where 
 } from "firebase/firestore"
 import { useUserStore } from "../../../../lib/userStore"
+import React from "react"
 
 const AddUser = () => {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState<any>(null)
   const [added, setAdded] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState(null) 
+  const [error, setError] = useState<any>(null) 
 
   const { currentUser } = useUserStore()
 
@@ -136,15 +137,15 @@ const AddUser = () => {
   
 
   return (
-    <div className="addUser">
+    <div className={styles.addUser}>
       <form onSubmit={handleSearch}>
         <input type="text" placeholder="Username" name="username" />
         <button type="submit">Search</button>
       </form>
 
       {user && (
-        <div className="user">
-          <div className="detail">
+        <div className={styles.user}>
+          <div className={styles.detail}>
             <span>{user.username}</span>
           </div>
           {!added && !error && (

@@ -1,4 +1,4 @@
-.admin-container {
+.adminContainer {
     padding: 20px;
     max-width: 800px;
     margin: auto;
@@ -16,17 +16,17 @@ button {
 }
 
 /* User List */
-.user-list {
+.userList {
     margin-top: 20px;
     text-align: left;
 }
 
-.user-list ul {
+.userList ul {
     list-style: none;
     padding: 0;
 }
 
-.user-list li {
+.userListItem {
     background: #535252;
     padding: 10px;
     margin: 5px 0;
@@ -37,7 +37,7 @@ button {
     color: white;
 }
 
-.view-reports {
+.viewReports {
     margin-left: auto;
     background: #f8f9fa;
     border: 1px solid #ccc;
@@ -46,12 +46,12 @@ button {
     cursor: pointer;
 }
 
-.view-reports:hover {
+.viewReports:hover {
     background: #e2e6ea;
 }
 
 /* Reports List */
-.reports-list {
+.reportsList {
     width: 100%;
     display: block; 
     padding: 20px;
@@ -59,7 +59,7 @@ button {
     text-align: center;
 }
 
-.reports-list ul {
+.reportsList ul {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -68,7 +68,7 @@ button {
     list-style: none;
 }
 
-.report-item {
+.reportItem {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -86,7 +86,7 @@ button {
     margin-top: 10px; 
 }
 
-.report-item button {
+.reportItem button {
     margin-top: 10px;
     display: block;
     background: #dc3545;
@@ -98,12 +98,12 @@ button {
     margin: 10px 0;
 }
 
-.report-item button:hover {
+.reportItem button:hover {
     background: #a71d2a;
 }
 
 /* Admin Buttons */
-.admin-buttons {
+.adminButtons {
     display: flex;
     justify-content: center;
     flex: 1;
@@ -112,7 +112,7 @@ button {
     min-width: 120px;
 }
 
-.back-button, .logout {
+.backButton, .logout {
     padding: 10px 15px;
     font-size: 16px;
     border: none;
@@ -121,12 +121,12 @@ button {
     transition: background 0.3s ease;
 }
 
-.back-button {
+.backButton {
     background-color: #007bff;
     color: white;
 }
 
-.back-button:hover {
+.backButton:hover {
     background-color: #0056b3;
 }
 
@@ -141,32 +141,32 @@ button {
 
 /* Responsive Design */
 @media (max-width: 600px) {
-    .user-list li {
+    .userListItem {
         flex-direction: column;
         text-align: center;
     }
 
-    .view-reports {
+    .viewReports {
         margin-top: 5px;
         width: 100%;
         text-align: center;
     }
     
-    .reports-list ul {
+    .reportsList ul {
         display: flex;
         flex-wrap: nowrap;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
     }
 
-    .report-item {
+    .reportItem {
         flex: 0 0 auto;
         scroll-snap-align: start;
     }
 }
 
 /* Read More Button */
-.read-more {
+.readMore {
     background: none;
     border: none;
     color: blue;
@@ -177,7 +177,7 @@ button {
     margin-top: 5px;
 }
 
-.read-more:hover {
+.readMore:hover {
     color: darkblue;
 }
 
@@ -194,7 +194,7 @@ button {
     justify-content: center;
 }
 
-.modal-content {
+.modalContent {
     background: #f19d9d;
     padding: 20px;
     border-radius: 5px;
@@ -207,13 +207,13 @@ button {
 }
 
 /* Ensure text wraps properly */
-.modal-content p {
+.modalContent p {
     word-wrap: break-word;
     overflow-wrap: break-word;
     white-space: normal;
 }
 
-.close-modal {
+.closeModal {
     background: #dc3545;
     color: white;
     padding: 10px;
@@ -223,10 +223,11 @@ button {
     margin-top: 10px;
 }
 
-.close-modal:hover {
+.closeModal:hover {
     background: #a71d2a;
 }
-.show-all-reports {
+
+.showAllReports {
     margin-top: 10px;
     padding: 8px 12px;
     font-size: 14px;
@@ -238,6 +239,6 @@ button {
     transition: background 0.3s ease;
 }
 
-.show-all-reports:hover {
+.showAllReports:hover {
     background: #0056b3;
 }

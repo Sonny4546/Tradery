@@ -137,12 +137,12 @@ import { useEffect, useState } from "react";
 import Chat from "./components/chat/Chat";
 import Detail from "./components/detail/Detail";
 import List from "./components/list/List";
-import Login from "./components/login/Login";
 import Notification from "./components/notification/Notification";
 import { useUserStore } from "./lib/userStore";
 import { useChatStore } from "./lib/chatStore";
 import { Container, Row, Col, Modal, CloseButton, Button } from "react-bootstrap";
-import './index.css'
+import styles from './index.module.css';
+import React from "react";
 
 function App() {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore();
@@ -153,19 +153,19 @@ function App() {
   if (isLoading) return <div className="loading">Loading...</div>;
 
   return (
-    <Container fluid className="app-container">
-            <Row className="app-content">
+    <Container fluid className={styles.appContainer}>
+            <Row className={styles.appContent}>
                 <>
                   {/* Chat List - Hidden on Mobile if Chat is Open */}
                   {showChatList && (
-                    <Col xs={12} md={4} className="list-container">
-                      <List onChatSelect={() => setShowChatList(false)} />
+                    <Col xs={12} md={4} className={styles.listContainer}>
+                      <List />
                     </Col>
                   )}
 
                   {/* Chat Section - Full Width on Mobile when Open */}
                   {chatId && (
-                    <Col xs={12} md={8} className="chat-container">
+                    <Col xs={12} md={8} className={styles.chatContainer}>
                       <Chat
                         openDetail={() => setShowDetail(true)}
                         goBackToChatList={() => setShowChatList(true)}

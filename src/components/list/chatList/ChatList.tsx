@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react"
-import "./chatList.css"
+import styles from "./chatList.module.css"
 import AddUser from "./addUser/addUser";
 import { useUserStore } from "../../../lib/userStore";
 import { doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { db } from "../../../../pages/lib/firebase";
 import { useChatStore } from "../../../lib/chatStore";
+import React from "react";
 
 const ChatList = () => {
-    const [chats, setChats]= useState([]);
+    const [chats, setChats]= useState<any>([]);
     const [addMode, setAddMode]= useState(false);
     const [input, setInput]= useState("");
 
@@ -19,7 +20,7 @@ const ChatList = () => {
         if (!currentUser?.id) return
 
         const unSub = onSnapshot(doc(db, "userchats", currentUser.id), async (res) =>{
-            const items = res.data().chats
+            const items = res.data()?.chats
 
             const promises = items.map( async(item) =>{
                 const userDocRef = doc(db, "users", item.receiverId)
@@ -68,28 +69,28 @@ const ChatList = () => {
     )
 
   return (
-    <div className='chatList'>
-        <div className="search">
-            <div className="searchBar">
+    <div className={styles.chatList}>
+        <div className={styles.search}>
+            <div className={styles.searchBar}>
                 <img src="./search.png" alt="" />
                 <input type="text" placeholder="Search" onChange={(e)=>setInput(e.target.value)}/>
             </div>
             <img src={addMode ? "./minus.png" : "./plus.png"} 
             alt="" 
-            className="add" 
+            className={styles.add} 
             onClick={() => setAddMode((prev) => !prev)}
             />
         </div>
         {filteredChats.map((chat) => (
         <div 
-            className="item" 
+            className={styles.item} 
             key={chat.chatId} 
             onClick={()=>handleSelect(chat)}
             style={{
                 backgroundColor: chat?.isSeen ? "transparent" : "#5183fe",
             }}
         >
-            <div className="texts">
+            <div className={styles.texts}>
                 <span>{chat.user.blocked.includes(currentUser.id) 
                 ? "User" 
                 : chat.user.username}</span>
