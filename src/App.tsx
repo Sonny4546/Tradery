@@ -162,6 +162,7 @@ function App() {
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, (user) => {
       fetchUserInfo(user?.uid);
+      console.log(user?.uid, user?.email);
       setIsAdmin(user?.email === "bagus.anselliam@ue.edu.ph");
     });
 
