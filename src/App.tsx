@@ -21,8 +21,9 @@ function App() {
   const [showDetail, setShowDetail] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
   const [showChatList, setShowChatList] = useState(true);
+  console.log(currentUser, isLoading, fetchUserInfo);
 
-  if (isLoading) return <div className="loading">Loading...</div>;
+  if (isLoading) return <div className={styles.loading}>Loading...</div>;
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, async (user) => {
