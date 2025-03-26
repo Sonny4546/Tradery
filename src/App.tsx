@@ -154,8 +154,6 @@ function App() {
   const [showDetail, setShowDetail] = useState(false);
   const [showChatList, setShowChatList] = useState(true);
 
-  if (isLoading) return <div className="loading">Loading...</div>;
-
   return (
     <Container fluid className={styles.appContainer}>
             <Row className={styles.appContent}>
