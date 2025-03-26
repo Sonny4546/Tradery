@@ -143,6 +143,8 @@ import { useChatStore } from "./lib/chatStore";
 import { Container, Row, Col, Modal, CloseButton, Button } from "react-bootstrap";
 import styles from './index.module.css';
 import React from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../pages/lib/firebase";
 
 function App() {
   const { currentUser, isLoading, fetchUserInfo } = useUserStore() as {
@@ -152,7 +154,19 @@ function App() {
   };
   const { chatId, changeChat } = useChatStore();
   const [showDetail, setShowDetail] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [showChatList, setShowChatList] = useState(true);
+
+  if (isLoading) return <div className="loading">Loading...</div>;
+
+  useEffect(() => {
+    const unSub = onAuthStateChanged(auth, (user) => {
+      fetchUserInfo(user?.uid);
+      setIsAdmin(user?.email === "bagus.anselliam@ue.edu.ph");
+    });
+
+    return () => unSub();
+  }, [fetchUserInfo]);
 
   return (
     <Container fluid className={styles.appContainer}>
