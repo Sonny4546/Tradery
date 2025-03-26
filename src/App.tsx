@@ -145,7 +145,11 @@ import styles from './index.module.css';
 import React from "react";
 
 function App() {
-  const { currentUser, isLoading, fetchUserInfo } = useUserStore();
+  const { currentUser, isLoading, fetchUserInfo } = useUserStore() as {
+    currentUser: any;
+    isLoading: boolean;
+    fetchUserInfo: (uid: string | undefined) => void;
+  };
   const { chatId, changeChat } = useChatStore();
   const [showDetail, setShowDetail] = useState(false);
   const [showChatList, setShowChatList] = useState(true);
