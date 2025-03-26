@@ -1,5 +1,4 @@
 import styles from "./chat.module.css";
-import EmojiPicker from "emoji-picker-react";
 import { arrayUnion, doc, getDoc, onSnapshot, updateDoc } from "firebase/firestore";
 import { useState, useRef, useEffect } from 'react';
 import { db } from "../../../pages/lib/firebase";
@@ -104,18 +103,6 @@ const Chat = ({ openDetail, goBackToChatList }) => {
                     onKeyDown={(e) => e.key === "Enter" && handleSend()}
                     className={cooldownActive ? styles.cooldown : ""}
                 />
-                <div className={styles.emoji} ref={emojiRef}>
-                    <img 
-                        src="./emoji.png" 
-                        alt="emoji"
-                        onClick={() => setOpen((prev) => !prev)}
-                    />
-                    {open && (
-                        <div className={styles.picker}>
-                            <EmojiPicker open={open} onEmojiClick={handleEmoji} />
-                        </div>
-                    )}
-                </div>
                 <button className={`${styles.sendButton} d-none d-md-block`} onClick={handleSend}>
                     Send
                 </button>
