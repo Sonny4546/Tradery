@@ -19,18 +19,14 @@ function App() {
   };
   const { chatId, changeChat } = useChatStore();
   const [showDetail, setShowDetail] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [showChatList, setShowChatList] = useState(true);
   console.log(currentUser, isLoading, fetchUserInfo);
-
-  if (isLoading) return <div className={styles.loading}>Loading...</div>;
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, async (user) => {
       if (user) {
         fetchUserInfo(user.uid);
         console.log(user.uid, user.email);
-        setIsAdmin(user.email === "bagus.anselliam@ue.edu.ph");
       } else {
         console.log("No user is signed in.");
       }
@@ -38,6 +34,8 @@ function App() {
 
     return () => unSub();
   }, [fetchUserInfo]);
+
+  if (isLoading) return <div className={styles.loading}>Loading...</div>;
 
   return (
     <Container fluid className={styles.appContainer}>

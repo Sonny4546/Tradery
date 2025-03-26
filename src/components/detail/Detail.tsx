@@ -105,7 +105,7 @@ const Detail = () => {
   return (
     <div className={styles.detail}>
       {currentUser?.email === "bagus.anselliam@ue.edu.ph" && (
-        <button className={styles.adminButton} onClick={() => navigate("/admin")}>
+        <button className={styles.adminButton} onClick={() => navigate("/Admin-Chat")}>
           Admin Panel
         </button>
       )}
