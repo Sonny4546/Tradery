@@ -25,10 +25,14 @@ function App() {
   if (isLoading) return <div className="loading">Loading...</div>;
 
   useEffect(() => {
-    const unSub = onAuthStateChanged(auth, (user) => {
-      fetchUserInfo(user?.uid);
-      console.log(user?.uid, user?.email);
-      setIsAdmin(user?.email === "bagus.anselliam@ue.edu.ph");
+    const unSub = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        fetchUserInfo(user.uid);
+        console.log(user.uid, user.email);
+        setIsAdmin(user.email === "bagus.anselliam@ue.edu.ph");
+      } else {
+        console.log("No user is signed in.");
+      }
     });
 
     return () => unSub();
