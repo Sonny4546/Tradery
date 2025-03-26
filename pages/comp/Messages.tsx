@@ -11,7 +11,10 @@ const Messages = () => {
                 const user = await fetchUserData();
                 console.log("Fetched User Data:", user); // ✅ Debugging
                 if (user && typeof user.$id === "string") {
+                    console.log("Setting userId:", user.$id);
                     setUserId(user.$id);
+                } else {
+                    console.log("Invalid user data:", user);
                 }
             } catch (error) {
                 console.error("Error fetching user data:", error);
@@ -19,7 +22,9 @@ const Messages = () => {
         })();
     }, []);
 
-    const srclink = userId ? `https://lynxlenior.github.io/TraderyMessenger/#/${userId}` : "";
+    useEffect(() => {
+        console.log("Current userId state:", userId);
+    }, [userId]);
 
     return (
         <div className="messages-container">
