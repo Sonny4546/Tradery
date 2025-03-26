@@ -159,6 +159,7 @@ function App() {
   return (
     <Container fluid className={styles.appContainer}>
             <Row className={styles.appContent}>
+            {currentUser && (
                 <>
                   {/* Chat List - Hidden on Mobile if Chat is Open */}
                   {showChatList && (
@@ -187,6 +188,7 @@ function App() {
                     </Modal.Body>
                   </Modal>
                 </>
+            )}
               <Notification />
             </Row>
     </Container>
