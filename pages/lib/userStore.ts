@@ -2,7 +2,13 @@ import { doc, getDoc } from "firebase/firestore";
 import { create } from "zustand";
 import { db } from "./firebase";
 
-export const useUserStore = create((set) => ({
+interface UserStore {
+    currentUser: any; // Replace `any` with the actual user type if known
+    isLoading: boolean;
+    fetchUserInfo: (uid: string) => Promise<void>;
+  }
+
+export const useUserStore = create<UserStore>((set) => ({
     currentUser: null,
     isLoading: true,
     fetchUserInfo: async (uid: string) => {
