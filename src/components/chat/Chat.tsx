@@ -75,7 +75,7 @@ const Chat = ({ openDetail, goBackToChatList }) => {
                     <Button variant="link" onClick={openDetail} className={styles.userButton}>
                         {user?.username}
                     </Button>
-                    <Button variant="secondary" onClick={goBackToChatList} className={`${styles['back-button']} d-md-none`}>
+                    <Button variant="secondary" onClick={goBackToChatList} className={`${styles.backButton} d-md-none`}>
                         Back
                     </Button>
                 </div>

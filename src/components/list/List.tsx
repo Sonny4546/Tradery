@@ -3,11 +3,15 @@ import ChatList from "./chatList/ChatList"
 import styles from "./list.module.css"
 import Userinfo from "./userinfo/Userinfo"
 
-const List = () => {
+const List = ({onChatSelect}) => {
   return (
     <div className={styles.list}>
-      <Userinfo />
-      <ChatList />
+      {onChatSelect && (
+        <>
+        <Userinfo />
+        <ChatList />
+        </>
+      )}
     </div>
   );
 };

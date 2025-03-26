@@ -20,13 +20,11 @@ function App() {
   const { chatId, changeChat } = useChatStore();
   const [showDetail, setShowDetail] = useState(false);
   const [showChatList, setShowChatList] = useState(true);
-  console.log(currentUser, isLoading, fetchUserInfo);
 
   useEffect(() => {
     const unSub = onAuthStateChanged(auth, async (user) => {
       if (user) {
         fetchUserInfo(user.uid);
-        console.log(user.uid, user.email);
       } else {
         console.log("No user is signed in.");
       }
@@ -45,7 +43,7 @@ function App() {
                   {/* Chat List - Hidden on Mobile if Chat is Open */}
                   {showChatList && (
                     <Col xs={12} md={4} className={styles.listContainer}>
-                      <List />
+                      <List onChatSelect={() => setShowChatList(false)} />
                     </Col>
                   )}
 
