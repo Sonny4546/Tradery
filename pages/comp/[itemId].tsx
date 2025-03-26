@@ -32,7 +32,6 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
         (async function run() {
             if (!params.itemsId) return;
             const { items } = await getItemsById(params.itemsId);
-            console.log("Fetched Item Data:", items);  // Debugging
             
             setItems(items);
             const user = await fetchUserData();

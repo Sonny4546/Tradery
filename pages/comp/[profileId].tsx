@@ -13,8 +13,6 @@ export default function UserContent({ params = useParams() }: { params: { profil
     const [items, setItems] = useState<TraderyItems[]>([]);
 
     useEffect(() => {
-        console.log(params.profileName);
-    
         (async function fetchData() {
             try {
                 const { userdb } = await getUserDataByName(params.profileName); 

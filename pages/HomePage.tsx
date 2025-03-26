@@ -81,7 +81,6 @@ const HomePage = () => {
                       toast.error("Invalid user data from Appwrite.");
                       return;
                   }
-                  console.log("Fetched user:", userdb);
             
                   if (userdb.firebaseId) {
                       // 🔹 If user exists, log in with Firebase
@@ -101,8 +100,6 @@ const HomePage = () => {
                           return;
                       }
             
-                      console.log("Firebase Auth User:", auth.currentUser);
-            
                       // 🔹 Store user data in Firestore using correct UID
                       await setDoc(doc(db, "users", auth.currentUser.uid), {
                           username: userdb.defaultName,
@@ -116,7 +113,6 @@ const HomePage = () => {
                           ...userdb,
                           firebaseId: auth.currentUser.uid
                       });
-                      console.log(userdb)
                   }
               } catch (error: any) {
                   console.error("Login error:", error);
