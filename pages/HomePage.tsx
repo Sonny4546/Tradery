@@ -7,8 +7,6 @@ import { createProfileData, findUserDataById, getUserDataById, TraderyProfiles, 
 import { ItemCard } from './comp/ItemCard';
 import HomeNav from './HomeNav';
 import '../src/main.css';
-import { getUser } from './lib/appwrite';
-import { TraderyUser } from './lib/GetUser';
 import { useNavigate } from 'react-router-dom';
 import Tutorial from './comp/Tutorial';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
@@ -18,11 +16,10 @@ import { userInfo } from './lib/context/UserContext';
 
 const HomePage = () => {
   const [items, setItems] = useState<Array<any>>([]);
-  const [user, setUser] = useState<TraderyUser | undefined>();
-  const [userProfile, setUserProfile] = useState<any>();
   const [isHidden, setIsHidden] = useState(false);
   const [authors, setAuthors] = useState<{ [key: string]: TraderyProfiles }>({});
   const navigate = useNavigate();
+  const {userData, userdb} = userInfo();
   
   const [show, setShow] = useState(false);
   const handleClose = () => {
@@ -34,9 +31,7 @@ const HomePage = () => {
     (async function fetchItems() {
         try {
             // ✅ Ensure userData is available before making API calls
-            const {userData, userdb} = userInfo();
             if (!userData) return;
-            setUser(userData);
 
             const userExists = await findUserDataById(userData.$id);
             console.log("User Exists? ", userExists);
@@ -58,7 +53,6 @@ const HomePage = () => {
             }
 
             if (!userdb) return;
-            setUserProfile(userdb);
             
             const { items } = await getItems();
             setItems(items);

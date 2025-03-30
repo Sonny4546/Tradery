@@ -1,4 +1,4 @@
-import { Models, Query, ID } from 'appwrite';
+import { Models, Query } from 'appwrite';
 import { database } from './appwrite';
 
 export interface TraderyProfiles {

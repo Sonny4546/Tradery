@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Container, Button, Modal, Col, Nav, Row, ListGroup } from 'react-bootstrap';
 
 function Tutorial({ show, onHide }) {

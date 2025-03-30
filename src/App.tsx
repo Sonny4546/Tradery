@@ -5,7 +5,7 @@ import List from "./components/list/List";
 import Notification from "./components/notification/Notification";
 import { useUserStore } from "../pages/lib/userStore";
 import { useChatStore } from "./lib/chatStore";
-import { Container, Row, Col, Modal, CloseButton, Button } from "react-bootstrap";
+import { Container, Row, Col, Modal, CloseButton } from "react-bootstrap";
 import styles from './index.module.css';
 import React from "react";
 import { onAuthStateChanged } from "firebase/auth";

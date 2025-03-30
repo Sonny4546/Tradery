@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import { auth } from "../pages/lib/firebase"; // Ensure correct path
 import React from "react";
 import { getUser } from "../pages/lib/appwrite";
@@ -10,6 +10,7 @@ const ADMIN_EMAIL = "bagus.anselliam@ue.edu.ph"; // Change this if needed
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const [isAdmin, setIsAdmin] = useState<boolean | null>(null);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -31,7 +32,7 @@ const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
 
   if (loading) return <p>Loading...</p>; // Show loading state while checking
 
-  return isAdmin ? children : null; // Show children if admin, otherwise show nothing
+  return isAdmin ? children : navigate("/Home"); // Show children if admin, otherwise go home
 };
 
 export default ProtectedRoute;

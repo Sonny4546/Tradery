@@ -2,7 +2,6 @@ import React, { createContext, ReactNode, useContext, useState, useEffect } from
 import { getCurrentSession, DeleteSession, OAuthProvider, account } from "./appwrite";
 import { Models } from "appwrite";
 import { getTeams } from "./User";
-import { useNavigate } from "react-router-dom";
 
 interface TraderyAuthContext {
     session?: Models.Session;

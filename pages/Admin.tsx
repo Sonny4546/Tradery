@@ -3,7 +3,6 @@ import { Col, Row, Container, Alert, Button, Form } from "react-bootstrap";
 import { useAuth } from "./lib/AuthHook";
 import { getItemsbyApproval } from "./lib/Items";
 import { getPreviewImageById } from "./lib/storage";
-import { fetchUserData } from "./lib/User";
 import HomeNav from "./HomeNav";
 import { ItemCard } from './comp/ItemCard';
 import { getUserDataById, TraderyProfiles } from "./lib/UserProfile";

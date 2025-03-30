@@ -2,16 +2,11 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Tooltip from "react-bootstrap/Tooltip";
-import { useAuth } from "../lib/AuthHook";
 import { createItems, updateItem } from "../lib/Items";
 import { fetchUserData } from "../lib/User";
 import { uploadFile } from "../lib/storage";
 import { useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
 
@@ -23,7 +18,6 @@ interface TraderyImage {
 }
 
 const Post = () => {
-    const { session } = useAuth();
     const navigate = useNavigate();
     const [image, setImage] = useState<TraderyImage | null>(null);
     const [loading, setLoading] = useState(false);

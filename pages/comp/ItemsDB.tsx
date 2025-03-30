@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Col, Row, Alert, Container } from "react-bootstrap";
-import { fetchUserData } from "../lib/User";
 import { getPreviewImageById } from "../lib/storage";
 import { getItemsbyUser } from "../lib/Items";
 import { getUserDataById, TraderyProfiles } from "../lib/UserProfile";
@@ -11,10 +10,9 @@ import { userInfo } from "../lib/context/UserContext";
 const Items = () => {
     const [items, setItems] = useState<TraderyItems[]>([]);
     const [authors, setAuthors] = useState<{ [key: string]: TraderyProfiles }>({});
-
+    const {userData} = userInfo();
     useEffect(() => {
         (async function run() {
-            const {userData} = userInfo();
             if (!userData) {
                 console.log("User data is still loading. Please wait.");
                 return;

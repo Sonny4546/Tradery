@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import { Account, Client, OAuthProvider, Storage, Databases, Teams } from 'appwrite'
 
 export const client = new Client()

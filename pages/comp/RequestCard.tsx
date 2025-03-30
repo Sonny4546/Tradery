@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Accordion, Button } from 'react-bootstrap';
 import { getUserDataById } from '../lib/UserProfile';
 import { addUserToChat } from "../lib/firebase"
-import { getUser } from '../lib/appwrite';
 import { useNavigate } from 'react-router-dom';
 import { userInfo } from '../lib/context/UserContext';
 

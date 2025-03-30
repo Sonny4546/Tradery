@@ -1,9 +1,7 @@
-import { Col, Row, Nav, Navbar, NavDropdown, Container, Modal, Spinner, Button } from 'react-bootstrap';
-import React, { ReactNode, useEffect, useState } from 'react'
+import { Row, Nav, Navbar, NavDropdown, Container } from 'react-bootstrap';
+import React, { ReactNode } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './lib/AuthHook';
-import { TraderyUser } from './lib/GetUser';
-import { getUser } from "./lib/appwrite";
 import {auth} from "./lib/firebase"
 import '../src/main.css';
 import { userInfo } from './lib/context/UserContext';

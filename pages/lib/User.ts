@@ -1,7 +1,6 @@
 import { Models } from 'appwrite';
 import { getUser, teams } from "../lib/appwrite";
 import { TraderyUser } from './GetUser';
-import { useState } from 'react';
 
 export async function fetchUserData() {
     const user = await getUser();

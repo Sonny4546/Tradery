@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "../lib/AuthHook";
-import { useNavigate } from "react-router-dom";
 import { Accordion } from "react-bootstrap";
 import { getItemsbyUser } from "../lib/Items";
 import { TraderyItems } from "../lib/ItemsInterface";
-import { fetchUserData } from "../lib/User";
 import RequestCard from "./RequestCard";
 import { userInfo } from "../lib/context/UserContext";
 
 const Requests = () => {
     const [items, setItems] = useState<TraderyItems[]>([]); 
+    const {userData} = userInfo();
 
     useEffect(() => {
         (async function run() {
-            const {userData} = userInfo();
             if (!userData) {
                 console.log("User data is still loading. Please wait.");
                 return;

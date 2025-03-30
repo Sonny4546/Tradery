@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
-import { useAuth } from './lib/AuthHook';
-import { Modal, Spinner, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import Tutorial from './comp/Tutorial';
 import '../src/main.css';
 

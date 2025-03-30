@@ -1,4 +1,3 @@
-import React from 'react';
 import { Models, Query, ID } from 'appwrite';
 import { database } from './appwrite';
 import { TraderyItems } from './ItemsInterface';
