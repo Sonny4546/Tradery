@@ -19,7 +19,7 @@ import UserContent from "../pages/comp/[profileId]"
 import AdminPage from "../pages/Admin"
 import ProtectedRoute from "./ProtectedRoute";
 import AdminChat from "./components/admin/Admin";
-import UserContext from "../pages/lib/context/UserContext.tsx";
+import { UserContext } from "../pages/lib/context/UserContext.tsx";
 import { AuthProvider, useAuth } from "../pages/lib/AuthHook";
 import { RouterProvider, createHashRouter } from "react-router-dom";
 

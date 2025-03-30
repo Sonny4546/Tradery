@@ -8,7 +8,7 @@ interface TraderyUserContext {
     userdb?: TraderyProfiles;
 }
 
-const UserContext = createContext<TraderyUserContext | undefined>(undefined);
+export const UserContext = createContext<TraderyUserContext | undefined>(undefined);
 
 interface UserProviderProps {
     children?: ReactNode;
@@ -23,7 +23,7 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     );
 }
 
-export const userContextState = () => {
+export function userContextState(){
     const [userData, setUserData] = useState<TraderyUser>();
     const [userdb, setUserdb] = useState<TraderyProfiles>();
 
