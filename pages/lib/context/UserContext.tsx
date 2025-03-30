@@ -4,8 +4,8 @@ import { getUser } from "../appwrite";
 import { TraderyUser } from "../GetUser";
 
 interface TraderyUserContext {
-    userData?: TraderyUser;
-    userdb?: TraderyProfiles;
+    userData?: TraderyUser | null;
+    userdb?: TraderyProfiles | null;
 }
 
 export const UserContext = createContext<TraderyUserContext | undefined>(undefined);
@@ -23,31 +23,38 @@ export const UserProvider = ({ children }: UserProviderProps) => {
     );
 }
 
-export function userContextState(){
-    const [userData, setUserData] = useState<TraderyUser>();
-    const [userdb, setUserdb] = useState<TraderyProfiles>();
+export function userContextState() {
+    const [userData, setUserData] = useState<TraderyUser | null>(null);
+    const [userdb, setUserdb] = useState<TraderyProfiles | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
-            if (!userData) {  // Fetch only if not already in context
-                const userData = await getUser();
-                setUserData(userData);
-                if (userData?.$id) {
-                    const { userdb } = await getUserDataById(userData.$id);
+            try {
+                const user = await getUser();
+                if (user) {
+                    setUserData(user);
+                } else {
+                    setUserData(null);
+                }
+                if (user?.$id) {
+                    const { userdb } = await getUserDataById(user.$id);
                     setUserdb(userdb);
                 }
+            } catch (error) {
+                console.error("Failed to fetch user data:", error);
             }
         };
         fetchData();
-    }, [userData]);
+    }, []);  // ✅ Runs only on mount
 
     return { userData, userdb };
-};
+}
 
 export function userInfo() {
     const user = useContext(UserContext);
-    if ( !user ) {
-        throw new Error('useAuth cant be used outside')
+    if (!user) {
+        console.warn("⚠️ userInfo() is being used outside of UserProvider.");
+        return { userData: null, userdb: null };  // ✅ Return null instead of throwing
     }
-    return user
+    return user;
 }

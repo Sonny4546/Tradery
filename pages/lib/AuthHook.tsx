@@ -27,11 +27,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     )
   }
 
-const navigate = useNavigate();
-
 export function useAuthState() {
     const [session, setSession] = useState<Models.Session>();
     const [isAdmin, setIsAdmin] = useState<boolean>();
+    const navigate = useNavigate();
 
     useEffect(() => {
         (async function run() {

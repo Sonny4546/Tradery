@@ -20,7 +20,7 @@ import AdminPage from "../pages/Admin"
 import ProtectedRoute from "./ProtectedRoute";
 import AdminChat from "./components/admin/Admin";
 import { UserProvider } from "../pages/lib/context/UserContext.tsx";
-import { AuthProvider, useAuth } from "../pages/lib/AuthHook";
+import { AuthProvider } from "../pages/lib/AuthHook";
 import { RouterProvider, createHashRouter } from "react-router-dom";
 
 const main = createHashRouter([
