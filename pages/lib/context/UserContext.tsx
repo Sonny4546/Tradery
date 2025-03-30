@@ -4,8 +4,8 @@ import { getUser } from "../appwrite";
 import { TraderyUser } from "../GetUser";
 
 interface TraderyUserContext {
-    userData?: TraderyUser | null;
-    userdb?: TraderyProfiles | null;
+    userData?: TraderyUser | undefined;
+    userdb?: TraderyProfiles | undefined;
 }
 
 export const UserContext = createContext<TraderyUserContext | undefined>(undefined);
@@ -24,8 +24,8 @@ export const UserProvider = ({ children }: UserProviderProps) => {
 }
 
 export function userContextState() {
-    const [userData, setUserData] = useState<TraderyUser | null>(null);
-    const [userdb, setUserdb] = useState<TraderyProfiles | null>(null);
+    const [userData, setUserData] = useState<TraderyUser | undefined>();
+    const [userdb, setUserdb] = useState<TraderyProfiles | undefined>();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -34,7 +34,7 @@ export function userContextState() {
                 if (user) {
                     setUserData(user);
                 } else {
-                    setUserData(null);
+                    setUserData(undefined);
                 }
                 if (user?.$id) {
                     const { userdb } = await getUserDataById(user.$id);
@@ -53,8 +53,7 @@ export function userContextState() {
 export function userInfo() {
     const user = useContext(UserContext);
     if (!user) {
-        console.warn("⚠️ userInfo() is being used outside of UserProvider.");
-        return { userData: null, userdb: null };  // ✅ Return null instead of throwing
+        throw new Error("⚠️ userInfo() is being used outside of UserProvider.");
     }
     return user;
 }
