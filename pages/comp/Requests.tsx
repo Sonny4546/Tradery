@@ -6,20 +6,19 @@ import { getItemsbyUser } from "../lib/Items";
 import { TraderyItems } from "../lib/ItemsInterface";
 import { fetchUserData } from "../lib/User";
 import RequestCard from "./RequestCard";
+import { userInfo } from "../lib/context/UserContext";
 
 const Requests = () => {
     const [items, setItems] = useState<TraderyItems[]>([]); 
-    const { session } = useAuth();
-    const navigate = useNavigate();
 
     useEffect(() => {
         (async function run() {
-            const user = await fetchUserData();
-            if (!user) {
+            const {userData} = userInfo();
+            if (!userData) {
                 console.log("User data is still loading. Please wait.");
                 return;
             }
-            const { items } = await getItemsbyUser(user.$id);
+            const { items } = await getItemsbyUser(userData.$id);
             const filteredItems = items.filter((item) => item.requests && item.requests.length > 0);
             setItems(filteredItems);
         })();

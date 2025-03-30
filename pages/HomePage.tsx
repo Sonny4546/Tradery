@@ -14,7 +14,7 @@ import Tutorial from './comp/Tutorial';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "./lib/firebase";
 import { doc, setDoc } from 'firebase/firestore';
-import { toast } from "react-toastify";
+import { userInfo } from './lib/context/UserContext';
 
 const HomePage = () => {
   const [items, setItems] = useState<Array<any>>([]);
@@ -34,7 +34,7 @@ const HomePage = () => {
     (async function fetchItems() {
         try {
             // ✅ Ensure userData is available before making API calls
-            const userData = await getUser();
+            const {userData, userdb} = userInfo();
             if (!userData) return;
             setUser(userData);
 
@@ -57,10 +57,8 @@ const HomePage = () => {
               console.log("New profile created.");
             }
 
-            const { userdb } = await getUserDataById(userData.$id);
             if (!userdb) return;
             setUserProfile(userdb);
-            console.log(userdb);
             
             const { items } = await getItems();
             setItems(items);
@@ -78,7 +76,7 @@ const HomePage = () => {
             if (userData.$id) {
               try {
                   if (!userdb || !userdb.userEmail || !userdb.userId) {
-                      toast.error("Invalid user data from Appwrite.");
+                      console.error("User data is incomplete:", userdb);
                       return;
                   }
             
@@ -206,12 +204,30 @@ const HomePage = () => {
                         <div className="itemLabel">
                           <span className="Label">{categoryMap[item.itemCategory]?.name || "Uncategorized"}</span>
                         </div>
-                        <ItemCard
-                          image={image}
-                          name={item.name}
-                          date={item.date}
-                          author={author ? author.displayName || author.defaultName : "Unknown Author"}
-                        />
+                        {author ? (
+                          <ItemCard
+                            image={image}
+                            name={item.name}
+                            date={item.date}
+                            author={author.displayName || author.defaultName}
+                          />
+                        ) : (
+                          // Placeholder card when the author is not yet known
+                          <div className="card placeholder-glow">
+                            <div className="card-body">
+                              <h5 className="card-title placeholder-glow">
+                                <span className="placeholder col-6"></span>
+                              </h5>
+                              <p className="card-text placeholder-glow">
+                                <span className="placeholder col-7"></span>
+                                <span className="placeholder col-4"></span>
+                                <span className="placeholder col-4"></span>
+                                <span className="placeholder col-6"></span>
+                                <span className="placeholder col-8"></span>
+                              </p>
+                            </div>
+                          </div>
+                        )}
                       </a>
                     </Col>
                   );

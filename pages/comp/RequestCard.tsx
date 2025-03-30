@@ -4,6 +4,7 @@ import { getUserDataById } from '../lib/UserProfile';
 import { addUserToChat } from "../lib/firebase"
 import { getUser } from '../lib/appwrite';
 import { useNavigate } from 'react-router-dom';
+import { userInfo } from '../lib/context/UserContext';
 
 interface ItemCardProps {
     name: string;
@@ -19,7 +20,10 @@ interface UserRequest {
 
 const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
     const [userRequests, setUserRequests] = useState<UserRequest[]>([]);
-    const [userdb, setUserdb] = useState<any>();
+    const {userdb} = userInfo();
+    if (!userdb) {
+        throw new Error('User data is not available');
+    }
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -48,28 +52,14 @@ const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
         })();
     }, [userId]);
 
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const userData = await getUser();
-                if (userData) {
-                    const { userdb } = await getUserDataById(userData.$id);
-                    setUserdb(userdb);
-                }
-            } catch (error) {
-                console.error("Error fetching user: ", error);
-            }
-        };
-        fetchUser();
-    }, []);
-
     async function messageUser(targetUserId: string, currentUserId: string) {
         try {
             await addUserToChat(targetUserId, currentUserId);
             console.log("Done");
-            navigate(`/Dashboard/Messages#view-messages`);
         } catch {
-            console.log("Failed to add chat")
+            console.log("Failed to add chat");
+        } finally {
+            navigate(`/Dashboard/Messages#view-messages`);
         }
         
     }
@@ -84,7 +74,19 @@ const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
                             <p className="mb-0">
                                 <strong>{user.displayName}</strong> wants to trade. The default username is <strong>{user.appwriteName}</strong>
                             </p>
-                            <Button variant="primary" size="sm" onClick={() => messageUser(user.firebaseId, userdb.firebaseId)}>Message</Button>
+                            <Button 
+                                variant="primary" 
+                                size="sm" 
+                                onClick={() => {
+                                    if (user.firebaseId && userdb.firebaseId) {
+                                        messageUser(user.firebaseId, userdb.firebaseId);
+                                    } else {
+                                        console.error("Invalid user IDs");
+                                    }
+                                }}
+                            >
+                                Message
+                            </Button>
                         </div>
                     ))
                 ) : (

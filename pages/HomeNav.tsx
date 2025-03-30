@@ -6,6 +6,7 @@ import { TraderyUser } from './lib/GetUser';
 import { getUser } from "./lib/appwrite";
 import {auth} from "./lib/firebase"
 import '../src/main.css';
+import { userInfo } from './lib/context/UserContext';
 
 interface HomeNavProps {
   children?: ReactNode;
@@ -19,12 +20,8 @@ const HomeNav = ({ children }: HomeNavProps) => {
 
   useEffect(() => {
     const checkSession = async () => {
-      if (!session) {
-        navigate("/"); // Redirect unauthorized users
-        return;
-      }
       try {
-        const userData = await getUser();
+        const {userData} = userInfo();
         setUser(userData);
       } catch (error) {
         console.error("Error fetching user:", error);

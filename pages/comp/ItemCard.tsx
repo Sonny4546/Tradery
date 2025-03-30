@@ -1,12 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Card, Row, Col, OverlayTrigger, Tooltip, Button } from 'react-bootstrap';
-import TimeAgo from 'react-timeago'
-import { useAuth } from '../lib/AuthHook';
-import { addRequest, deleteItemById, getItemsById, updateItem } from '../lib/Items';
-import { fetchUserData } from '../lib/User';
-import { getUserDataById, TraderyProfiles } from '../lib/UserProfile';
-import { TraderyItems } from '../lib/ItemsInterface';
-import { useNavigate } from 'react-router-dom';
+import TimeAgo from 'react-timeago';
 
 interface ItemCardProps {
     name: string;

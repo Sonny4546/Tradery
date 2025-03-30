@@ -2,6 +2,7 @@ import React, { createContext, ReactNode, useContext, useState, useEffect } from
 import { getCurrentSession, DeleteSession, OAuthProvider, account } from "./appwrite";
 import { Models } from "appwrite";
 import { getTeams } from "./User";
+import { useNavigate } from "react-router-dom";
 
 interface TraderyAuthContext {
     session?: Models.Session;
@@ -29,11 +30,13 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 export function useAuthState() {
     const [session, setSession] = useState<Models.Session>();
     const [isAdmin, setIsAdmin] = useState<boolean>();
+    const navigate = useNavigate();
 
     useEffect(() => {
         (async function run() {
           const data = await getCurrentSession();
           setSession(data.session);
+          if(!data.session) {navigate("/")};
         })();
       }, [])
     

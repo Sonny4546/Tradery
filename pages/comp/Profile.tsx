@@ -4,6 +4,7 @@ import { getUser } from "../lib/appwrite";
 import { checkUserNameDuplicate, getUserDataById, updateUserData } from "../lib/UserProfile";
 import { getProfilePreviewImageById, uploadUserFile, deleteProfileImageById } from "../lib/storage";
 import { TraderyUser } from "../lib/GetUser";
+import { userInfo } from "../lib/context/UserContext";
 
 export interface TraderyProfileImage {
     height: number;
@@ -25,10 +26,9 @@ const Profile = () => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const userData = await getUser();
+                const {userData, userdb} = userInfo();
                 setUser(userData);
                 if (userData) {
-                    const { userdb } = await getUserDataById(userData.$id);
                     setUserdb(userdb);
                     setPreviewImage(userdb?.profileImageId ? getProfilePreviewImageById(userdb.profileImageId) : null);
                     setDisplayName(userdb?.displayName || userData?.name || "");
@@ -45,7 +45,7 @@ const Profile = () => {
 
     // ✅ Automatically remove non-alphanumeric characters (except spaces)
     const handleDisplayNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value.replace(/[^a-zA-Z0-9]/g, ""); // Keep letters, numbers, and spaces
+        const value = e.target.value.replace(/[^a-zA-Z0-9 ]/g, ""); // Keep letters, numbers, and spaces
         setDisplayName(value);
     };
 
@@ -91,7 +91,6 @@ const Profile = () => {
                 return;
             }
     
-            let { userdb } = await getUserDataById(user.$id);
             let profileImageId = userdb?.profileImageId || ""; // ✅ Keep empty string if no existing image
     
             // ✅ Only check for duplicate username if it's changed

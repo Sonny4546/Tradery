@@ -12,10 +12,13 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from "../lib/AuthHook";
 import { getUserDataById, TraderyProfiles } from "../lib/UserProfile";
 import '../../src/main.css';
+import { userInfo } from "../lib/context/UserContext";
+import { TraderyUser } from "../lib/GetUser";
 
 export default function ItemContent({ params = useParams() }: { params: { itemsId: string}}) {
     const [items, setItems] = useState<TraderyItems | undefined>();
-    const [author, setAuthor] = useState<TraderyProfiles | undefined>()
+    const [author, setAuthor] = useState<TraderyProfiles | undefined>();
+    const [user, setUser] = useState<TraderyUser | undefined>();
     const navigate = useNavigate();
     const [isAuthor, setIsAuthor] = useState(false);
     const [isRequesting, setRequest] = useState(false);
@@ -34,15 +37,16 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
             const { items } = await getItemsById(params.itemsId);
             
             setItems(items);
-            const user = await fetchUserData();
-            const userId = user?.$id;
+            const {userData} = userInfo();
+            setUser(userData);
+            const userId = userData?.$id;
 
             if (userId === items?.authorID) {
                 setIsAuthor(true);
             }
             
-            if (user) {
-                setRequest(items.requests?.includes(user.$id) ?? false);
+            if (userData) {
+                setRequest(items.requests?.includes(userData.$id) ?? false);
             }
             if (items) {
                 const {userdb} = await getUserDataById(items.authorID)
@@ -54,7 +58,6 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
     async function handleOnTrade() {
         if (!items) return;
         
-        const user = await fetchUserData();
         if (!user) {
             console.log("User data is still loading. Please wait.");
             return;
@@ -98,7 +101,6 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
     async function handleApprove() {
         if (!items) return;
     
-        const user = await fetchUserData();
         if (!user) {
             console.log("User data is still loading. Please wait.");
             return;
@@ -126,7 +128,6 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
     async function handleOnTradeRemove() {
         if (!items) return;
 
-        const user = await fetchUserData();
         if (!user) {
             console.log("User data is still loading. Please wait.");
             return;

@@ -19,6 +19,7 @@ import UserContent from "../pages/comp/[profileId]"
 import AdminPage from "../pages/Admin"
 import ProtectedRoute from "./ProtectedRoute";
 import AdminChat from "./components/admin/Admin";
+import UserContext from "./components/UserContext";
 import { AuthProvider, useAuth } from "../pages/lib/AuthHook";
 import { RouterProvider, createHashRouter } from "react-router-dom";
 
@@ -69,7 +70,9 @@ const main = createHashRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <AuthProvider>
-      <RouterProvider router={main} />
+      <UserContext>
+        <RouterProvider router={main} />
+      </UserContext>
     </AuthProvider>
   </React.StrictMode>,
 )

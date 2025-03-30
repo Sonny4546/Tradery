@@ -6,6 +6,7 @@ import { getItemsbyUser } from "../lib/Items";
 import { getUserDataById, TraderyProfiles } from "../lib/UserProfile";
 import { TraderyItems } from "../lib/ItemsInterface";
 import { ItemCard } from "../comp/ItemCard";
+import { userInfo } from "../lib/context/UserContext";
 
 const Items = () => {
     const [items, setItems] = useState<TraderyItems[]>([]);
@@ -13,12 +14,12 @@ const Items = () => {
 
     useEffect(() => {
         (async function run() {
-            const user = await fetchUserData();
-            if (!user) {
+            const {userData} = userInfo();
+            if (!userData) {
                 console.log("User data is still loading. Please wait.");
                 return;
             }
-            const { items } = await getItemsbyUser(user.$id);
+            const { items } = await getItemsbyUser(userData.$id);
             setItems(items);
 
             // Fetch all authors in one go
