@@ -30,13 +30,11 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 export function useAuthState() {
     const [session, setSession] = useState<Models.Session>();
     const [isAdmin, setIsAdmin] = useState<boolean>();
-    const navigate = useNavigate();
 
     useEffect(() => {
         (async function run() {
           const data = await getCurrentSession();
           setSession(data.session);
-          if(!data.session) {navigate("/")};
         })();
       }, [])
     

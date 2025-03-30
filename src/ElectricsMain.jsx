@@ -19,9 +19,10 @@ import UserContent from "../pages/comp/[profileId]"
 import AdminPage from "../pages/Admin"
 import ProtectedRoute from "./ProtectedRoute";
 import AdminChat from "./components/admin/Admin";
-import { UserProvider } from "../pages/lib/context/UserContext.tsx";
+import { UserProvider } from "../pages/lib/context/UserContext";
 import { AuthProvider } from "../pages/lib/AuthHook";
 import { RouterProvider, createHashRouter } from "react-router-dom";
+import MainProtectedRoute from "./MainProtectedRoutes";
 
 const main = createHashRouter([
   {
@@ -42,19 +43,31 @@ const main = createHashRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/Home", element: <HomePage />,
+    path: "/Home", element: (
+    <MainProtectedRoute>
+      <HomePage />
+    </MainProtectedRoute>),
     errorElement: <ErrorPage />,
   },
   {
-    path: "/Item/:itemsId", element: <ItemContent />,
+    path: "/Item/:itemsId", element: (
+      <MainProtectedRoute>
+        <ItemContent />
+      </MainProtectedRoute>),
     errorElement: <ErrorPage />,
   },
   {
-    path: "/User/:profileName", element: <UserContent />,
+    path: "/User/:profileName", element: (
+      <MainProtectedRoute>
+        <UserContent />
+      </MainProtectedRoute>),
     errorElement: <ErrorPage />,
   },
   {
-    path: "/Dashboard", element: <DBPage />,
+    path: "/Dashboard", element: (
+      <MainProtectedRoute>
+        <DBPage />
+      </MainProtectedRoute>),
     errorElement: <ErrorPage />,
     children: [
       {path: "/Dashboard/Post", element: <Post />},
@@ -74,5 +87,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <RouterProvider router={main} />
       </UserProvider>
     </AuthProvider>
-  </React.StrictMode>,
-)
+  </React.StrictMode>
+);
+
