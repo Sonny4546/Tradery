@@ -18,11 +18,11 @@ import { TraderyUser } from "../lib/GetUser";
 export default function ItemContent({ params = useParams() }: { params: { itemsId: string}}) {
     const [items, setItems] = useState<TraderyItems | undefined>();
     const [author, setAuthor] = useState<TraderyProfiles | undefined>();
-    const [user, setUser] = useState<TraderyUser | undefined>();
     const navigate = useNavigate();
     const [isAuthor, setIsAuthor] = useState(false);
     const [isRequesting, setRequest] = useState(false);
     const { isAdmin } = useAuth();
+    const {userData} = userInfo();
     
     const imageUrl = items?.imageFileId && getPreviewImageById(items.imageFileId);
     const image = {
@@ -35,10 +35,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
         (async function run() {
             if (!params.itemsId) return;
             const { items } = await getItemsById(params.itemsId);
-            
             setItems(items);
-            const {userData} = userInfo();
-            setUser(userData);
             const userId = userData?.$id;
 
             if (userId === items?.authorID) {
@@ -58,7 +55,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
     async function handleOnTrade() {
         if (!items) return;
         
-        if (!user) {
+        if (!userData) {
             console.log("User data is still loading. Please wait.");
             return;
         }
@@ -66,12 +63,12 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
         try {
             const currentRequests = items.requests ?? [];
 
-            if (currentRequests.includes(user.$id)) {
+            if (currentRequests.includes(userData.$id)) {
                 setRequest(true);
                 return;
             }
 
-            const updatedRequests = [...currentRequests, user.$id];
+            const updatedRequests = [...currentRequests, userData.$id];
 
             // ✅ Optimistic UI update
             setItems((prevItems) => prevItems ? { ...prevItems, requests: updatedRequests } : prevItems);
@@ -101,7 +98,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
     async function handleApprove() {
         if (!items) return;
     
-        if (!user) {
+        if (!userData) {
             console.log("User data is still loading. Please wait.");
             return;
         }
@@ -128,19 +125,19 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
     async function handleOnTradeRemove() {
         if (!items) return;
 
-        if (!user) {
+        if (!userData) {
             console.log("User data is still loading. Please wait.");
             return;
         }
 
         try {
             const currentRequests = items.requests ?? [];
-            if (!currentRequests.includes(user.$id)) {
+            if (!currentRequests.includes(userData.$id)) {
                 setRequest(false);
                 return;
             }
 
-            const updatedRequests = currentRequests.filter(id => id !== user.$id);
+            const updatedRequests = currentRequests.filter(id => id !== userData.$id);
 
             // ✅ Optimistic UI update
             setItems((prevItems) => prevItems ? { ...prevItems, requests: updatedRequests } : prevItems);

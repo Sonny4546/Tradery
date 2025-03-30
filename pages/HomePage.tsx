@@ -34,7 +34,7 @@ const HomePage = () => {
             setItems(items);
 
             const authorData: { [key: string]: TraderyProfiles } = {};
-            Promise.all(
+            await Promise.all(
                 items.map(async (item) => {
                     if (!authorData[item.authorID]) {
                         const { userdb } = await getUserDataById(item.authorID);
@@ -64,8 +64,6 @@ const HomePage = () => {
               });
               console.log("New profile created.");
             }
-
-            if (!userdb) return;
             
             if (userData.$id) {
               try {
