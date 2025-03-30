@@ -30,7 +30,20 @@ const HomePage = () => {
   useEffect(() => {
     (async function fetchItems() {
         try {
-            // ✅ Ensure userData is available before making API calls
+            const { items } = await getItems();
+            setItems(items);
+
+            const authorData: { [key: string]: TraderyProfiles } = {};
+            Promise.all(
+                items.map(async (item) => {
+                    if (!authorData[item.authorID]) {
+                        const { userdb } = await getUserDataById(item.authorID);
+                        authorData[item.authorID] = userdb;
+                    }
+                })
+            );
+            setAuthors(authorData);
+
             if (!userData) return;
 
             const userExists = await findUserDataById(userData.$id);
@@ -54,19 +67,6 @@ const HomePage = () => {
 
             if (!userdb) return;
             
-            const { items } = await getItems();
-            setItems(items);
-
-            const authorData: { [key: string]: TraderyProfiles } = {};
-            await Promise.all(
-                items.map(async (item) => {
-                    if (!authorData[item.authorID]) {
-                        const { userdb } = await getUserDataById(item.authorID);
-                        authorData[item.authorID] = userdb;
-                    }
-                })
-            );
-            setAuthors(authorData);
             if (userData.$id) {
               try {
                   if (!userdb || !userdb.userEmail || !userdb.userId) {
