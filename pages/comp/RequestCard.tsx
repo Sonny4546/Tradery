@@ -46,7 +46,6 @@ const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
                     }
                 })
             );
-
             setUserRequests(usersData.filter((user): user is UserRequest => user !== null));
         })();
     }, [userId]);
@@ -62,7 +61,6 @@ const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
         }
         
     }
-
     return (
         <Accordion.Item eventKey={eventKey}>
             <Accordion.Header>{name}</Accordion.Header>
@@ -71,7 +69,7 @@ const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
                     userRequests.map((user, index) => (
                         <div key={index} className="d-flex justify-content-between align-items-center mb-2">
                             <p className="mb-0">
-                                <strong>{user.displayName}</strong> wants to trade. The default username is <strong>{user.appwriteName}</strong>
+                                <strong>{user.displayName}</strong> wants to trade. The default username is <a href={`#/User/${user.displayName}`} className="profile-link"><strong>{user.appwriteName}</strong></a>, You can click on the name to view their profile.
                             </p>
                             <Button 
                                 variant="primary" 

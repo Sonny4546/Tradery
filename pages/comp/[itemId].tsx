@@ -232,7 +232,7 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
                         </div>
 
                         <div className="description">
-                            <p>{items.description}</p>
+                            <p style={{whiteSpace: 'pre-line'}}>{items.description}</p>
                         </div>
                     </>
                 )}
