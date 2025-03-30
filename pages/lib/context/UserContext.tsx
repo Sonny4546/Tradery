@@ -33,12 +33,10 @@ export function userContextState() {
                 const user = await getUser();
                 if (user) {
                     setUserData(user);
-                } else {
-                    setUserData(undefined);
-                }
-                if (user?.$id) {
                     const { userdb } = await getUserDataById(user.$id);
                     setUserdb(userdb);
+                } else {
+                    setUserData(undefined);
                 }
             } catch (error) {
                 console.error("Failed to fetch user data:", error);
