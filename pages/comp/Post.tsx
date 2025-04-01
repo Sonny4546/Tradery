@@ -32,8 +32,6 @@ const Post = () => {
         width: "",
         brand: "",
         condition: "New",
-        category: "",
-        usageInstructions: "",
     });
 
     function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -74,8 +72,6 @@ Height: ${attData.height} cm
 Width: ${attData.width} cm
 Brand: ${attData.brand}
 Condition: ${attData.condition}
-Category: ${attData.category}
-Usage Instructions: ${attData.usageInstructions}
   `.trim(); // Removes extra spaces at the start/end
     
         if (!name || !itemDescription || !itemCategory || !image) {
@@ -205,7 +201,7 @@ Usage Instructions: ${attData.usageInstructions}
                             <Form.Group className="mb-3">
                             <Form.Label>
                                 <OverlayTrigger placement="right" overlay={renderTooltip("Enter the item's weight in kilograms.")}>
-                                <span>Weight ⚖️</span>
+                                <span>Weight (kg) ⚖️</span>
                                 </OverlayTrigger>
                             </Form.Label>
                             <Form.Control type="number" step="0.1" name="weight" value={attData.weight} onChange={handleAttributeChange} required />
@@ -218,7 +214,7 @@ Usage Instructions: ${attData.usageInstructions}
                             <Form.Group className="mb-3">
                             <Form.Label>
                                 <OverlayTrigger placement="right" overlay={renderTooltip("Enter the item's height in centimeters.")}>
-                                <span>Height 📏</span>
+                                <span>Height (cm) 📏</span>
                                 </OverlayTrigger>
                             </Form.Label>
                             <Form.Control type="number" name="height" value={attData.height} onChange={handleAttributeChange} required />
@@ -229,7 +225,7 @@ Usage Instructions: ${attData.usageInstructions}
                             <Form.Group className="mb-3">
                             <Form.Label>
                                 <OverlayTrigger placement="right" overlay={renderTooltip("Enter the item's width in centimeters.")}>
-                                <span>Width 📐</span>
+                                <span>Width (cm) 📐</span>
                                 </OverlayTrigger>
                             </Form.Label>
                             <Form.Control type="number" name="width" value={attData.width} onChange={handleAttributeChange} required />
@@ -259,23 +255,6 @@ Usage Instructions: ${attData.usageInstructions}
                         </Form.Select>
                         </Form.Group>
 
-                        <Form.Group className="mb-3">
-                        <Form.Label>
-                            <OverlayTrigger placement="right" overlay={renderTooltip("Enter the category (e.g., Electronics, Clothing).")}>
-                            <span>Category 📂</span>
-                            </OverlayTrigger>
-                        </Form.Label>
-                        <Form.Control type="text" name="category" value={attData.category} onChange={handleAttributeChange} required />
-                        </Form.Group>
-
-                        <Form.Group className="mb-3">
-                        <Form.Label>
-                            <OverlayTrigger placement="right" overlay={renderTooltip("Enter any important usage instructions.")}>
-                            <span>Usage Instructions 📝</span>
-                            </OverlayTrigger>
-                        </Form.Label>
-                        <Form.Control as="textarea" rows={3} name="usageInstructions" value={attData.usageInstructions} onChange={handleAttributeChange} required />
-                        </Form.Group>
                     <Form.Control className="mt-3" as="textarea" id="description" name="description" placeholder="Description" maxLength={500} value={itemDescription} onChange={(e) => setDescription(e.target.value)} required />
                     <p className="text-muted">Posting items that are harmful, sensual or offensive will lead to an unapproved item. Repeated offense may cause in a ban to the account.</p>
                     <Button className="w-100 mt-3" type="submit" disabled={loading}>Submit</Button>
