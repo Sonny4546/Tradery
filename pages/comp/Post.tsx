@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
+import { Col, OverlayTrigger, Row, Tooltip } from "react-bootstrap";
 
 interface TraderyImage {
     height: number;
@@ -22,8 +23,18 @@ const Post = () => {
     const [image, setImage] = useState<TraderyImage | null>(null);
     const [loading, setLoading] = useState(false);
     const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
+    const [itemDescription, setDescription] = useState("");
     const [error, setError] = useState<string | null>(null);
+    const [attData, setAttData] = useState({
+        color: "",
+        weight: "",
+        height: "",
+        width: "",
+        brand: "",
+        condition: "New",
+        category: "",
+        usageInstructions: "",
+    });
 
     function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
         if (!e.target.files || e.target.files.length === 0) return;
@@ -55,8 +66,19 @@ const Post = () => {
     
         const formData = new FormData(e.currentTarget);
         const itemCategory = formData.get("itemCategory") as string;
+
+        const formattedString = `
+Color: ${attData.color}
+Weight: ${attData.weight} kg
+Height: ${attData.height} cm
+Width: ${attData.width} cm
+Brand: ${attData.brand}
+Condition: ${attData.condition}
+Category: ${attData.category}
+Usage Instructions: ${attData.usageInstructions}
+  `.trim(); // Removes extra spaces at the start/end
     
-        if (!name || !description || !itemCategory || !image) {
+        if (!name || !itemDescription || !itemCategory || !image) {
             setError("Please fill in all fields.");
             setLoading(false);
             return;
@@ -74,7 +96,7 @@ const Post = () => {
             const results = await createItems({
                 name,
                 authorID: user.$id,
-                description,
+                description: formattedString + "\n\n" + itemDescription,
                 date: new Date().toISOString(),
                 imageHeight: image.height,
                 imageFileId: "", // Placeholder, updated after upload
@@ -105,7 +127,7 @@ const Post = () => {
                 imageHeight: image.height,
                 imageWidth: image.width,
                 name,
-                description,
+                description: formattedString + "\n\n" + itemDescription,
                 authorID: user.$id,
                 date: new Date().toISOString(),
                 isApproved: false,
@@ -121,6 +143,12 @@ const Post = () => {
             setLoading(false);
         }
     };    
+
+    const renderTooltip = (text) => <Tooltip id="tooltip">{text}</Tooltip>;
+    
+    const handleAttributeChange = (e) => {
+        setAttData({ ...attData, [e.target.name]: e.target.value });
+    };
 
     return (
         <Container className="mt-4">
@@ -161,7 +189,95 @@ const Post = () => {
                         </Form.Select>
                     </FloatingLabel>
                     <Form.Control className="mt-3" id="name" name="name" type="text" placeholder="Name" maxLength={40} value={name} onChange={(e) => setName(e.target.value)} required />
-                    <Form.Control className="mt-3" as="textarea" id="description" name="description" placeholder="Description" maxLength={500} value={description} onChange={(e) => setDescription(e.target.value)} required />
+                    <Row>
+                        <Col md={6}>
+                            <Form.Group className="mb-3">
+                            <Form.Label>
+                                <OverlayTrigger placement="right" overlay={renderTooltip("Specify the item's primary color.")}>
+                                <span>Color 🎨</span>
+                                </OverlayTrigger>
+                            </Form.Label>
+                            <Form.Control type="text" name="color" value={attData.color} onChange={handleAttributeChange} required />
+                            </Form.Group>
+                        </Col>
+
+                        <Col md={6}>
+                            <Form.Group className="mb-3">
+                            <Form.Label>
+                                <OverlayTrigger placement="right" overlay={renderTooltip("Enter the item's weight in kilograms.")}>
+                                <span>Weight ⚖️</span>
+                                </OverlayTrigger>
+                            </Form.Label>
+                            <Form.Control type="number" step="0.1" name="weight" value={attData.weight} onChange={handleAttributeChange} required />
+                            </Form.Group>
+                        </Col>
+                        </Row>
+
+                        <Row>
+                        <Col md={6}>
+                            <Form.Group className="mb-3">
+                            <Form.Label>
+                                <OverlayTrigger placement="right" overlay={renderTooltip("Enter the item's height in centimeters.")}>
+                                <span>Height 📏</span>
+                                </OverlayTrigger>
+                            </Form.Label>
+                            <Form.Control type="number" name="height" value={attData.height} onChange={handleAttributeChange} required />
+                            </Form.Group>
+                        </Col>
+
+                        <Col md={6}>
+                            <Form.Group className="mb-3">
+                            <Form.Label>
+                                <OverlayTrigger placement="right" overlay={renderTooltip("Enter the item's width in centimeters.")}>
+                                <span>Width 📐</span>
+                                </OverlayTrigger>
+                            </Form.Label>
+                            <Form.Control type="number" name="width" value={attData.width} onChange={handleAttributeChange} required />
+                            </Form.Group>
+                        </Col>
+                        </Row>
+
+                        <Form.Group className="mb-3">
+                        <Form.Label>
+                            <OverlayTrigger placement="right" overlay={renderTooltip("Enter the item's brand name (e.g., Nike, Samsung).")}>
+                            <span>Brand 🏷️</span>
+                            </OverlayTrigger>
+                        </Form.Label>
+                        <Form.Control type="text" name="brand" value={attData.brand} onChange={handleAttributeChange} required />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                        <Form.Label>
+                            <OverlayTrigger placement="right" overlay={renderTooltip("Select the item's condition (New, Used, etc.).")}>
+                            <span>Condition 🔄</span>
+                            </OverlayTrigger>
+                        </Form.Label>
+                        <Form.Select name="condition" value={attData.condition} onChange={handleAttributeChange}>
+                            <option value="New">New</option>
+                            <option value="Used">Used</option>
+                            <option value="Damaged">Damaged</option>
+                        </Form.Select>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                        <Form.Label>
+                            <OverlayTrigger placement="right" overlay={renderTooltip("Enter the category (e.g., Electronics, Clothing).")}>
+                            <span>Category 📂</span>
+                            </OverlayTrigger>
+                        </Form.Label>
+                        <Form.Control type="text" name="category" value={attData.category} onChange={handleAttributeChange} required />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                        <Form.Label>
+                            <OverlayTrigger placement="right" overlay={renderTooltip("Enter any important usage instructions.")}>
+                            <span>Usage Instructions 📝</span>
+                            </OverlayTrigger>
+                        </Form.Label>
+                        <Form.Control as="textarea" rows={3} name="usageInstructions" value={attData.usageInstructions} onChange={handleAttributeChange} required />
+                        </Form.Group>
+                    <Form.Control className="mt-3" as="textarea" id="description" name="description" placeholder="Description" maxLength={500} value={itemDescription} onChange={(e) => setDescription(e.target.value)} required />
+                    <p className="text-muted">Posting items that are harmful, sensual or offensive will lead to an unapproved item. Repeated offense may cause in a ban to the account.</p>
                     <Button className="w-100 mt-3" type="submit" disabled={loading}>Submit</Button>
                 </form>
             </Card>
