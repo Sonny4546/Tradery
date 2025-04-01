@@ -68,11 +68,8 @@ const HomePage = () => {
             
             if (userData.$id) {
               try {
-                  if (!userdb || !userdb.userEmail || !userdb.userId) {
-                      const { userdb } = await getUserDataById(userData.$id);
-                      setUserdb(userdb);
-                      return;
-                  }
+                  const { userdb } = await getUserDataById(userData.$id);
+                  setUserdb(userdb);
             
                   if (userdb.firebaseId) {
                       // 🔹 If user exists, log in with Firebase
