@@ -18,8 +18,9 @@ const HomePage = () => {
   const [items, setItems] = useState<Array<any>>([]);
   const [isHidden, setIsHidden] = useState(false);
   const [authors, setAuthors] = useState<{ [key: string]: TraderyProfiles }>({});
+  const [userdb, setUserdb] = useState<TraderyProfiles | undefined>();
   const navigate = useNavigate();
-  const {userData, userdb} = userInfo();
+  const {userData} = userInfo();
   
   const [show, setShow] = useState(false);
   const handleClose = () => {
@@ -68,7 +69,8 @@ const HomePage = () => {
             if (userData.$id) {
               try {
                   if (!userdb || !userdb.userEmail || !userdb.userId) {
-                      console.error("User data is incomplete:", userdb);
+                      const { userdb } = await getUserDataById(userData.$id);
+                      setUserdb(userdb);
                       return;
                   }
             
