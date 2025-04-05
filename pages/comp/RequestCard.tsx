@@ -91,6 +91,8 @@ const RequestCard = ({ name, userId, eventKey, itemData }: ItemCardProps) => {
             console.log("Trade request denied");
         } catch (error) {
             console.error("Error removing request:", error);
+        } finally {
+            navigate(`/Dashboard/Items`);
         }
     }
 
