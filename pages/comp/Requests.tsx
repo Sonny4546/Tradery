@@ -32,6 +32,7 @@ const Requests = () => {
                             name={item.name} 
                             userId={item.requests} 
                             eventKey={String(index)} // Unique key for each item
+                            itemData={item} // Pass the entire item data to RequestCard
                         />
                     ))}
                 </Accordion>

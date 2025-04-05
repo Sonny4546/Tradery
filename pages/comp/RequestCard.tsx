@@ -4,11 +4,13 @@ import { getUserDataById } from '../lib/UserProfile';
 import { addUserToChat } from "../lib/firebase"
 import { useNavigate } from 'react-router-dom';
 import { userInfo } from '../lib/context/UserContext';
+import { addRequest } from '../lib/Items';
 
 interface ItemCardProps {
     name: string;
     userId: string[] | undefined;
     eventKey: string;
+    itemData: any; // Adjust the type as per your data structure
 }
 
 interface UserRequest {
@@ -17,7 +19,7 @@ interface UserRequest {
     firebaseId: string;
 }
 
-const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
+const RequestCard = ({ name, userId, eventKey, itemData }: ItemCardProps) => {
     const [userRequests, setUserRequests] = useState<UserRequest[]>([]);
     const {userdb} = userInfo();
     if (!userdb) {
@@ -50,9 +52,20 @@ const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
         })();
     }, [userId]);
 
-    async function messageUser(targetUserId: string, currentUserId: string) {
+    async function messageUser(itemData: any, targetUserId: string, currentUserId: string) {
         try {
             await addUserToChat(targetUserId, currentUserId);
+
+            const currentRequests = itemData.requests ?? [];
+            const updatedRequests = currentRequests.filter(id => id !== targetUserId);
+        
+            // ✅ Update backend
+            await addRequest(itemData.$id, {
+                ...itemData,
+                isApproved: true,
+                requests: updatedRequests,
+            });
+
             console.log("Done");
         } catch {
             console.log("Failed to add chat");
@@ -61,14 +74,21 @@ const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
         }
     }
 
-    async function denyUser(targetUserId: string, currentUserId: string) {
+    async function denyUser(itemData: any, targetUserId: string) {
         try {
-            await addUserToChat(targetUserId, currentUserId);
-            console.log("Done");
-        } catch {
-            console.log("Failed to add chat");
-        } finally {
-            navigate(`/Dashboard/Messages#view-messages`);
+            const currentRequests = itemData.requests ?? [];
+            const updatedRequests = currentRequests.filter(id => id !== targetUserId);
+        
+            // ✅ Update backend
+            await addRequest(itemData.$id, {
+                ...itemData,
+                isApproved: true,
+                requests: updatedRequests,
+            });
+        
+            console.log("Trade request denied");
+        } catch (error) {
+            console.error("Error removing request:", error);
         }
     }
 
@@ -87,7 +107,7 @@ const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
                                 size="sm" 
                                 onClick={() => {
                                     if (user.firebaseId && userdb.firebaseId) {
-                                        messageUser(user.firebaseId, userdb.firebaseId);
+                                        messageUser(itemData, user.firebaseId, userdb.firebaseId);
                                     } else {
                                         console.error("Invalid user IDs");
                                     }
@@ -100,7 +120,7 @@ const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
                                 size="sm" 
                                 onClick={() => {
                                     if (eventKey && userdb.firebaseId) {
-                                        denyUser(eventKey, userdb.firebaseId);
+                                        denyUser(itemData, userdb.firebaseId);
                                     } else {
                                         console.error("Invalid user IDs");
                                     }
