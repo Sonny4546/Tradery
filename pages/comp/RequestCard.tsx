@@ -54,7 +54,7 @@ const RequestCard = ({ name, userId, eventKey, itemData }: ItemCardProps) => {
         })();
     }, [userId]);
 
-    async function acceptUser(itemData: any, eventKey: string, targetUserId: string, traderId: string, currentUserId: string) {
+    async function acceptUser(itemData: any, targetUserId: string, traderId: string, currentUserId: string) {
         try {
             await addUserToChat(targetUserId, currentUserId);
 
@@ -62,7 +62,7 @@ const RequestCard = ({ name, userId, eventKey, itemData }: ItemCardProps) => {
             const updatedRequests = currentRequests.filter(id => id !== traderId);
         
             // ✅ Update backend
-            await addRequest(eventKey, {
+            await addRequest(itemData.$id, {
                 ...itemData,
                 isApproved: true,
                 requests: updatedRequests,
@@ -76,13 +76,13 @@ const RequestCard = ({ name, userId, eventKey, itemData }: ItemCardProps) => {
         }
     }
 
-    async function denyUser(itemData: any, eventKey: string, targetUserId: string) {
+    async function denyUser(itemData: any, targetUserId: string) {
         try {
             const currentRequests = itemData.requests ?? [];
             const updatedRequests = currentRequests.filter(id => id !== targetUserId);
         
             // ✅ Update backend
-            await addRequest(eventKey, {
+            await addRequest(itemData.$id, {
                 ...itemData,
                 isApproved: true,
                 requests: updatedRequests,
@@ -109,7 +109,7 @@ const RequestCard = ({ name, userId, eventKey, itemData }: ItemCardProps) => {
                                 size="sm" 
                                 onClick={() => {
                                     if (user.firebaseId && userdb.firebaseId && user.traderId) {
-                                        acceptUser(itemData, eventKey, user.firebaseId, user.traderId,  userdb.firebaseId);
+                                        acceptUser(itemData, user.firebaseId, user.traderId,  userdb.firebaseId);
                                     } else {
                                         console.error("Invalid user IDs");
                                     }
@@ -122,7 +122,7 @@ const RequestCard = ({ name, userId, eventKey, itemData }: ItemCardProps) => {
                                 size="sm" 
                                 onClick={() => {
                                     if (eventKey && user.traderId) {
-                                        denyUser(itemData, eventKey, user.traderId);
+                                        denyUser(itemData, user.traderId);
                                     } else {
                                         console.error("Invalid user IDs");
                                     }
