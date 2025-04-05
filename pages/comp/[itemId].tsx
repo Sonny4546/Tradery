@@ -90,9 +90,9 @@ export default function ItemContent({ params = useParams() }: { params: { itemsI
     async function handleDeleteItem() {
         if (items?.$id){
             await deleteItemById(items.$id);
-        return;
+            console.log("Item deleted successfully");
         }
-        navigate(-1);
+        return navigate(-1);
     }
 
     async function handleApprove() {

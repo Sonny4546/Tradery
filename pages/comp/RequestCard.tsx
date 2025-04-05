@@ -59,8 +59,19 @@ const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
         } finally {
             navigate(`/Dashboard/Messages#view-messages`);
         }
-        
     }
+
+    async function denyUser(targetUserId: string, currentUserId: string) {
+        try {
+            await addUserToChat(targetUserId, currentUserId);
+            console.log("Done");
+        } catch {
+            console.log("Failed to add chat");
+        } finally {
+            navigate(`/Dashboard/Messages#view-messages`);
+        }
+    }
+
     return (
         <Accordion.Item eventKey={eventKey}>
             <Accordion.Header>{name}</Accordion.Header>
@@ -82,7 +93,20 @@ const RequestCard = ({ name, userId, eventKey }: ItemCardProps) => {
                                     }
                                 }}
                             >
-                                Message
+                                Accept
+                            </Button>
+                            <Button 
+                                variant="primary" 
+                                size="sm" 
+                                onClick={() => {
+                                    if (eventKey && userdb.firebaseId) {
+                                        denyUser(eventKey, userdb.firebaseId);
+                                    } else {
+                                        console.error("Invalid user IDs");
+                                    }
+                                }}
+                            >
+                                Deny
                             </Button>
                         </div>
                     ))
