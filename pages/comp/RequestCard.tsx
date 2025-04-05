@@ -14,6 +14,7 @@ interface ItemCardProps {
 }
 
 interface UserRequest {
+    traderId: string;
     displayName: string;
     appwriteName: string;
     firebaseId: string;
@@ -38,9 +39,10 @@ const RequestCard = ({ name, userId, eventKey, itemData }: ItemCardProps) => {
                         const displayName = userdb?.displayName || userdb?.defaultName || "";
                         const appwriteName = userdb?.defaultName || "";
                         const firebaseId = userdb?.firebaseId || null;
+                        const traderId = userdb?.userId || null;
 
                         return displayName || appwriteName
-                            ? { displayName, appwriteName, firebaseId }
+                            ? { displayName, appwriteName, firebaseId, traderId }
                             : null;
                     } catch (error) {
                         console.error("Error fetching user data:", error);
@@ -52,15 +54,15 @@ const RequestCard = ({ name, userId, eventKey, itemData }: ItemCardProps) => {
         })();
     }, [userId]);
 
-    async function messageUser(itemData: any, targetUserId: string, currentUserId: string) {
+    async function acceptUser(itemData: any, eventKey: string, targetUserId: string, traderId: string, currentUserId: string) {
         try {
             await addUserToChat(targetUserId, currentUserId);
 
             const currentRequests = itemData.requests ?? [];
-            const updatedRequests = currentRequests.filter(id => id !== targetUserId);
+            const updatedRequests = currentRequests.filter(id => id !== traderId);
         
             // ✅ Update backend
-            await addRequest(itemData.$id, {
+            await addRequest(eventKey, {
                 ...itemData,
                 isApproved: true,
                 requests: updatedRequests,
@@ -74,13 +76,13 @@ const RequestCard = ({ name, userId, eventKey, itemData }: ItemCardProps) => {
         }
     }
 
-    async function denyUser(itemData: any, targetUserId: string) {
+    async function denyUser(itemData: any, eventKey: string, targetUserId: string) {
         try {
             const currentRequests = itemData.requests ?? [];
             const updatedRequests = currentRequests.filter(id => id !== targetUserId);
         
             // ✅ Update backend
-            await addRequest(itemData.$id, {
+            await addRequest(eventKey, {
                 ...itemData,
                 isApproved: true,
                 requests: updatedRequests,
@@ -106,8 +108,8 @@ const RequestCard = ({ name, userId, eventKey, itemData }: ItemCardProps) => {
                                 variant="primary" 
                                 size="sm" 
                                 onClick={() => {
-                                    if (user.firebaseId && userdb.firebaseId) {
-                                        messageUser(itemData, user.firebaseId, userdb.firebaseId);
+                                    if (user.firebaseId && userdb.firebaseId && user.traderId) {
+                                        acceptUser(itemData, eventKey, user.firebaseId, user.traderId,  userdb.firebaseId);
                                     } else {
                                         console.error("Invalid user IDs");
                                     }
@@ -119,8 +121,8 @@ const RequestCard = ({ name, userId, eventKey, itemData }: ItemCardProps) => {
                                 variant="primary" 
                                 size="sm" 
                                 onClick={() => {
-                                    if (eventKey && userdb.firebaseId) {
-                                        denyUser(itemData, userdb.firebaseId);
+                                    if (eventKey && user.traderId) {
+                                        denyUser(itemData, eventKey, user.traderId);
                                     } else {
                                         console.error("Invalid user IDs");
                                     }
