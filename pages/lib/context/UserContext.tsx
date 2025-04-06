@@ -2,6 +2,7 @@ import React, { createContext, ReactNode, useContext, useEffect, useState } from
 import { getUserDataById, TraderyProfiles } from "../../lib/UserProfile";
 import { getUser } from "../appwrite";
 import { TraderyUser } from "../GetUser";
+import { useLocation } from "react-router-dom";
 
 interface TraderyUserContext {
     userData?: TraderyUser | undefined;
@@ -27,6 +28,9 @@ export function userContextState() {
     const [userData, setUserData] = useState<TraderyUser | undefined>();
     const [userdb, setUserdb] = useState<TraderyProfiles | undefined>();
 
+    const location = useLocation();
+
+    useEffect(() => {
         const fetchData = async () => {
             try {
                 const user = await getUser();
@@ -41,7 +45,10 @@ export function userContextState() {
                 console.error("Failed to fetch user data:", error);
             }
         };
-        fetchData();
+        if (location.pathname === "/Home") {
+            fetchData();
+        }
+    }, [location.pathname]);
 
     return { userData, userdb };
 }
