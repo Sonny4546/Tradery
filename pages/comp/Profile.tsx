@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Image, Button, Form, Container, Card, Spinner } from "react-bootstrap";
-import { checkUserNameDuplicate, updateUserData } from "../lib/UserProfile";
+import { checkUserNameDuplicate, getUserDataById, updateUserData } from "../lib/UserProfile";
 import { getProfilePreviewImageById, uploadUserFile, deleteProfileImageById } from "../lib/storage";
 import { TraderyUser } from "../lib/GetUser";
 import { userInfo } from "../lib/context/UserContext";
@@ -13,6 +13,7 @@ export interface TraderyProfileImage {
 
 const Profile = () => {
     const [user, setUser] = useState<TraderyUser>();
+    const [userdb, setUserdb] = useState<any>();
     const [isEditing, setIsEditing] = useState(false);
     const [image, setImage] = useState<TraderyProfileImage>();
     const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -20,12 +21,16 @@ const Profile = () => {
     const [newDisplayName, setDisplayName] = useState("");
     const [profileSummary, setProfileSummary] = useState("");
     const [error, setError] = useState<string | null>(null);
-    const {userData, userdb} = userInfo();
+    const {userData} = userInfo();
 
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                setUser(userData);
+                setUser(userData)
+                if (user) {
+                    const { userdb } = await getUserDataById(user.$id);
+                    setUserdb(userdb);
+                } 
                 if (userData) {
                     setPreviewImage(userdb?.profileImageId ? getProfilePreviewImageById(userdb.profileImageId) : null);
                     setDisplayName(userdb?.displayName || userData?.name || "");
