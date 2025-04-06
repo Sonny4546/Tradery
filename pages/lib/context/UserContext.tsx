@@ -27,7 +27,6 @@ export function userContextState() {
     const [userData, setUserData] = useState<TraderyUser | undefined>();
     const [userdb, setUserdb] = useState<TraderyProfiles | undefined>();
 
-    useEffect(() => {
         const fetchData = async () => {
             try {
                 const user = await getUser();
@@ -43,7 +42,6 @@ export function userContextState() {
             }
         };
         fetchData();
-    }, []);  // ✅ Runs only on mount
 
     return { userData, userdb };
 }
