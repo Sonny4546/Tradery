@@ -352,6 +352,10 @@ body {
   align-items: center;
 }
 
+.btnCont button {
+  margin-left: 10px;
+}
+
 .profile-container {
   text-align: center;
   background: white;

@@ -34,6 +34,16 @@ const Items = () => {
         })();
     }, []);
 
+    // Category mapping with colors
+  const categoryMap: { [key: string]: { name: string; color: string } } = {
+    a: { name: "School Supplies", color: "primary" },
+    b: { name: "Clothing", color: "success" },
+    c: { name: "Entertainment/Hobbies", color: "warning" },
+    d: { name: "Gaming/Technology", color: "danger" },
+    e: { name: "Fashion Accessories", color: "info" },
+    f: { name: "Sports & Outdoor", color: "dark" },
+  };
+
     return (
         <div className="home">
             <div className="container" id="pagewrap">
@@ -52,12 +62,33 @@ const Items = () => {
                                 return (
                                     <Col xs={12} md={3} key={item.$id} style={{ paddingBottom: "20px" }}>
                                         <a className="itemLink" href={`#/Item/${item.$id}`}>
+                                        <div className="itemLabel">
+                                            <span className="Label">{categoryMap[item.itemCategory]?.name || "Uncategorized"}</span>
+                                        </div>
+                                        {author ? (
                                             <ItemCard
                                                 image={image}
                                                 name={item.name}
                                                 date={item.date}
-                                                author={author ? author.displayName || author.defaultName : "Unknown Author"}
+                                                author={author.displayName || author.defaultName}
                                             />
+                                        ) : (
+                                            // Placeholder card when the author is not yet known
+                                            <div className="card placeholder-glow">
+                                                <div className="card-body">
+                                                    <h5 className="card-title placeholder-glow">
+                                                        <span className="placeholder col-6"></span>
+                                                    </h5>
+                                                    <p className="card-text placeholder-glow">
+                                                        <span className="placeholder col-7"></span>
+                                                        <span className="placeholder col-4"></span>
+                                                        <span className="placeholder col-4"></span>
+                                                        <span className="placeholder col-6"></span>
+                                                        <span className="placeholder col-8"></span>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        )}
                                         </a>
                                     </Col>
                                 );

@@ -106,32 +106,34 @@ const RequestCard = ({ name, userId, eventKey, itemData }: ItemCardProps) => {
                             <p className="mb-0">
                                 <strong>{user.displayName}</strong> wants to trade. The default username is <a href={`#/User/${user.displayName}`} className="profile-link"><strong>{user.appwriteName}</strong></a>, You can click on the name to view their profile.
                             </p>
-                            <Button 
-                                variant="primary" 
-                                size="sm" 
-                                onClick={() => {
-                                    if (user.firebaseId && userdb.firebaseId && user.traderId) {
-                                        acceptUser(itemData, user.firebaseId, user.traderId,  userdb.firebaseId);
-                                    } else {
-                                        console.error("Invalid user IDs");
-                                    }
-                                }}
-                            >
-                                Accept
-                            </Button>
-                            <Button 
-                                variant="primary" 
-                                size="sm" 
-                                onClick={() => {
-                                    if (eventKey && user.traderId) {
-                                        denyUser(itemData, user.traderId);
-                                    } else {
-                                        console.error("Invalid user IDs");
-                                    }
-                                }}
-                            >
-                                Deny
-                            </Button>
+                            <div className="btnCont">
+                                <Button 
+                                    variant="primary" 
+                                    size="sm" 
+                                    onClick={() => {
+                                        if (user.firebaseId && userdb.firebaseId && user.traderId) {
+                                            acceptUser(itemData, user.firebaseId, user.traderId,  userdb.firebaseId);
+                                        } else {
+                                            console.error("Invalid user IDs");
+                                        }
+                                    }}
+                                >
+                                    Accept
+                                </Button>
+                                <Button 
+                                    variant="primary" 
+                                    size="sm" 
+                                    onClick={() => {
+                                        if (eventKey && user.traderId) {
+                                            denyUser(itemData, user.traderId);
+                                        } else {
+                                            console.error("Invalid user IDs");
+                                        }
+                                    }}
+                                >
+                                    Deny
+                                </Button>
+                            </div>
                         </div>
                     ))
                 ) : (

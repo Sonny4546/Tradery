@@ -28,6 +28,16 @@ export default function UserContent({ params = useParams() }: { params: { profil
         })();
     }, [params.profileName]);
 
+        // Category mapping with colors
+  const categoryMap: { [key: string]: { name: string; color: string } } = {
+    a: { name: "School Supplies", color: "primary" },
+    b: { name: "Clothing", color: "success" },
+    c: { name: "Entertainment/Hobbies", color: "warning" },
+    d: { name: "Gaming/Technology", color: "danger" },
+    e: { name: "Fashion Accessories", color: "info" },
+    f: { name: "Sports & Outdoor", color: "dark" },
+  };
+
     return (
         <HomeNav>
             <Container className="mt-5">
@@ -62,14 +72,35 @@ export default function UserContent({ params = useParams() }: { params: { profil
                                     };
 
                                     return (
-                                        <Col sm={12} md={6} lg={3} key={item.$id} style={{ paddingBottom: "20px" }}>
+                                        <Col xs={12} md={3} key={item.$id} style={{ paddingBottom: "20px" }}>
                                             <a className="itemLink" href={`#/Item/${item.$id}`}>
-                                                <ItemCard
-                                                    image={image}
-                                                    name={item.name}
-                                                    date={item.date}
-                                                    author={user?.displayName || user?.defaultName || "Unknown Author"}
-                                                />
+                                                <div className="itemLabel">
+                                                    <span className="Label">{categoryMap[item.itemCategory]?.name || "Uncategorized"}</span>
+                                                </div>
+                                                {user?.displayName && user?.defaultName ? (
+                                                    <ItemCard
+                                                        image={image}
+                                                        name={item.name}
+                                                        date={item.date}
+                                                        author={user?.displayName || user?.defaultName || "Unknown Author"}
+                                                    />
+                                                ) : (
+                                                    // Placeholder card when the author is not yet known
+                                                    <div className="card placeholder-glow">
+                                                        <div className="card-body">
+                                                            <h5 className="card-title placeholder-glow">
+                                                                <span className="placeholder col-6"></span>
+                                                            </h5>
+                                                            <p className="card-text placeholder-glow">
+                                                                <span className="placeholder col-7"></span>
+                                                                <span className="placeholder col-4"></span>
+                                                                <span className="placeholder col-4"></span>
+                                                                <span className="placeholder col-6"></span>
+                                                                <span className="placeholder col-8"></span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                )}
                                             </a>
                                         </Col>
                                     );
