@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Image, Button, Form, Container, Card, Spinner } from "react-bootstrap";
+import { getUser } from "../lib/appwrite";
 import { checkUserNameDuplicate, getUserDataById, updateUserData } from "../lib/UserProfile";
 import { getProfilePreviewImageById, uploadUserFile, deleteProfileImageById } from "../lib/storage";
 import { TraderyUser } from "../lib/GetUser";
-import { userInfo } from "../lib/context/UserContext";
 
 export interface TraderyProfileImage {
     height: number;
@@ -21,12 +21,12 @@ const Profile = () => {
     const [newDisplayName, setDisplayName] = useState("");
     const [profileSummary, setProfileSummary] = useState("");
     const [error, setError] = useState<string | null>(null);
-    const {userData} = userInfo();
 
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                setUser(userData)
+                const userData = await getUser();
+                setUser(userData);
                 if (userData) {
                     const { userdb } = await getUserDataById(userData.$id);
                     setUserdb(userdb);
@@ -45,7 +45,7 @@ const Profile = () => {
 
     // ✅ Automatically remove non-alphanumeric characters (except spaces)
     const handleDisplayNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const value = e.target.value.replace(/[^a-zA-Z0-9 ]/g, ""); // Keep letters, numbers, and spaces
+        const value = e.target.value.replace(/[^a-zA-Z0-9]/g, ""); // Keep letters, numbers, and spaces
         setDisplayName(value);
     };
 
@@ -91,10 +91,11 @@ const Profile = () => {
                 return;
             }
     
+            let { userdb } = await getUserDataById(user.$id);
             let profileImageId = userdb?.profileImageId || ""; // ✅ Keep empty string if no existing image
     
             // ✅ Only check for duplicate username if it's changed
-            if (userdb?.displayName !== newDisplayName) {
+            if (userdb.displayName !== newDisplayName) {
                 const nameExists = await checkUserNameDuplicate(newDisplayName);
                 if (nameExists) {
                     alert("The username already exists. Try another one.");
@@ -111,7 +112,7 @@ const Profile = () => {
                 defaultName: user.name,
                 userId: user.$id,
                 userEmail: user.email,
-                firebaseId: userdb?.firebaseId
+                firebaseId: userdb.firebaseId
             });
             // ✅ Only delete the old image if a new one is uploaded AND an image already exists
             if (image?.file) {
@@ -133,12 +134,16 @@ const Profile = () => {
                 defaultName: user.name,
                 userId: user.$id,
                 userEmail: user.email,
-                firebaseId: userdb?.firebaseId
+                firebaseId: userdb.firebaseId
             });
-            setPreviewImage(profileImageId ? getProfilePreviewImageById(profileImageId) : userdb?.profileImageId ? getProfilePreviewImageById(userdb.profileImageId) : null);
-            setDisplayName(newDisplayName);
-            setProfileSummary(profileSummary);
             console.log("✅ Profile updated.");
+            setUserdb((prev) => ({
+                ...prev,
+                displayName: newDisplayName,
+                profileSummary,
+                profileImageId,
+            }));
+    
         } catch (error) {
             console.error("Failed to update profile:", error);
         } finally {
