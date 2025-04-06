@@ -5,53 +5,54 @@ import { TraderyUser } from "../GetUser";
 import { useLocation } from "react-router-dom";
 
 interface TraderyUserContext {
-  userData?: TraderyUser;
-  userdb?: TraderyProfiles;
+    userData?: TraderyUser | undefined;
+    userdb?: TraderyProfiles | undefined;
 }
 
 export const UserContext = createContext<TraderyUserContext | undefined>(undefined);
 
 interface UserProviderProps {
-  children?: ReactNode;
+    children?: ReactNode;
 }
 
 export const UserProvider = ({ children }: UserProviderProps) => {
-  const [userData, setUserData] = useState<TraderyUser>();
-  const [userdb, setUserdb] = useState<TraderyProfiles>();
-  const location = useLocation(); // ✅ useLocation now used properly inside a component
+    const user = userContextState();
+    return (
+        <UserContext.Provider value={user}>
+            {children}
+        </UserContext.Provider>
+    );
+}
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const user = await getUser();
-        if (user) {
-          setUserData(user);
-          const { userdb } = await getUserDataById(user.$id);
-          setUserdb(userdb);
-        } else {
-          setUserData(undefined);
-        }
-      } catch (error) {
-        console.error("Failed to fetch user data:", error);
-      }
-    };
+export function userContextState() {
+    const [userData, setUserData] = useState<TraderyUser | undefined>();
+    const [userdb, setUserdb] = useState<TraderyProfiles | undefined>();
 
-    if (location.pathname === "/Home") {
-      fetchData();
-    }
-  }, [location.pathname]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const user = await getUser();
+                if (user) {
+                    setUserData(user);
+                    const { userdb } = await getUserDataById(user.$id);
+                    setUserdb(userdb);
+                } else {
+                    setUserData(undefined);
+                }
+            } catch (error) {
+                console.error("Failed to fetch user data:", error);
+            }
+        };
+        fetchData();
+    }, [useLocation().pathname]);
 
-  return (
-    <UserContext.Provider value={{ userData, userdb }}>
-      {children}
-    </UserContext.Provider>
-  );
-};
+    return { userData, userdb };
+}
 
 export function userInfo() {
-  const user = useContext(UserContext);
-  if (!user) {
-    throw new Error("⚠️ userInfo() is being used outside of UserProvider.");
-  }
-  return user;
+    const user = useContext(UserContext);
+    if (!user) {
+        throw new Error("⚠️ userInfo() is being used outside of UserProvider.");
+    }
+    return user;
 }
