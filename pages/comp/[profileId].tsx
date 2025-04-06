@@ -40,7 +40,7 @@ export default function UserContent({ params = useParams() }: { params: { profil
 
     return (
         <HomeNav>
-            <Container className="mt-5">
+            <Container className="mt-5" id="pagewrap">
                 {/* Profile Section */}
                 <Row className="justify-content-center text-center">
                     <Col md={6} lg={4}>
