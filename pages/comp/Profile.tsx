@@ -132,6 +132,9 @@ const Profile = () => {
                 userEmail: user.email,
                 firebaseId: userdb?.firebaseId
             });
+            setPreviewImage(profileImageId ? getProfilePreviewImageById(profileImageId) : userdb?.profileImageId ? getProfilePreviewImageById(userdb.profileImageId) : null);
+            setDisplayName(newDisplayName);
+            setProfileSummary(profileSummary);
             console.log("✅ Profile updated.");
         } catch (error) {
             console.error("Failed to update profile:", error);
@@ -195,13 +198,13 @@ const Profile = () => {
                     ) : (
                         <>
                             <Image
-                                src={userdb?.profileImageId ? getProfilePreviewImageById(userdb.profileImageId) : "https://cloud.appwrite.io/v1/storage/buckets/67932f8600176cf1dfdc/files/default/view?project=678ba12f001dce105c6a&mode=admin"}
+                                src={previewImage || "https://cloud.appwrite.io/v1/storage/buckets/67932f8600176cf1dfdc/files/default/view?project=678ba12f001dce105c6a&mode=admin"}
                                 roundedCircle
                                 className="profile-img"
                             />
-                            <h2 className="display-name">{userdb?.displayName || "Username"}</h2>
+                            <h2 className="display-name">{newDisplayName || "Username"}</h2>
                             <p className="account-name">{user?.name}</p>
-                            <p className="text-muted">{userdb?.profileSummary ?? "No profile description provided"}</p>
+                            <p className="text-muted">{profileSummary ?? "No profile description provided"}</p>
                             <Button className="btn-lg mt-3" onClick={handleEditProfile}>Edit Profile</Button>
                         </>
                     )}
