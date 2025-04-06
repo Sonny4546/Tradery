@@ -27,11 +27,9 @@ const Profile = () => {
         const fetchUser = async () => {
             try {
                 setUser(userData)
-                if (user) {
-                    const { userdb } = await getUserDataById(user.$id);
-                    setUserdb(userdb);
-                } 
                 if (userData) {
+                    const { userdb } = await getUserDataById(userData.$id);
+                    setUserdb(userdb);
                     setPreviewImage(userdb?.profileImageId ? getProfilePreviewImageById(userdb.profileImageId) : null);
                     setDisplayName(userdb?.displayName || userData?.name || "");
                     setProfileSummary(userdb?.profileSummary || "");
