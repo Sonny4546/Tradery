@@ -1,2 +1,4 @@
 # Tradery
 A peer to peer bartering website that involves no money, and only exchanges with personal items
+
+# FOR FUTURE DEVELOPERS, PLEASE FORK THE PROJECT INSTEAD AND DM (sonny4546) ON DISCORD FOR ANY QUESTIONS ABOUT THE CODE OR ACCESS FOR FIREBASE(TRADERY MESSENGER) AND APPWRITE(TRADERY) DATABASE ACCESS.
